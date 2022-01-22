@@ -4,12 +4,13 @@ from spotipy.oauth2 import SpotifyClientCredentials
 
 load_dotenv()
 
+songName = input("Enter a song name. ")
 spotify = spotipy.Spotify(
     client_credentials_manager=SpotifyClientCredentials())
 
 # Initialize spotipy
 
 
-letItBe = spotify.search(q="track=\"Let It Be\"", type="track")
+song = spotify.search(q="track=\""+songName+"\"", type="track")
 
-print(letItBe)
+print(song)
