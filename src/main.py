@@ -1,27 +1,47 @@
+from typing import List
 from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
-load_dotenv()
+from Song import Song
 
-songName = input("Enter a song name. ")
-artistName = input("Enter an artist name. ")
-spotify = spotipy.Spotify(
-    client_credentials_manager=SpotifyClientCredentials())
 
-# Initialize spotipy
-results = spotify.search(
-    q="track:\""+songName+"\"+artist:\""+artistName+"\"", type="track", limit=10
+def getSpotifyClient():
+    load_dotenv()  # Environment variables must be loaded first
+    return spotipy.Spotify(
+        client_credentials_manager=SpotifyClientCredentials())
+
+
+def getSongs(spotify, songName, artistName, limit=50) -> List[Song]:
+    results = spotify.search(
+        q="track:\""+songName+"\"+artist:\""+artistName+"\"", type="track", limit=limit
     )
-tracks = results["tracks"]
-items = tracks["items"]
+    tracks = results["tracks"]
+    items = tracks["items"]
+
+    songs = []
+    for item in items:
+        songs.append(Song(item))
+    return songs
 
 
-for item in items:
-    songUri = item["uri"]
-    track = spotify.track(track_id=songUri)
-    arrayArtistName = track["artists"][0]["name"]
-    spotifyLink = track["external_urls"]["spotify"]
-    print(arrayArtistName)
-    print(spotifyLink)
+def getSong(spotify, songName, artistName):
+    songs = getSongs(spotify, songName, artistName, 1)
+    return songs[0]
 
+
+def printSong(song: Song):
+    print(song.name)
+
+
+def main():
+    spotify = getSpotifyClient()
+
+    songName = input("Enter a song name. ")
+    artistName = input("Enter an artist name. ")
+
+    song = getSong(spotify, songName, artistName)
+    printSong(song)
+
+
+main()
