@@ -1,9 +1,21 @@
+from tkinter import Tk, ttk
 from typing import List
 from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
 from Song import Song
+
+
+def setUpGui():
+
+    # Set Up GUI
+    root = Tk()
+    frm = ttk.Frame(root, padding=200)
+    frm.grid()
+    ttk.Label(frm, text="Hello World!").grid(column=0, row=0)
+    ttk.Button(frm, text="Quit", command=root.destroy).grid(column=1, row=0)
+    root.mainloop()
 
 
 def getSpotifyClient():
