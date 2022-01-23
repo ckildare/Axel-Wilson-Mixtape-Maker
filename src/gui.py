@@ -11,7 +11,7 @@ class UIWindow(object):
         MainWindow.setGeometry(50, 50, 1000, 100)
         MainWindow.setFixedSize(800, 500)
         MainWindow.setWindowTitle("axel-wilson's-mixtape-maker")
-        self.centralwidget = QWidget(MainWindow)
+        self.centralwidget = QWidget()
 
         # mainwindow.setWindowIcon(QtGui.QIcon('PhotoIcon.png'))
 
@@ -71,13 +71,13 @@ class Index(QMainWindow):
     def startTutorial(self):
         self.tutorial.setupUI(self)
         self.tutorial.exitButton.clicked.connect(QCoreApplication.instance().quit)
-        self.mainWindow.returnButton.clicked.connect(self.startMainWindow)
+        self.tutorial.returnButton.clicked.connect(self.startMainWindow)
         self.show()
 
     def startSongView(self):
         self.songView.setupUI(self)
         self.songView.exitButton.clicked.connect(QCoreApplication.instance().quit)
-        self.mainWindow.returnButton.clicked.connect(self.startMainWindow)
+        self.songView.returnButton.clicked.connect(self.startMainWindow)
         self.show()
 
     def startMainWindow(self):
