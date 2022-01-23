@@ -1,13 +1,18 @@
+import Spotify
 from tkinter import Tk, ttk
 from typing import List
-from dotenv import load_dotenv
 import spotipy
-from spotipy import Spotify
 from spotipy.oauth2 import SpotifyClientCredentials
 from distutils import util
 from Song import Song
-import Spotify
+import os
+import sys
+from dotenv import load_dotenv
+extDataDir = os.getcwd()
+if getattr(sys, 'frozen', False):
+    extDataDir = sys._MEIPASS
 
+load_dotenv(dotenv_path=os.path.join(extDataDir, '.env'))
 
 keptSongs: List[Song] = []
 discardedSongs: List[Song] = []
@@ -75,4 +80,5 @@ def main():
     print("\n")
 
 
-main()
+if __name__ == "__main__":
+    main()
