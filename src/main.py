@@ -2,10 +2,29 @@ from tkinter import Tk, ttk
 from typing import List
 from dotenv import load_dotenv
 import spotipy
+<<<<<<< HEAD
+from spotipy.oauth2 import SpotifyClientCredentials
+from PyQt5.QtWidgets import QApplication, QtGui, QtCore, QtLabel
+
+load_dotenv()
+
+# Set Up GUI
+app = QtApplication([])
+label = QtLabel("hello World")
+label.show()
+
+songName = input("Enter a song name. ")
+artistName = input("Enter an artist name. ")
+spotify = spotipy.Spotify(
+    client_credentials_manager=SpotifyClientCredentials())
+
+# Initialize Spotipy
+=======
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyClientCredentials
 from distutils import util
 from Song import Song
+>>>>>>> 635cdbd4bcfc377d291e330ceedabae5ba7cf77e
 
 
 keptSongs: List[Song] = []
