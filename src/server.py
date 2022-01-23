@@ -1,20 +1,30 @@
-from bottle import Bottle, run
+from bottle import Bottle, run, get
 from Spotify import getSong, getSpotifyClient, getRecommendedSongs
 import json
+from Song import Song
 
 spotify = getSpotifyClient()
 app = Bottle()
 
+testSong = getSong(spotify, "Hey Jude", "Beatles")
+print(testSong)
+
+
 @app.route('/selectSong')
 def selectSong():
-    x = json.dumps(getSong(spotify, "Hey Jude", "Beatles").toJsonObj())
+    x = json.dumps(testSong.toJsonObj())
     print(x)
     return x
 
 @app.route('/recommendedSongs')
 def recommendedSongs():
-    x = json.dumps(getRecommendedSongs(spotify, "Hey Jude", "Beatles").toJsonObj())
-    print(x)
-    return x
+    songList = getRecommendedSongs(spotify, [testSong], [])
+    jsonList = []
+    for song in songList:
+        jsonList.append(json.dumps(song.toJsonObj()))
+    print(jsonList)
+    return jsonList
+
+
 
 run(app, host='localhost', port=8080)

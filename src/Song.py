@@ -7,7 +7,10 @@ class Song:
     def __init__(self, item) -> None:
         self.uri = item["uri"]
         self.name = item["name"]
-        self.artistName = item["artists"][0]["name"]
+        try:
+            self.artistName = item["artists"][0]["name"]
+        except:
+            self.artistName = item["artistName"]
         self.spotifyLink = item["external_urls"]["spotify"]
 
     def toJsonObj(self):
