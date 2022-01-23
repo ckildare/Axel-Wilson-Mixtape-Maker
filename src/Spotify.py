@@ -43,20 +43,12 @@ def getSong(spotify, songName, artistName):
     songs = getSongs(spotify, songName, artistName, 1)
     return songs[0]
 
-<<<<<<< HEAD
 
-=======
->>>>>>> main
 def getRecommendedSongs(spotify: Spotify, seedSongs: List[Song], discardedSongs: List[Song]) -> List[Song]:
     seedSongIds = []
     for song in seedSongs:
         seedSongIds.append(song.uri)
 
-<<<<<<< HEAD
-    if (len(seedSongIds) == 0):
-        return []
-=======
->>>>>>> main
     results = spotify.recommendations(seed_tracks=seedSongIds, limit=15, )
     tracks = results["tracks"]
 
@@ -77,7 +69,6 @@ def getRecommendedSongs(spotify: Spotify, seedSongs: List[Song], discardedSongs:
     returnVerifySongs = verifiedSongs[1:5]
 
     return returnVerifySongs
-<<<<<<< HEAD
 
 
 def getSongsByIds(spotify, stringIDs: List[str]) -> List[Song]:
@@ -91,8 +82,6 @@ def getSongsByIds(spotify, stringIDs: List[str]) -> List[Song]:
         recSongs.append(song)
 
     return recSongs
-=======
->>>>>>> main
 
 
 def printSong(song: Song):

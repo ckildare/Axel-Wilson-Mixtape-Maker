@@ -16,7 +16,6 @@ class Song:
         except:
             self.artistName = item["artistName"]
         self.spotifyLink = item["external_urls"]["spotify"]
-<<<<<<< HEAD
 
     def toJsonObj(self):
         return {
@@ -25,6 +24,3 @@ class Song:
             "artistName": self.artistName,
             "spotifyLink": self.spotifyLink
         }
-=======
-        self.likedSong = False
->>>>>>> main
