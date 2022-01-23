@@ -9,13 +9,17 @@ from Song import Song
 spotify = getSpotifyClient()
 app = Bottle()
 
-testSong = getSong(spotify, "Hey Jude", "Beatles")
-print(testSong)
+# testSong = getSong(spotify, "Hey Jude", "Beatles")
+# print(testSong)
 
 
 @app.route('/selectSong')
 def selectSong():
-    return json.dumps(testSong.toJsonObj())
+    songTitle = request.query.title
+    songArtist = request.query.artist
+    selectedSong = getSong(spotify, songTitle, songArtist)
+
+    return json.dumps(selectedSong.toJsonObj())
 
 
 @app.post('/recommendedSongs')
