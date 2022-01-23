@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import *
 # Set Up GUI
 class UIWindow(object):
     def setupUI(self, MainWindow):
+        # Sizing
         MainWindow.setGeometry(50, 50, 1000, 100)
         MainWindow.setFixedSize(800, 500)
         MainWindow.setWindowTitle("axel-wilson's-mixtape-maker")
@@ -14,8 +15,14 @@ class UIWindow(object):
 
         # mainwindow.setWindowIcon(QtGui.QIcon('PhotoIcon.png'))
 
+        # Exit Button
         self.exitButton = QPushButton('Exit', self.centralwidget)
         self.exitButton.move(730, 480)
+        
+        # Tutorial Button
+        self.tutorialButton = QPushButton('Tutorial', self.centralwidget)
+        self.tutorialButton.move(660, 480)
+
         MainWindow.setCentralWidget(self.centralwidget)
 
 
@@ -25,10 +32,15 @@ class Tutorial(object):
         MainWindow.setFixedSize(800, 500)
         MainWindow.setWindowTitle("axel-wilson's-mixtape-maker-tutorial")
         self.centralwidget = QWidget(MainWindow)
+
+        # Exit Button
         self.exitButton = QPushButton("Exit", self.centralwidget)
-        self.exitButton.move(660, 480)
-        self.returnButton = QPushButton('Exit', self.centralwidget)
+        self.exitButton.move(730, 480)
+
+        # Return Button
+        self.returnButton = QPushButton('Return', self.centralwidget)
         self.returnButton.move(660, 480)
+
         MainWindow.setCentralWidget(self.centralwidget)
 
 class SongView(object):
@@ -37,8 +49,15 @@ class SongView(object):
         MainWindow.setFixedSize(800, 500)
         MainWindow.setWindowTitle("axel-wilson's-mixtape-maker")
         self.centralwidget = QWidget(MainWindow)
+
+        # Exit Button
         self.exitButton = QPushButton("Exit", self.centralwidget)
         self.exitButton.move(730, 480)
+
+        # Return Button
+        self.returnButton = QPushButton('Return Without Saving', self.centralwidget)
+        self.returnButton.move(660, 480)
+
         MainWindow.setCentralWidget(self.centralwidget)
 
 
@@ -52,16 +71,19 @@ class MainWindow(QMainWindow):
     def startTutorial(self):
         self.tutorial.setupUI(self)
         self.tutorial.exitButton.clicked.connect(QCoreApplication.instance().quit)
+        self.mainWindow.returnButton.clicked.connect(self.startMainWindow)
         self.show()
 
     def startSongView(self):
         self.songView.setupUI(self)
         self.songView.exitButton.clicked.connect(QCoreApplication.instance().quit)
+        self.mainWindow.returnButton.clicked.connect(self.startMainWindow)
         self.show()
 
     def startMainWindow(self):
         self.mainWindow.setupUI(self)
         self.mainWindow.exitButton.clicked.connect(QCoreApplication.instance().quit)
+        self.mainWindow.tutorialButton.clicked.connect(self.startTutorial)
         self.show()
 
 
