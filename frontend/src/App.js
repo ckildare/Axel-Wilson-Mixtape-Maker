@@ -9,13 +9,8 @@ function App() {
     const getRecommendedSongs = useGetRecommendedSongs()
 
     async function handleClick(){
-        console.log("selecting song...")
         const testS = await selectSong("Hey Jude", "Beatles");
-        console.log("selected song:")
-        console.dir(testS)
-        console.log("getting rec songs...")
         const recSongs = await getRecommendedSongs([testS])
-        console.log("got rec songs:")
         setSongs(recSongs)
     }
   return (
