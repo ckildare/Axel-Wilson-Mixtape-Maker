@@ -1,44 +1,21 @@
 
-import {Link} from "react-router-dom"
 import { useEffect, useState } from "react";
 import { useGetRecommendedSongs } from "./hooks";
+import {Song} from "./Song"
+import {Link} from "react-router-dom"
 
-const Song = ({song, handleCheck}) => {
-    return (
-<div className="track">
-                    <div className="track-info">
-                        <span>{song.artistName}</span>
-                        <span>{song.name}</span>
-                         {/* <span>Album Name</span> */}
-                    </div>
-                    <form>
-                        <input
-                            type="checkbox"
-                            id="like"
-                            name="like"
-                            value="like"
-                            checked={song.checked ?? false}
-                            onChange={handleCheck}
-                        />
-                    </form>
-                </div>
-    )
-}
-
-export const SongsPage = ({songs, setSongs}) => {
+export const SongsPage = ({songs, setSongs, selectedSong}) => {
     const [currSongPage, setCurrSongPage] = useState(songs)
-    console.dir(currSongPage)
   const [loading, setLoading] = useState(false)
     const [checkedSongs, setCheckedSongs] = useState([])
 
     const getRecommendedSongs = useGetRecommendedSongs()
     
-    // Load initial recs using only song in songs
+    // Load initial recs using selected song
    useEffect(() => {
         setLoading(true)
-        const songsCopy = [...songs]
         setSongs([])
-        getRecommendedSongs(songsCopy).then(rec => {
+        getRecommendedSongs([selectedSong]).then(rec => {
             setCurrSongPage(rec)
             setLoading(false)
         })
@@ -63,9 +40,11 @@ export const SongsPage = ({songs, setSongs}) => {
     }
 
     const loadNextRecs = async () => {
+        setSongs([...songs, ...checkedSongs])
+        console.dir(checkedSongs)
         getRecommendedSongs(checkedSongs).then(loaded => {
-            setSongs([...songs, ...loaded])
             setCurrSongPage([...loaded])
+            setCheckedSongs([])
         })
     }
     

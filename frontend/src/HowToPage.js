@@ -3,10 +3,37 @@ import { Link } from "react-router-dom";
 export const HowToPage = () => {
     return <div class="row">
     <div class="col-8 col-s-8">
-        <p> 
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent gravida nunc non iaculis sodales. Aliquam sit amet arcu vel lorem condimentum rutrum aliquet at orci. Nullam rhoncus sodales urna quis luctus. In libero ex, luctus non purus at, feugiat facilisis velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis consectetur pharetra scelerisque. Fusce sit amet condimentum augue, a ornare urna. Sed nec consequat augue. Nam nisi ligula, rutrum in rutrum non, consequat eget augue. Aenean at ex sit amet leo rhoncus tincidunt.
-             Aenean feugiat in urna et sodales. Donec id scelerisque nunc. Donec feugiat felis at risus venenatis, a gravida elit laoreet. Maecenas sodales lacus ut tincidunt laoreet. Integer sagittis tempus tempor. Aliquam dignissim nunc aliquam sapien blandit, id blandit felis egestas. Maecenas porttitor pulvinar massa vitae vehicula. Quisque hendrerit faucibus commodo. Sed nec finibus metus. Pellentesque gravida lectus pellentesque augue ultrices aliquet.
-            Proin nisl est, gravida in mauris eu, bibendum tincidunt massa. Phasellus vel efficitur nisi. Interdum et malesuada fames ac ante ipsum primis in faucibus. Proin bibendum sapien id ante vehicula consequat. Donec elementum odio at felis venenatis, nec luctus lorem sollicitudin. Cras mollis fringilla tellus ut egestas. Sed ultricies dignissim arcu quis ultrices. Suspendisse potenti. Donec lobortis magna nec mauris vehicula, vitae consectetur quam tempus. Fusce lorem mauris, porttitor id lectus vel, luctus mattis sem. Cras vel dignissim tortor, sit amet viverra enim. Aliquam et arcu eget dui maximus elementum.
+        <p class="c"> 
+            Hey dudes! Welcome to my <em>totally excellent</em> mixtape maker! <br/>
+            <br/>
+            This generator start with entering the song name and title of your choice to begin the recommendations.<br/>
+            <br/>
+            After the intial song, you can choose from the recommendations given to you by checking the checkbox next to the song.<br/>
+            These songs will be used to recommend the next songs. There are some things to keep in mind when choosing songs.<br/>
+            <br/>
+            Songs that are passed through the generator or left behind will not be recommended in the same session<br/>
+            <br/>
+            You can view the songs on Spotify by clicking on the song name.<br/>
+            <br/>
+            At the end, the songs will be complied into a list for you to view the path you have taken!<br/>
+            <br/>
+            I hope you find some radical beats!<br/>
+            <br/>
+            <br/>
+            <br/>
+            Elijah Smith <br/>
+            Instagram: @lijah.q <br/>
+            GitHub: @elijahquentin <br/>
+            LinkedIn: https://www.linkedin.com/in/elijah-smith-lincoln/ <br/>
+            <br/>
+            AJ Richerson <br/>
+            GitHub: @CodeCricut <br/>
+            LinkedIn: https://www.linkedin.com/in/aj-richerson/ <br/>
+            <br/>
+            Connor Kildare <br/>
+            GitHub: @ckildare <br/>
+            LinkedIn: www.linkedin.com/in/connor-kildare <br/>
+            
         </p>
     </div>
    

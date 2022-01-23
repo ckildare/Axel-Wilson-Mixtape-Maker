@@ -1,22 +1,10 @@
-export const ResultsPage = () => {
+import {Song} from "./Song"
+
+export const ResultsPage = ({songs}) => {
     return (
         <div className="row">
             <div className="col-8 col-s-8">
-                <div className="track">
-                    <div className="track-info">
-                        <span>Artist Name</span>
-                        <span>Track Name</span>
-                        <span>Album Name</span>
-                    </div>
-                    <form>
-                        <input
-                            type="checkbox"
-                            id="like"
-                            name="like"
-                            value="like"
-                        />
-                    </form>
-                </div>
+                {songs.map((song, index) => <Song song={song}/>)}
                 <a href="index.html">
                     <div className="button3">
                         Return To Home
