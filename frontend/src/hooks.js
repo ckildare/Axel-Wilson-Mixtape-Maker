@@ -3,7 +3,7 @@ import axios from "axios"
 
 export function useSelectSong(){
     const func = useCallback(async (songName, artistName) => {
-        const response = await axios.get("/selectSong?songName=" + songName + "&artistName="+artistName);
+        const response = await axios.get("/selectSong?title=\"" + songName + "\"&artist=\""+artistName + "\"");
         return response.data
     }, [])
     return func;
@@ -11,12 +11,12 @@ export function useSelectSong(){
 
 export function useGetRecommendedSongs(){
     const func = useCallback(async (songs) => {
-        console.dir(songs)
-        const ids = songs.map(song => song.id)
-        console.log("ids:")
-        const response = await axios.post("/recommendedSongs", {
-            seed_songs: ids // TODO
-        });
+        const ids = songs.map(song =>  song.uri)
+        const reqObj = {
+            seed_songs: ids, // TODO
+            discard_songs: []
+        }
+        const response = await axios.post("/recommendedSongs", reqObj);
         return response.data
     }, [])
     return func;

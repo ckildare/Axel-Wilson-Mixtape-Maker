@@ -26,6 +26,7 @@ def getSongs(spotify, songName, artistName, limit=50) -> List[Song]:
         songs.append(Song(item))
     return songs
 
+
 def getSongs(spotify, songName, artistName, limit=50) -> List[Song]:
     results = spotify.search(
         q="track:\""+songName+"\"+artist:\""+artistName+"\"", type="track", limit=limit
@@ -37,15 +38,19 @@ def getSongs(spotify, songName, artistName, limit=50) -> List[Song]:
         songs.append(Song(item))
     return songs
 
+
 def getSong(spotify, songName, artistName):
     songs = getSongs(spotify, songName, artistName, 1)
     return songs[0]
+
 
 def getRecommendedSongs(spotify: Spotify, seedSongs: List[Song], discardedSongs: List[Song]) -> List[Song]:
     seedSongIds = []
     for song in seedSongs:
         seedSongIds.append(song.uri)
 
+    if (len(seedSongIds) == 0):
+        return []
     results = spotify.recommendations(seed_tracks=seedSongIds, limit=15, )
     tracks = results["tracks"]
 
@@ -67,15 +72,16 @@ def getRecommendedSongs(spotify: Spotify, seedSongs: List[Song], discardedSongs:
 
     return returnVerifySongs
 
+
 def getSongsByIds(spotify, stringIDs: List[str]) -> List[Song]:
-    if len(stringIDs) == 0:
+    if len(stringIDs) == 0 or stringIDs[0] is None:
         return []
     result = spotify.tracks(stringIDs)
     tracks = result["tracks"]
     recSongs = []
     for track in tracks:
-            song = Song(track)
-            recSongs.append(song)
+        song = Song(track)
+        recSongs.append(song)
 
     return recSongs
 
