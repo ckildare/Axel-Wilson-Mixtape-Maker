@@ -32,6 +32,24 @@ footer {
     background-color: rgb(92, 56, 255);
 }
 
+span {
+    display: block;
+}
+
+.track {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 10px;
+    border: 2px white solid;
+}
+
+.track-info {
+}
+
+.like-button {
+}
+
 .center {
     margin: 15%;
 }
@@ -86,6 +104,11 @@ input[type="text"] {
 
 input[type="text"]::content {
     background-color: rgb(109, 77, 255);
+}
+
+input[type="checkbox"] {
+    float: right;
+    display: inline;
 }
 
 form {
