@@ -1,18 +1,14 @@
 from dotenv import load_dotenv
 import spotipy
-from tkinter import *
-from tkinter import ttk
 from spotipy.oauth2 import SpotifyClientCredentials
+from PyQt5.QtWidgets import QApplication, QtGui, QtCore, QtLabel
 
 load_dotenv()
 
 # Set Up GUI
-root = Tk()
-frm = ttk.Frame(root, padding=200)
-frm.grid()
-ttk.Label(frm, text="Hello World!").grid(column=0, row=0)
-ttk.Button(frm, text="Quit", command=root.destroy).grid(column=1, row=0)
-root.mainloop()
+app = QtApplication([])
+label = QtLabel("hello World")
+label.show()
 
 songName = input("Enter a song name. ")
 artistName = input("Enter an artist name. ")
