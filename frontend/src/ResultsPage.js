@@ -1,4 +1,4 @@
-export const SongsPage = () => {
+export const ResultsPage = () => {
     return (
         <div className="row">
             <div className="col-8 col-s-8">

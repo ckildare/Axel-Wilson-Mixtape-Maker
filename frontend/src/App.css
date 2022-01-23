@@ -44,8 +44,7 @@ span {
     border: 2px white solid;
 }
 
-.track-info {
-}
+
 
 .like-button {
 }
@@ -150,11 +149,56 @@ form {
     font-size: 25px;
 }
 
+.button3 {
+    background-color: rgb(92, 56, 255);
+    transition-duration: 0.2s;
+    box-shadow: 10px 10px 5px rgb(0, 0, 0) outset;
+    width: 30%;
+    margin-left: 50%;
+    margin-right: 50%;
+    border: none;
+    border-radius: 25px;
+    color: rgb(255, 255, 255);
+    padding: 15px 32px;
+    margin: 2%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 25px;
+}
+
+.button4 {
+    background-color: rgb(92, 56, 255);
+    transition-duration: 0.2s;
+    box-shadow: 10px 10px 5px rgb(0, 0, 0) outset;
+    width: 20%;
+    vertical-align: bottom;
+    margin-left: 50%;
+    margin-right: 50%;
+    border: none;
+    border-radius: 25px;
+    color: rgb(255, 255, 255);
+    padding: 15px 32px;
+    margin: 2%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 25px;
+}
+
 .button:hover {
     background-color: rgb(109, 77, 255);
 }
 
 .button2:hover {
+    background-color: rgb(109, 77, 255);
+}
+
+.button3:hover {
+    background-color: rgb(109, 77, 255);
+}
+
+.button4:hover {
     background-color: rgb(109, 77, 255);
 }
 
