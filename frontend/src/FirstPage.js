@@ -20,6 +20,7 @@ export const FirstPage = ({setSongs}) => {
         setSongs([song])
         navigate("/songs")
     }
+    
     return (
         <div className="row">
             <div className="col-8 col-s-8">

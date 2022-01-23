@@ -17,6 +17,7 @@ const Song = ({song, handleCheck}) => {
                             id="like"
                             name="like"
                             value="like"
+                            checked={song.checked ?? false}
                             onChange={handleCheck}
                         />
                     </form>
@@ -25,6 +26,8 @@ const Song = ({song, handleCheck}) => {
 }
 
 export const SongsPage = ({songs, setSongs}) => {
+    const [currSongPage, setCurrSongPage] = useState(songs)
+    console.dir(currSongPage)
   const [loading, setLoading] = useState(false)
     const [checkedSongs, setCheckedSongs] = useState([])
 
@@ -36,20 +39,16 @@ export const SongsPage = ({songs, setSongs}) => {
         const songsCopy = [...songs]
         setSongs([])
         getRecommendedSongs(songsCopy).then(rec => {
-            setSongs(rec)
+            setCurrSongPage(rec)
             setLoading(false)
         })
     }, [])
 
     
-    useEffect(() =>{
-
-    }, [checkedSongs])
-
-    
     const handleSelectSong = (e, song) => {
         const checked = e.target.checked;
         if (checked) {
+            song.checked = true
             const newSongs = [...checkedSongs, song]
             setCheckedSongs(newSongs)
         } else {
@@ -65,6 +64,8 @@ export const SongsPage = ({songs, setSongs}) => {
 
     const loadNextRecs = async () => {
         getRecommendedSongs(checkedSongs).then(loaded => {
+            setSongs([...songs, ...loaded])
+            setCurrSongPage([...loaded])
         })
     }
     
@@ -72,7 +73,7 @@ export const SongsPage = ({songs, setSongs}) => {
         <div className="row">
             {loading && <div style={{textAlign: "center"}}>Loading...</div>}
             <div className="col-8 col-s-8">
-                {songs.map((song, index) => <Song key={index} song={song} handleCheck={e => handleSelectSong(e, song)}/>)}
+                {currSongPage.map((song, index) => <Song key={index} song={song} handleCheck={e => handleSelectSong(e, song)}/>)}
             </div>
 
             <div className="col-2 col-s-2">
@@ -81,12 +82,15 @@ export const SongsPage = ({songs, setSongs}) => {
                 </div>
             </div>
 
+            <div onClick={loadNextRecs}>load next lol</div>
+
             <div className="col-2 col-s-2">
                 <img src="img/axel.jpg" alt="Mugshot of Alex Wilson" />
                 <a href="https://open.spotify.com/">
                     <img src="img/spotify-logo.png" alt="Spotify Logo" />
                 </a>
             </div>
+            
         </div>
     );
 };
