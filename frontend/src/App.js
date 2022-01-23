@@ -3,6 +3,7 @@ import axios from "axios";
 import {useGetRecommendedSongs, useSelectSong} from "./hooks"
 import { FirstPage } from "./FirstPage";
 import './App.css';
+import { HowToPage } from "./HowToPage";
 
 function App() {
 
@@ -16,7 +17,7 @@ function App() {
         setSongs(recSongs)
     }
   return (
-    <FirstPage/>
+    <HowToPage/>
   );
 }
 
