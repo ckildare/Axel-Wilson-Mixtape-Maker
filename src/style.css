@@ -14,7 +14,6 @@ header {
     padding: 15px;
     font-size: 250%;
     border-bottom: 5px black solid;
-
 }
 
 body {
@@ -32,6 +31,28 @@ img {
 footer {
     background-color:rgb(92, 56, 255);
 
+}
+
+span {
+    display: block;
+}
+
+.track {
+    list-style-type: none;
+    margin: 1%;
+    padding: 1%;
+    font-size: 110%;
+    border: 2px white solid;
+}
+
+.track-info {
+    flex-basis: 50%;
+}
+
+.like-button {
+    flex-basis: 20%;
+    float: right;
+    display: inline;
 }
 
 .center {
@@ -88,6 +109,11 @@ input[type=text] {
 
 input[type=text]::content {
     background-color: rgb(109, 77, 255);
+}
+
+input[type=checkbox] {
+    float: right;
+    display: inline;
 }
 
 form {
