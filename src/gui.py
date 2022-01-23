@@ -90,7 +90,7 @@ class Index(QMainWindow):
         self.mainWindow.setupUI(self)
         self.mainWindow.exitButton.clicked.connect(
             QCoreApplication.instance().quit)
-        self.mainWindow.tutorialButton.clicked.connect(self.startTutorial)
+        self.mainWindow.tutorialButton.clicked.connect(self.startMainWindow)
         self.show()
 
 
