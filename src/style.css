@@ -7,6 +7,7 @@
 
 header {
     background-color:rgb(69, 56, 255);
+    color: white;
     padding: 15px;
     font-size: 250%;
     border-bottom: 5px black solid;
@@ -14,13 +15,52 @@ header {
 }
 
 body {
-    background-image: url("retro.jpg");
-
+    background-image: url("img/retro.jpg");
+    color: white;
 }
+
+img {
+    max-width: 100%;
+    height: auto;
+    float: right;
+    padding: 5px;
+  }
 
 footer {
     background-color:rgb(69, 56, 255);
 
+}
+
+.center {
+    margin: 15%;
+}
+
+.song-window {
+    
+}
+
+/*-------------------------------------------------------------------------------------------------------*/
+
+/* Link Stlying */
+
+a:link {
+    text-decoration: none;
+    color: white;
+}
+
+a:visited {
+    text-decoration: none;
+    color: white;
+}
+  
+  a:hover {
+    text-decoration: none;
+    color: white;
+}
+  
+  a:active {
+    text-decoration: none;
+    color: white;
 }
 
 /*-------------------------------------------------------------------------------------------------------*/
@@ -29,14 +69,21 @@ footer {
 
 .button {
     background-color: rgb(69, 56, 255);
+    transition-duration: 0.2s;
     box-shadow: 10px 10px 5px rgb(0, 0, 0) outset;
+    width: 85%;
     border: none;
-    color: white;
+    border-radius: 25px;
+    color: rgb(255, 255, 255);
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 25px;
+  }
+
+  .button:hover {
+      background-color: rgb(101, 91, 255);
   }
 
 
@@ -57,45 +104,11 @@ footer {
 }
 
 /* Media queries to set breakpoints for different device sizes */
-/* Support for desktop */
 
-@media only screen and (min-width= "768px") {
-    .col-1 {
-        width: 8.33%;
-    }
-    .col-2 {
-        width: 16.66%;
-    }
-    .col-3 {
-        width: 25%;
-    }
-    .col-4 {
-        width: 33.33%;
-    }
-    .col-5 {
-        width: 41.66%;
-    }
-    .col-6 {
-        width: 50%;
-    }
-    .col-7 {
-        width: 58.33%;
-    }
-    .col-8 {
-        width: 66.66%;
-    }
-    .col-9 {
-        width: 75%;
-    }
-    .col-10 {
-        width: 83.33%;
-    }
-    .col-11 {
-        width: 91.66%;
-    }
-    .col-12 {
-        width: 100%;
-    }
+/* Support for Mobile */
+
+[class*="col-"] {
+    width: 100%;
 }
 
 /* Support for Tablet */
@@ -139,10 +152,43 @@ footer {
     }
 }
 
-/* Support for Mobile */
+/* Support for desktop */
 
-[class*="col-"] {
-    width: 100%;
+@media only screen and (min-width= "768px") {
+    .col-1 {
+        width: 8.33%;
+    }
+    .col-2 {
+        width: 16.66%;
+    }
+    .col-3 {
+        width: 25%;
+    }
+    .col-4 {
+        width: 33.33%;
+    }
+    .col-5 {
+        width: 41.66%;
+    }
+    .col-6 {
+        width: 50%;
+    }
+    .col-7 {
+        width: 58.33%;
+    }
+    .col-8 {
+        width: 66.66%;
+    }
+    .col-9 {
+        width: 75%;
+    }
+    .col-10 {
+        width: 83.33%;
+    }
+    .col-11 {
+        width: 91.66%;
+    }
+    .col-12 {
+        width: 100%;
+    }
 }
-
-
