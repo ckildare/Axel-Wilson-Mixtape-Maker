@@ -1,8 +1,17 @@
 import sys
-import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+
+# Set Up GUI
+class UIWindow(object):
+    def setupUI(self, MainWindow):
+
+        # Sizing
+        MainWindow.setGeometry(50, 50, 1000, 100)
+        MainWindow.setFixedSize(800, 500)
+        MainWindow.setWindowTitle("axel-wilson's-mixtape-maker")
+        self.centralwidget = QWidget()
 
 
 class UIWindow(object):
@@ -13,6 +22,35 @@ class UIWindow(object):
         self.exitButton = QPushButton('Exit', self.centralwidget)
         self.exitButton.move(730, 480)
 
+
+        # Track Name
+        # creating a QLineEdit object
+        line_edit = QLineEdit("GeeksforGeeks", self)
+  
+        # setting geometry
+        line_edit.setGeometry(80, 80, 150, 40)
+  
+        # creating a label
+        label = QLabel("GfG", self)
+  
+        # setting geometry to the label
+        label.setGeometry(80, 150, 120, 60)
+  
+        # setting word wrap property of label
+        label.setWordWrap(True)
+  
+        # adding action to the line edit when enter key is pressed
+        line_edit.returnPressed.connect(lambda: do_action())
+    
+        # method to do action
+        def do_action():
+  
+            # getting text from the line edit
+            value = line_edit.text()
+  
+            # setting text to the label
+            label.setText(value)
+        
         # Tutorial Button
         self.tutorialButton = QPushButton('Tutorial', self.centralwidget)
         self.tutorialButton.move(660, 480)
@@ -100,6 +138,11 @@ class Index(QMainWindow):
         self.tutorial.setAsMainWindow(self)
 
     def startSongView(self):
+
+        self.songView.setupUI(self)
+        self.songView.exitButton.clicked.connect(QCoreApplication.instance().quit)
+        self.mainWindow.returnButton.clicked.connect(self.startMainWindow)
+        self.show()
         self.songVIew.setAsMainWindow(self)
 
     def startMainWindow(self):

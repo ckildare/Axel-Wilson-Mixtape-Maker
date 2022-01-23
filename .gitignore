@@ -3,3 +3,4 @@
 .cache
 build/
 dist/
+/src/__pycache__
