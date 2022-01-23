@@ -74,6 +74,14 @@ export const SongsPage = ({songs, setSongs}) => {
             {loading && <div style={{textAlign: "center"}}>Loading...</div>}
             <div className="col-8 col-s-8">
                 {currSongPage.map((song, index) => <Song key={index} song={song} handleCheck={e => handleSelectSong(e, song)}/>)}
+                <div class="button3">
+                    <div onClick={loadNextRecs}>Load More Songs</div>
+                </div>
+                <Link to="/results">
+                    <div class="button3">
+                        Finish Process
+                    </div>
+                </Link>
             </div>
 
             <div className="col-2 col-s-2">
@@ -81,8 +89,6 @@ export const SongsPage = ({songs, setSongs}) => {
                     <a href="tutorial.html">How To Use</a>
                 </div>
             </div>
-
-            <div onClick={loadNextRecs}>load next lol</div>
 
             <div className="col-2 col-s-2">
                 <img src="img/axel.jpg" alt="Mugshot of Alex Wilson" />
