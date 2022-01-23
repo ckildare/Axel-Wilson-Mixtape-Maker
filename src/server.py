@@ -1,5 +1,6 @@
+from Spotify import getSongsByIds
 from bottle_cors_plugin import cors_plugin
-from bottle import app, response, route, run
+from bottle import app, response, route, run, request
 from bottle import Bottle, run
 from Spotify import getSong, getSpotifyClient, getRecommendedSongs
 import json
@@ -14,18 +15,21 @@ print(testSong)
 
 @app.route('/selectSong')
 def selectSong():
-    x = json.dumps(testSong.toJsonObj())
-    print(x)
-    return x
+    return json.dumps(testSong.toJsonObj())
 
 
-@app.route('/recommendedSongs')
+@app.post('/recommendedSongs')
 def recommendedSongs():
-    songList = getRecommendedSongs(spotify, [testSong], [])
+    postData = request.json
+    seed_songs = postData["seed_songs"]
+    discard_songs = postData["discard_songs"]
+    seedSongObjs = getSongsByIds(spotify, seed_songs)
+    print(seedSongObjs)
+    discardSongObjs = getSongsByIds(spotify, discard_songs)
+    songList = getRecommendedSongs(spotify, seedSongObjs, discardSongObjs)
     jsonList = []
     for song in songList:
         jsonList.append(json.dumps(song.toJsonObj()))
-    print(jsonList)
     return jsonList
 
 

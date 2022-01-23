@@ -14,6 +14,7 @@ def getSpotifyClient():
     return spotipy.Spotify(
         client_credentials_manager=SpotifyClientCredentials())
 
+
 def getSongs(spotify, songName, artistName, limit=50) -> List[Song]:
     results = spotify.search(
         q="track:\""+songName+"\"+artist:\""+artistName+"\"", type="track", limit=limit
@@ -65,6 +66,19 @@ def getRecommendedSongs(spotify: Spotify, seedSongs: List[Song], discardedSongs:
     returnVerifySongs = verifiedSongs[1:5]
 
     return returnVerifySongs
+
+def getSongsByIds(spotify, stringIDs: List[str]) -> List[Song]:
+    if len(stringIDs) == 0:
+        return []
+    result = spotify.tracks(stringIDs)
+    tracks = result["tracks"]
+    recSongs = []
+    for track in tracks:
+            song = Song(track)
+            recSongs.append(song)
+
+    return recSongs
+
 
 def printSong(song: Song):
     print(song.name)
