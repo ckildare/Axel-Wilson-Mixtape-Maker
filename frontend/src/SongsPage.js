@@ -1,3 +1,5 @@
+import {Link} from "react-router-dom"
+
 export const SongsPage = () => {
     return (
         <div className="row">
@@ -20,9 +22,11 @@ export const SongsPage = () => {
                 <div className="button3">
                     Refresh Recommendations
                 </div>
-                <div className="button4">
-                    End Session
-                </div>
+                <Link to="/results">
+                    <div className="button4">
+                        End Session
+                    </div>
+                </Link>
             </div>
 
             <div className="col-2 col-s-2">

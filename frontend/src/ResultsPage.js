@@ -17,12 +17,11 @@ export const ResultsPage = () => {
                         />
                     </form>
                 </div>
-                <div className="button3">
-                    Refresh Recommendations
-                </div>
-                <div className="button4">
-                    End Session
-                </div>
+                <a href="index.html">
+                    <div className="button3">
+                        Return To Home
+                    </div>
+                </a>
             </div>
 
             <div className="col-2 col-s-2">
