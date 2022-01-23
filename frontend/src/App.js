@@ -13,7 +13,7 @@ function App() {
             <Routes>
                 <Route path="*" element={<FirstPage setSongs={setSongs}/>} />
                 <Route path="/tutorial" element={<HowToPage />} />
-                <Route path="/songs" element={<SongsPage />} />
+                <Route path="/songs" element={<SongsPage songs={songs} setSongs={setSongs}/>} />
                 <Route path="/results" element={<ResultsPage />} />
             </Routes>
         </BrowserRouter>

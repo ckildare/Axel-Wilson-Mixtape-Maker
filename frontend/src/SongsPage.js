@@ -46,7 +46,6 @@ export const SongsPage = ({songs, setSongs}) => {
         }
     }
 
-    const getRecommendedSongs = useGetRecommendedSongs()
     const loadNextRecs = async () => {
         getRecommendedSongs(checkedSongs).then(loaded => {
             set
