@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelectSong } from "./hooks";
-export const FirstPage = () => {
+export const FirstPage = ({setSongs}) => {
+    const navigate = useNavigate()
     const [errorMsg, setErrorMsg] = useState(null)
     const selectSong = useSelectSong();
 
@@ -16,6 +17,8 @@ export const FirstPage = () => {
             setErrorMsg("Please provide a title and artist.")
         const song = await selectSong(title, artist)
         console.dir(song)
+        setSongs([song])
+        navigate("/songs")
     }
     return (
         <div className="row">
