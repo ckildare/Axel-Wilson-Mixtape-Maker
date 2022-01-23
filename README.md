@@ -1,27 +1,35 @@
 # Retro Playlist Generator
 
-## Generating the executable
+Hey dudes! Welcome to my totally excellent mixtape maker!
 
-To generate the `cli.exe`, run
+This generator start with entering the song name and title of your choice to begin the recommendations.
 
-```
-pyinstaller src/cli.py --add-data "src/.env;."
-```
+After the intial song, you can choose from the recommendations given to you by checking the checkbox next to the song.
+These songs will be used to recommend the next songs. There are some things to keep in mind when choosing songs.
 
-This only needs to be done when you want a new packaged app to distribute.
+Songs that are passed through the generator or left behind will not be recommended in the same session
 
-The executable can then be found in `dist/cli/cli.exe`
+You can view the songs on Spotify by clicking on the song name.
 
-## Running during development
+At the end, the songs will be complied into a list for you to view the path you have taken!
 
-Before running the app, you must initialize a "virtual environment" for Python and install dependencies.
+I hope you find some radical beats!
 
-```
-python3 -m venv .venv
-.venv/Scripts/Activate.ps1
-pip install -r requirements.txt
-```
+## Authors
 
-The script may differ on systems other than Windows.
+**Elijah Smith**
 
-After that, you may run the program with `python src/main.py`
+-   Instagram: @lijah.q
+-   [GitHub](https://github.com/elijahquentin)
+-   [LinkedIn](https://www.linkedin.com/in/elijah-smith-lincoln/)
+
+**AJ Richerson**
+
+-   [GitHub](https://github.com/CodeCricut)
+
+-   [LinkedIn](https://www.linkedin.com/in/aj-richerson/)
+
+**Connor Kildare**
+
+-   [GitHub](https://github.com/ckildare)
+-   [LinkedIn](www.linkedin.com/in/connor-kildare)
