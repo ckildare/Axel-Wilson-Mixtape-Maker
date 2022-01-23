@@ -9,7 +9,7 @@ const Song = ({song, handleCheck}) => {
                     <div className="track-info">
                         <span>{song.artistName}</span>
                         <span>{song.name}</span>
-                        <span>Album Name</span>
+                         {/* <span>Album Name</span> */}
                     </div>
                     <form>
                         <input
@@ -73,7 +73,9 @@ export const SongsPage = ({songs, setSongs}) => {
         <div className="row">
             {loading && <div style={{textAlign: "center"}}>Loading...</div>}
             <div className="col-8 col-s-8">
-                {currSongPage.map((song, index) => <Song key={index} song={song} handleCheck={e => handleSelectSong(e, song)}/>)}
+                <div class="results">
+                    {currSongPage.map((song, index) => <Song key={index} song={song} handleCheck={e => handleSelectSong(e, song)}/>)}
+                </div>
                 <div class="button3">
                     <div onClick={loadNextRecs}>Load More Songs</div>
                 </div>

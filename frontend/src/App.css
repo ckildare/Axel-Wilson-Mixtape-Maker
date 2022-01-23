@@ -38,15 +38,26 @@ span {
 
 .track {
     display: flex;
+    background-color:rgba(16, 143, 22, 0.664);
     justify-content: space-between;
     flex-direction: row;
-    padding: 10px;
-    border: 2px white solid;
+    padding: 8px;
+    margin: 2%;
+    border-radius: 50px;
 }
 
+.track-info {
+    padding-left: 5%;
+}
 
+.results {
+    font-size: 160%;
+    line-height: 240%;
+}
 
 .like-button {
+    height: 400%;
+    width: 400%;
 }
 
 .center {
