@@ -13,11 +13,15 @@ class UIWindow(object):
         MainWindow.setWindowTitle("axel-wilson's-mixtape-maker")
         self.centralwidget = QWidget()
 
-        # mainwindow.setWindowIcon(QtGui.QIcon('PhotoIcon.png'))
+
+class UIWindow(object):
+    def setAsMainWindow(self, mainWindow):
+        self.centralwidget = QWidget()
 
         # Exit Button
         self.exitButton = QPushButton('Exit', self.centralwidget)
         self.exitButton.move(730, 480)
+
 
         # Track Name
         # creating a QLineEdit object
@@ -51,15 +55,24 @@ class UIWindow(object):
         self.tutorialButton = QPushButton('Tutorial', self.centralwidget)
         self.tutorialButton.move(660, 480)
 
-        MainWindow.setCentralWidget(self.centralwidget)
+        # Exit button
+        self.exitButton.clicked.connect(
+            QCoreApplication.instance().quit)
+
+        # Tutorial button
+        self.tutorialButton.clicked.connect(mainWindow.startTutorial)
+
+        # Set as main content of window
+        mainWindow.setCentralWidget(self.centralwidget)
+        mainWindow.setGeometry(50, 50, 1000, 100)
+        mainWindow.setFixedSize(800, 500)
+        mainWindow.setWindowTitle("axel-wilson's-mixtape-maker")
+        mainWindow.show()
 
 
 class Tutorial(object):
-    def setupUI(self, MainWindow):
-        MainWindow.setGeometry(50, 50, 200, 450)
-        MainWindow.setFixedSize(800, 500)
-        MainWindow.setWindowTitle("axel-wilson's-mixtape-maker-tutorial")
-        self.centralwidget = QWidget(MainWindow)
+    def setAsMainWindow(self, mainWindow):
+        self.centralwidget = QWidget(mainWindow)
 
         # Exit Button
         self.exitButton = QPushButton("Exit", self.centralwidget)
@@ -69,24 +82,48 @@ class Tutorial(object):
         self.returnButton = QPushButton('Return', self.centralwidget)
         self.returnButton.move(660, 480)
 
-        MainWindow.setCentralWidget(self.centralwidget)
+        # Exit button
+        self.exitButton.clicked.connect(
+            QCoreApplication.instance().quit)
+
+        # Return button
+        self.returnButton.clicked.connect(mainWindow.startMainWindow)
+
+        # Set as main content
+        mainWindow.show()
+        mainWindow.setGeometry(50, 50, 200, 450)
+        mainWindow.setFixedSize(800, 500)
+        mainWindow.setWindowTitle("axel-wilson's-mixtape-maker-tutorial")
+        mainWindow.setCentralWidget(self.centralwidget)
+
 
 class SongView(object):
-    def setupUI(self, MainWindow):
-        MainWindow.setGeometry(50, 50, 200, 450)
-        MainWindow.setFixedSize(800, 500)
-        MainWindow.setWindowTitle("axel-wilson's-mixtape-maker")
-        self.centralwidget = QWidget(MainWindow)
+    def setAsMainWindow(self, mainWindow):
+        self.centralwidget = QWidget(mainWindow)
 
         # Exit Button
         self.exitButton = QPushButton("Exit", self.centralwidget)
         self.exitButton.move(730, 480)
 
         # Return Button
-        self.returnButton = QPushButton('Return Without Saving', self.centralwidget)
+        self.returnButton = QPushButton(
+            'Return Without Saving', self.centralwidget)
         self.returnButton.move(660, 480)
 
-        MainWindow.setCentralWidget(self.centralwidget)
+        # Exit button
+        self.exitButton.clicked.connect(
+            QCoreApplication.instance().quit)
+
+        # Return button
+        self.returnButton.clicked.connect(self.startMainWindow)
+
+        # Set as main content
+        mainWindow.setCentralWidget(self.centralwidget)
+        mainWindow.setGeometry(50, 50, 200, 450)
+        mainWindow.setFixedSize(800, 500)
+        mainWindow.setWindowTitle("axel-wilson's-mixtape-maker")
+
+        mainWindow.show()
 
 
 class Index(QMainWindow):
@@ -94,25 +131,22 @@ class Index(QMainWindow):
         super(Index, self).__init__(parent)
         self.mainWindow = UIWindow()
         self.tutorial = Tutorial()
+        self.songVIew = SongView()
         self.startMainWindow()
 
     def startTutorial(self):
-        self.tutorial.setupUI(self)
-        self.tutorial.exitButton.clicked.connect(QCoreApplication.instance().quit)
-        self.tutorial.returnButton.clicked.connect(self.startMainWindow)
-        self.show()
+        self.tutorial.setAsMainWindow(self)
 
     def startSongView(self):
+
         self.songView.setupUI(self)
         self.songView.exitButton.clicked.connect(QCoreApplication.instance().quit)
         self.mainWindow.returnButton.clicked.connect(self.startMainWindow)
         self.show()
+        self.songVIew.setAsMainWindow(self)
 
     def startMainWindow(self):
-        self.mainWindow.setupUI(self)
-        self.mainWindow.exitButton.clicked.connect(QCoreApplication.instance().quit)
-        self.mainWindow.tutorialButton.clicked.connect(self.startTutorial)
-        self.show()
+        self.mainWindow.setAsMainWindow(self)
 
 
 if __name__ == '__main__':
@@ -125,5 +159,3 @@ app = QApplication(sys.argv)
 i = Index()
 i.show()
 app.exec()
-
-# QCoreApplication.instance().quit
