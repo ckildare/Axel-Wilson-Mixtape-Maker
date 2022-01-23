@@ -11,9 +11,9 @@ export function useSelectSong(){
 
 export function useGetRecommendedSongs(){
     const func = useCallback(async (songs) => {
+        console.dir(songs)
         const ids = songs.map(song => song.id)
         console.log("ids:")
-        console.dir(ids)
         const response = await axios.post("/recommendedSongs", {
             seed_songs: ids // TODO
         });
