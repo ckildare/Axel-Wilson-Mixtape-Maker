@@ -83,7 +83,7 @@ class MainWindow(QMainWindow):
     def startMainWindow(self):
         self.mainWindow.setupUI(self)
         self.mainWindow.exitButton.clicked.connect(QCoreApplication.instance().quit)
-        self.mainWindow.tutorialButton.clicked.connect(self.startTutorial)
+        self.mainWindow.tutorialButton.clicked.connect(self.startMainWindow)
         self.show()
 
 
@@ -94,7 +94,7 @@ if __name__ == '__main__':
 
 
 app = QApplication(sys.argv)
-i = Index()
+i = MainWindow()
 i.show()
 app.exec()
 
