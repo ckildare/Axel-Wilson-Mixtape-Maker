@@ -9,3 +9,11 @@ class Song:
         self.name = item["name"]
         self.artistName = item["artists"][0]["name"]
         self.spotifyLink = item["external_urls"]["spotify"]
+
+    def toJsonObj(self):
+        return {
+            "uri": self.uri,
+            "name": self.name,
+            "artistName": self.artistName,
+            "spotifyLink": self.spotifyLink
+        }
