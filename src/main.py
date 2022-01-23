@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import spotipy
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyClientCredentials
-
+from distutils import util
 from Song import Song
 
 
@@ -72,15 +72,31 @@ def main():
     songName = input("Enter a song name. ")
     artistName = input("Enter an artist name. ")
 
-    song = getSong(spotify, songName, artistName)
+    keptSongs = []
+    seedSongs = []
+    selectedSong = getSong(spotify, songName, artistName)
+    keptSongs.append(selectedSong)
+    seedSongs.append(selectedSong)
 
-    print("Song:")
-    printSong(song)
+    more = True
+    while more:
+        recSongs = getRecommendedSongs(spotify, seedSongs)
+        for song in recSongs:
+            printSong(song)
 
-    recSongs = getRecommendedSongs(spotify, [song])
-    print("Rec songs:")
-    for rec in recSongs:
-        printSong(rec)
+        print("For debug purposes, do you want to select the first three songs to seed more recs?")
+        more = util.strtobool(input("More?"))
+        if more:
+            keptSongs.append(recSongs[0])
+            keptSongs.append(recSongs[1])
+            keptSongs.append(recSongs[2])
+            seedSongs.clear()
+            seedSongs.append(recSongs[0])
+            seedSongs.append(recSongs[1])
+            seedSongs.append(recSongs[2])
+
+    for song in keptSongs:
+        printSong(song)
 
 
 main()
