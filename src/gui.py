@@ -7,11 +7,11 @@ from PyQt5.QtWidgets import *
 # Set Up GUI
 def window():
    app = QApplication(sys.argv)
+   app.setStyle("Fusion")
    w = QWidget()
    b = QLabel(w)
 
    b.setText("Hello World!")
-   
    #(x, y) Placement (x, y) Size
    w.setGeometry(100,100,600,800)
 
