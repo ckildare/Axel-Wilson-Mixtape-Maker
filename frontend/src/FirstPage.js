@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useSelectSong } from "./hooks";
 export const FirstPage = () => {
     const selectSong = useSelectSong();
@@ -44,9 +45,9 @@ export const FirstPage = () => {
             </div>
 
             <div className="col-2 col-s-2">
-                <a href="tutorial.html">
+                <Link to="/tutorial">
                     <div className="button center">How To Use</div>
-                </a>
+                </Link>
             </div>
 
             <div className="col-2 col-s-2">

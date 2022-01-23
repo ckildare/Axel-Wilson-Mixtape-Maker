@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export const HowToPage = () => {
     return <div class="row">
     <div class="col-8 col-s-8">
@@ -12,7 +14,9 @@ export const HowToPage = () => {
     <div class="col-2 col-s-2">
         <a href="index.html">
         <div class="button center">
-           
+            <Link to="/">
+           Go back
+            </Link>
         </div>
         </a>
     </div>
