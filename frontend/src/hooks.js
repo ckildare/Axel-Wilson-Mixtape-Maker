@@ -8,3 +8,16 @@ export function useSelectSong(){
     }, [])
     return func;
 }
+
+export function useGetRecommendedSongs(){
+    const func = useCallback(async (songs) => {
+        const ids = songs.map(song => song.id)
+        console.log("ids:")
+        console.dir(ids)
+        const response = await axios.post("/recommendedSongs", {
+            seed_songs: ids // TODO
+        });
+        return response.data
+    }, [])
+    return func;
+}

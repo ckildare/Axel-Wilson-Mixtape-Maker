@@ -1,21 +1,22 @@
 import {useState} from "react"
 import './App.css';
 import axios from "axios";
-import {useSelectSong} from "./hooks"
+import {useGetRecommendedSongs, useSelectSong} from "./hooks"
 
 function App() {
-    const [song, setSong] = useState(null)
+    const [songs, setSongs] = useState([])
     const selectSong = useSelectSong()
+    const getRecommendedSongs = useGetRecommendedSongs()
 
     async function handleClick(){
         console.dir(selectSong)
-        const testS = await selectSong("Hey Jude", "Beatles")
-        setSong(testS)
+        const testS = await selectSong("Hey Jude", "Beatles");
+        const recSongs = await getRecommendedSongs([testS])
+        setSongs(recSongs)
     }
   return (
     <div className="App">
-        song:
-        {song ? song.name : "null"} 
+        {songs.map(song => <div>{song.name}</div>)}
         <button onClick={handleClick}>get hello world</button>
     </div>
   );
