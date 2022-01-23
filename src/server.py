@@ -5,8 +5,8 @@ import json
 spotify = getSpotifyClient()
 app = Bottle()
 
-@app.route('/goodbye')
-def goodbye():
+@app.route('/selectSong')
+def selectSong():
     x = json.dumps(getSong(spotify, "Hey Jude", "Beatles").toJsonObj())
     print(x)
     return x
