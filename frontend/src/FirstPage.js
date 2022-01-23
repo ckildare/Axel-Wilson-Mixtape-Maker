@@ -2,13 +2,18 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelectSong } from "./hooks";
 export const FirstPage = () => {
+    const [errorMsg, setErrorMsg] = useState(null)
     const selectSong = useSelectSong();
 
     const [title, setTitle] = useState("");
     const [artist, setArtist] = useState("");
 
     const handleSearch = async (e) => {
+        setErrorMsg(null)
         e.preventDefault()
+
+        if (!title || !artist)
+            setErrorMsg("Please provide a title and artist.")
         const song = await selectSong(title, artist)
         console.dir(song)
     }
@@ -16,6 +21,7 @@ export const FirstPage = () => {
         <div className="row">
             <div className="col-8 col-s-8">
                 <h1>Search the Song Here!</h1>
+                {errorMsg && <p className="error-message">{errorMsg}</p>}
                 <form>
                     <label htmlFor="trackTitle">Song Title: </label>
                     <br />
