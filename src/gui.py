@@ -11,6 +11,7 @@ def window():
    b = QLabel(w)
 
    b.setText("Hello World!")
+   
    #(x, y) Placement (x, y) Size
    w.setGeometry(100,100,600,800)
 
