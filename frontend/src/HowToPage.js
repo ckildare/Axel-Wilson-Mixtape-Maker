@@ -6,7 +6,7 @@ export const HowToPage = () => {
         <p class="c"> 
             Hey dudes! Welcome to my <em>totally excellent</em> mixtape maker! <br/>
             <br/>
-            This generator start with entering the song name and title of your choice to begin the recommendations.<br/>
+            This generator will start with entering the song name and title of your choice to begin the recommendations.<br/>
             <br/>
             After the intial song, you can choose from the recommendations given to you by checking the checkbox next to the song.<br/>
             These songs will be used to recommend the next songs. There are some things to keep in mind when choosing songs.<br/>
@@ -15,7 +15,7 @@ export const HowToPage = () => {
             <br/>
             You can view the songs on Spotify by clicking on the song name.<br/>
             <br/>
-            At the end, the songs will be complied into a list for you to view the path you have taken!<br/>
+            At the end, the songs will be compiled into a list for you to view the path you have taken!<br/>
             <br/>
             I hope you find some radical beats!<br/>
             <br/>

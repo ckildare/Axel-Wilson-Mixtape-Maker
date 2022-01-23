@@ -32,6 +32,7 @@ export const SongsPage = ({songs, setSongs, selectedSong}) => {
             // Remove song
             const index = checkedSongs.indexOf(song);
             if (index >= 0){
+                song.checked = false
                 const newItems = [...checkedSongs]
                 newItems.splice(index, 1)
                 setCheckedSongs(newItems)

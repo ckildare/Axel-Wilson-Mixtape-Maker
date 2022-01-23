@@ -1,17 +1,18 @@
 # Retro Playlist Generator
 
-Hey dudes! Welcome to my totally excellent mixtape maker!
+Hey dudes! Welcome to my _totally excellent_ mixtape maker!
 
-This generator start with entering the song name and title of your choice to begin the recommendations.
+This generator will start with entering the song name and title of your choice to begin the recommendations.
 
 After the intial song, you can choose from the recommendations given to you by checking the checkbox next to the song.
+
 These songs will be used to recommend the next songs. There are some things to keep in mind when choosing songs.
 
 Songs that are passed through the generator or left behind will not be recommended in the same session
 
 You can view the songs on Spotify by clicking on the song name.
 
-At the end, the songs will be complied into a list for you to view the path you have taken!
+At the end, the songs will be compiled into a list for you to view the path you have taken!
 
 I hope you find some radical beats!
 
