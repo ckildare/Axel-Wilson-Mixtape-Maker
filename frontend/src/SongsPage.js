@@ -23,10 +23,27 @@ const Song = ({song, handleCheck}) => {
 }
 
 export const SongsPage = ({songs, setSongs}) => {
-    const [loading, setLoading] = useState(false)
-    const getRecommendedSongs = useGetRecommendedSongs()
-
+  const [loading, setLoading] = useState(false)
     const [checkedSongs, setCheckedSongs] = useState([])
+
+    const getRecommendedSongs = useGetRecommendedSongs()
+    
+    // Load initial recs using only song in songs
+   useEffect(() => {
+        setLoading(true)
+        const songsCopy = [...songs]
+        setSongs([])
+        getRecommendedSongs(songsCopy).then(rec => {
+            setSongs(rec)
+            setLoading(false)
+        })
+    }, [])
+
+    
+    useEffect(() =>{
+
+    }, [checkedSongs])
+
     
     const handleSelectSong = (e, song) => {
         const checked = e.target.checked;
@@ -44,22 +61,11 @@ export const SongsPage = ({songs, setSongs}) => {
         }
     }
 
-    const getRecommendedSongs = useGetRecommendedSongs()
     const loadNextRecs = async () => {
         getRecommendedSongs(checkedSongs).then(loaded => {
-            set
         })
     }
-    // Load initial recs
-    useEffect(() => {
-        setLoading(true)
-        const songsCopy = [...songs]
-        setSongs([])
-        getRecommendedSongs(songsCopy).then(rec => {
-            setSongs(rec)
-            setLoading(false)
-        })
-    }, [])
+    
     return (
         <div className="row">
             {loading && <div style={{textAlign: "center"}}>Loading...</div>}
