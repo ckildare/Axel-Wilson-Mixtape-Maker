@@ -61,9 +61,9 @@ class SongView(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
 
-class MainWindow(QMainWindow):
+class Index(QMainWindow):
     def __init__(self, parent=None):
-        super(MainWindow, self).__init__(parent)
+        super(Index, self).__init__(parent)
         self.mainWindow = UIWindow()
         self.tutorial = Tutorial()
         self.startMainWindow()
@@ -83,18 +83,18 @@ class MainWindow(QMainWindow):
     def startMainWindow(self):
         self.mainWindow.setupUI(self)
         self.mainWindow.exitButton.clicked.connect(QCoreApplication.instance().quit)
-        self.mainWindow.tutorialButton.clicked.connect(self.startMainWindow)
+        self.mainWindow.tutorialButton.clicked.connect(self.startTutorial)
         self.show()
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    w = MainWindow()
+    w = Index()
     sys.exit(app.exec_())
 
 
 app = QApplication(sys.argv)
-i = MainWindow()
+i = Index()
 i.show()
 app.exec()
 
