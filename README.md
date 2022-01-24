@@ -36,6 +36,6 @@ I hope you find some radical beats!
 -   [LinkedIn](www.linkedin.com/in/connor-kildare)
 
 **Rylen Lanning**
--   Instagram: Rylen_cw16
+-   Instagram: @Rylen_cw16
 -   [GitHub](https://github.com/RyLanning)
 -   [LinkedIn](www.linkedin.com/in/rylen-lanning)
