@@ -34,3 +34,8 @@ I hope you find some radical beats!
 
 -   [GitHub](https://github.com/ckildare)
 -   [LinkedIn](www.linkedin.com/in/connor-kildare)
+
+**Rylen Lanning**
+-   Instagram: Rylen_cw16
+-   [GitHub](https://github.com/RyLanning)
+-   [LinkedIn](www.linkedin.com/in/rylen-lanning)
