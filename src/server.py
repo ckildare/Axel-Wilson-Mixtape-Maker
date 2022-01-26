@@ -19,7 +19,7 @@ def selectSong():
     return json.dumps(selectedSong.toJsonObj())
 
 
-@app.route('/recommendedSongs', method=["OPTION~S", "POST"])
+@app.route('/recommendedSongs', method=["OPTIONS", "POST"])
 def recommendedSongs():
     if request.method == 'OPTIONS':
         print("opts")
