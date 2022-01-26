@@ -1,11 +1,18 @@
 from Spotify import getSongsByIds
 from bottle_cors_plugin import cors_plugin
-from bottle import Bottle, run,  app, response, run, request
+from bottle import Bottle, run,  app, response, run, request, static_file
 from Spotify import getSong, getSpotifyClient, getRecommendedSongs
 import json
+import os
 
 spotify = getSpotifyClient()
 app = Bottle()
+
+
+@app.route("/<path:path>")
+def frontend(path):
+    frontendBuildDir = os.path.abspath("./frontend/build")
+    return static_file(path, frontendBuildDir)
 
 
 @app.route('/selectSong')
@@ -53,4 +60,4 @@ def enable_cors():
 app.install(cors_plugin('*'))
 
 
-run(app, host='localhost', port=8080)
+run(app, host='localhost', port=os.environ["PORT"])
