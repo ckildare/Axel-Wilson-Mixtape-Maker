@@ -9,10 +9,19 @@ spotify = getSpotifyClient()
 app = Bottle()
 
 
+@app.route("/")
+def index():
+    frontendBuildDir = os.path.abspath("./frontend/build")
+    return static_file("index.html", frontendBuildDir)
+
+
 @app.route("/<path:path>")
 def frontend(path):
-    frontendBuildDir = os.path.abspath("./frontend/build")
-    return static_file(path, frontendBuildDir)
+    try:
+        frontendBuildDir = os.path.abspath("./frontend/build")
+        return static_file(path, frontendBuildDir)
+    except:
+        return "server error"
 
 
 @app.route('/selectSong')
@@ -60,4 +69,6 @@ def enable_cors():
 app.install(cors_plugin('*'))
 
 
-run(app, host='localhost', port=os.environ["PORT"])
+port = os.environ["PORT"]
+print("RUNNING SERVER ON PORT=" + str(port))
+run(app, host='localhost', port=port)
