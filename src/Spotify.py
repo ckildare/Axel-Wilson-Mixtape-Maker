@@ -1,10 +1,8 @@
-from tkinter import Tk, ttk
 from typing import List
 from dotenv import load_dotenv
 import spotipy
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyClientCredentials
-from distutils import util
 from Song import Song
 import Spotify
 

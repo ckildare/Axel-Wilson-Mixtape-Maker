@@ -1,10 +1,8 @@
 from Spotify import getSongsByIds
 from bottle_cors_plugin import cors_plugin
-from bottle import app, response, route, run, request
-from bottle import Bottle, run
+from bottle import Bottle, run,  app, response, run, request
 from Spotify import getSong, getSpotifyClient, getRecommendedSongs
 import json
-from Song import Song
 
 spotify = getSpotifyClient()
 app = Bottle()
@@ -21,7 +19,7 @@ def selectSong():
     return json.dumps(selectedSong.toJsonObj())
 
 
-@app.route('/recommendedSongs', method=["OPTIONS", "POST"])
+@app.route('/recommendedSongs', method=["OPTION~S", "POST"])
 def recommendedSongs():
     if request.method == 'OPTIONS':
         print("opts")
