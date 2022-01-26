@@ -71,4 +71,4 @@ app.install(cors_plugin('*'))
 
 port = os.environ["PORT"]
 print("RUNNING SERVER ON PORT=" + str(port))
-run(app, host='localhost', port=port)
+run(app, port=port)
