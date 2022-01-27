@@ -1,6 +1,6 @@
 from Spotify import getSongsByIds
 from bottle_cors_plugin import cors_plugin
-from bottle import Bottle, run,  app, response, run, request, static_file
+from bottle import Bottle, run,  app, response, run, request, static_file, server_names
 from Spotify import getSong, getSpotifyClient, getRecommendedSongs
 import json
 import os
@@ -71,4 +71,4 @@ app.install(cors_plugin('*'))
 
 port = os.environ["PORT"]
 print("RUNNING SERVER ON PORT=" + str(port))
-run(app, port=port)
+run(app, port=port, host="0.0.0.0")
