@@ -39,9 +39,19 @@ def frontend(path):
 
 ## Dependencies
 
-Heroku needs to know what dependencies our project must install before running. Luckily,
-Heroku is smart enough to run `pip install -r requirements.txt` for us, which will install
-everything automatically.
+In order for Heroku to know what commands to run to install dependencies, we must add "buildpacks" to Heroku:
+
+```
+heroku buildpacks:add --index 1 heroku/nodejs
+```
+
+This adds the Node.js buildpack which will install dependencies and run build scripts located in `package.json`.
+
+```
+heroku buildpacks:add --index 2 heroku/python
+```
+
+This adds the Python buildpack which will install dependencies from `requirements.txt`
 
 ## Running
 
