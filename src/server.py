@@ -11,7 +11,14 @@ app = Bottle()
 
 @app.route("/")
 def index():
+    print("Handle '/' req'")
     frontendBuildDir = os.path.abspath("./frontend/build")
+    print("frontendBuildDir: " + str(frontendBuildDir))
+
+    if os.path.exists(frontendBuildDir + "/index.html"):
+        print("(file exists")
+    else:
+        print("(file doesn't exist)")
     return static_file("index.html", frontendBuildDir)
 
 
@@ -67,7 +74,6 @@ def enable_cors():
 
 
 app.install(cors_plugin('*'))
-
 
 port = os.environ["PORT"]
 print("RUNNING SERVER ON PORT=" + str(port))
