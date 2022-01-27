@@ -57,7 +57,7 @@ Once you are satisfied with the app, you can push to the server with
 heroku git:remote -a axel-wilsons-mixtape-maker
 git add .
 git commit -am "My commit"
-git push heroku master
+git push heroku main
 ```
 
 ## Considerations
