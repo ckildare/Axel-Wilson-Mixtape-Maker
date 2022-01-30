@@ -6,7 +6,6 @@ class Song:
     name: str
     artistName: str
     spotifyLink: str
-    likedSong: boolean
 
     def __init__(self, item) -> None:
         self.uri = item["uri"]
