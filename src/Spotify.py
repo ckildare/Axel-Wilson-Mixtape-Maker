@@ -90,3 +90,14 @@ def getSongsByIds(spotify, stringIDs: List[str]) -> List[Song]:
 
 def printSong(song: Song):
     print(song.name)
+
+def createPlaylist(spotify, songList, playlistName, playlistDescription):
+    user = spotify.current_user()
+    playlist = spotify.user_playlist_create(user['id'], playlistName, public=True, collaborative=False, description=playlistDescription)
+    print(playlist)
+    playlist_ID = playlist['id']
+    playlist_URL = playlist['external_urls']['spotify']
+
+    spotify.user_playlist_add_tracks(user['id'], playlist_ID, songList, position=None)
+
+    return playlist_URL

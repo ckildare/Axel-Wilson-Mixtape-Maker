@@ -1,7 +1,7 @@
 from Spotify import getSongsByIds
 from bottle_cors_plugin import cors_plugin
 from bottle import Bottle, run,  app, response, run, request, static_file, server_names
-from Spotify import getSong, getSpotifyClient, getRecommendedSongs
+from Spotify import getSong, getSpotifyClient, getRecommendedSongs, createPlaylist
 import json
 import os
 
@@ -63,6 +63,21 @@ def recommendedSongs():
         jsonList.append(song.toJsonObj())
     x = json.dumps(jsonList)
     return x
+
+@app.route('/createPlaylist', method=["OPTIONS", "POST"])
+def generatePlaylist():
+    if request.method == 'OPTIONS':
+        print("opts")
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
+        return {}
+
+    playlist_URL = createPlaylist(spotify, ["50xwQXPtfNZFKFeZ0XePWc"], "hello world the third", "Another one.")
+
+    print(playlist_URL)
+
+    return playlist_URL
 
 
 @app.hook('after_request')
