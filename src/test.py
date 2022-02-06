@@ -17,7 +17,7 @@ else:
 # On that note, I think the Spotify credentials are invalid
 token = util.prompt_for_user_token(username, scope, redirect_uri="http://localhost:8080/")
 print(token)
-
+print(username)
 if token:
     sp = spotipy.Spotify(auth=token)
     user = sp.current_user()
