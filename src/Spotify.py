@@ -5,12 +5,18 @@ from spotipy import Spotify
 from spotipy.oauth2 import SpotifyClientCredentials
 from Song import Song
 import Spotify
+import spotipy.util as util
+import sys
 
 
 def getSpotifyClient():
     load_dotenv()  # Environment variables must be loaded first
-    return spotipy.Spotify(
-        client_credentials_manager=SpotifyClientCredentials())
+    username = '312u34sxrhxiujbi424nwx3fdvwu'
+    scope = 'playlist-modify-public'
+    token = util.prompt_for_user_token(username, scope, redirect_uri="http://localhost:8080/")
+    sp = spotipy.Spotify(auth=token)
+
+    return sp
 
 
 def getSongs(spotify, songName, artistName, limit=50) -> List[Song]:
@@ -84,3 +90,14 @@ def getSongsByIds(spotify, stringIDs: List[str]) -> List[Song]:
 
 def printSong(song: Song):
     print(song.name)
+
+def createPlaylist(spotify, songList, playlistName, playlistDescription):
+    user = spotify.current_user()
+    playlist = spotify.user_playlist_create(user['id'], playlistName, public=True, collaborative=False, description=playlistDescription)
+    print(playlist)
+    playlist_ID = playlist['id']
+    playlist_URL = playlist['external_urls']['spotify']
+
+    spotify.user_playlist_add_tracks(user['id'], playlist_ID, songList, position=None)
+
+    return playlist_URL
