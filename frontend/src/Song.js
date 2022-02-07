@@ -5,16 +5,18 @@ export const Song = ({ song, handleCheck }) => {
                 <span>{song.artistName}</span>
                 <a className="b" href={song.uri}>{song.name}</a>
             </div>
-            <form>
-                <input
-                    type="checkbox"
-                    id="like"
-                    name="like"
-                    value="like"
-                    checked={song.checked ?? false}
-                    onChange={handleCheck}
-                />
-            </form>
+            <div class="like-button">
+                <form>
+                    <input
+                        type="checkbox"
+                        id="like"
+                        name="like"
+                        value="like"
+                        checked={song.checked ?? false}
+                        onChange={handleCheck}
+                    />
+                </form>
+            </div>
         </div>
     );
 };

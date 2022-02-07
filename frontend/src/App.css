@@ -59,9 +59,16 @@ span {
     line-height: 240%;
 }
 
-.like-button {
+.like-button input[type="checkbox"] {
     height: 40px;
     width: 40px;
+    background-image: url(img/thumbup.png)
+}
+
+.like-button input[type="checkbox"]:checked {
+    height: 40px;
+    width: 40px;
+    background-image: url(img/thumbup-filled.png)
 }
 
 .center {
