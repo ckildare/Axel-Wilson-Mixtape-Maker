@@ -24,8 +24,12 @@ export const FirstPage = ({setSelectedSong}) => {
     return (
         <div className="row">
             <div className="col-8 col-s-8">
-                <h1>Welcome to Axel Wilson's Mixtape Maker!</h1>
-                {errorMsg && <p className="error-message">{errorMsg}</p>}
+                <h1>Welcome to Axel Wilson's Mixtape Maker!</h1>\
+                <div class="error-box">
+                    <div class="error-message">
+                        {errorMsg && <p className="error-message">{errorMsg}</p>}
+                    </div>
+                </div>
                 <form>
                     <label htmlFor="trackTitle">Song Title: </label>
                     <br />

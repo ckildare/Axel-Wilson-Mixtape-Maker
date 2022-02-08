@@ -62,17 +62,37 @@ span {
 .like-button input[type="checkbox"] {
     height: 40px;
     width: 40px;
-    background-image: url(img/thumbup.png)
+    background-image: url(img/thumb-up-filled.png)
 }
 
 .like-button input[type="checkbox"]:checked {
     height: 40px;
     width: 40px;
-    background-image: url(img/thumbup-filled.png)
+    background-image: url(img/thumb-up-hollow.png)
 }
 
 .center {
     margin: 15%;
+}
+
+.error-message {
+    color: red;
+    font-size: 120%;
+    margin: auto;
+    width: 80%;
+}
+
+.error-box {
+    background-color: rgba(119, 119, 119, 0.733);
+    padding: 1%;
+    margin: auto;
+    width: 40%;
+    border-radius: 30%;
+    -webkit-animation: fadein 2s;
+       -moz-animation: fadein 2s;
+        -ms-animation: fadein 2s;
+         -o-animation: fadein 2s;
+            animation: fadein 2s;
 }
 
 .song-window {
@@ -85,6 +105,31 @@ span {
     background-color: rgba(16, 143, 22, 0.664);
     padding: 5%;
     border-radius: 30px;
+}
+
+/*-------------------------------------------------------------------------------------------------------*/
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 /*-------------------------------------------------------------------------------------------------------*/
