@@ -1,3 +1,5 @@
+/* Skeleton */
+
 * {
     box-sizing: border-box;
     margin: 0px;
@@ -25,13 +27,6 @@ body {
     color: white;
 }
 
-img {
-    max-width: 100%;
-    height: auto;
-    float: right;
-    padding: 5px;
-}
-
 footer {
     background-color: rgb(92, 56, 255);
 }
@@ -39,6 +34,17 @@ footer {
 span {
     display: block;
 }
+
+img {
+    max-width: 100%;
+    height: auto;
+    float: right;
+    padding: 5px;
+}
+
+/*-------------------------------------------------------------------------------------------------------*/
+
+/* Song card */
 
 .track {
     display: flex;
@@ -54,10 +60,12 @@ span {
     padding-left: 5%;
 }
 
-.results {
-    font-size: 160%;
-    line-height: 240%;
+.song-window {
+    float: left;
+    padding-left: 2%;
 }
+
+/* Like button for song card. */
 
 .like-button input[type="checkbox"] {
     height: 40px;
@@ -71,12 +79,30 @@ span {
     background-image: url(img/thumb-up-hollow.png)
 }
 
+/*-------------------------------------------------------------------------------------------------------*/
+
+.results {
+    font-size: 160%;
+    line-height: 240%;
+}
+
 .center {
     margin: 15%;
 }
 
+.c {
+    font-size: 140%;
+    background-color: rgba(16, 143, 22, 0.664);
+    padding: 5%;
+    border-radius: 30px;
+}
+
+/*-------------------------------------------------------------------------------------------------------*/
+
+/* Error Message for first page. */
+
 .error-message {
-    color: red;
+    color: rgb(207, 3, 3);
     font-size: 120%;
     margin: auto;
     width: 80%;
@@ -93,72 +119,6 @@ span {
         -ms-animation: fadein 2s;
          -o-animation: fadein 2s;
             animation: fadein 2s;
-}
-
-.song-window {
-    float: left;
-    padding-left: 2%;
-}
-
-.c {
-    font-size: 140%;
-    background-color: rgba(16, 143, 22, 0.664);
-    padding: 5%;
-    border-radius: 30px;
-}
-
-/*-------------------------------------------------------------------------------------------------------*/
-
-@keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
-
-/* Firefox < 16 */
-@-moz-keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
-
-/* Safari, Chrome and Opera > 12.1 */
-@-webkit-keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
-
-/* Internet Explorer */
-@-ms-keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
-
-/*-------------------------------------------------------------------------------------------------------*/
-
-/* Link Stlying */
-
-a:link {
-    text-decoration: none;
-    color: white;
-}
-
-a:visited {
-    text-decoration: none;
-    color: white;
-}
-
-a:hover {
-    text-decoration: none;
-    color: white;
-}
-
-a:active {
-    text-decoration: none;
-    color: white;
-}
-
-.b {
-    color: rgb(255, 255, 255) !important;
-    text-decoration: underline !important;
 }
 
 /*-------------------------------------------------------------------------------------------------------*/
@@ -199,6 +159,62 @@ input[type="checkbox"] {
 
 form {
     margin: 5%;
+}
+
+/*-------------------------------------------------------------------------------------------------------*/
+
+/* Transition Settings */
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/*-------------------------------------------------------------------------------------------------------*/
+
+/* Link Settings */
+
+a:link {
+    text-decoration: none;
+    color: white;
+}
+
+a:visited {
+    text-decoration: none;
+    color: white;
+}
+
+a:hover {
+    text-decoration: none;
+    color: white;
+}
+
+a:active {
+    text-decoration: none;
+    color: white;
+}
+
+.b {
+    color: rgb(255, 255, 255) !important;
+    text-decoration: underline !important;
 }
 
 /*-------------------------------------------------------------------------------------------------------*/
@@ -392,7 +408,4 @@ form {
     .col-12 {
         width: 100%;
     }
-}
-
-.error-message {
 }
