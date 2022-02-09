@@ -4,6 +4,7 @@
     box-sizing: border-box;
     margin: 0px;
     padding: 0px;
+    font-family: Sans-Serif;
 }
 
 h1 {
@@ -54,6 +55,8 @@ img {
     padding: 8px;
     margin: 2%;
     border-radius: 30px;
+    border: 20px purple;
+    height: 140px;
 }
 
 .cover-art {
@@ -64,8 +67,19 @@ img {
 }
 
 .track-text {
-    padding-left: 5%;
+    width: 37.5%;
+    padding: 0px;
+    margin: 0px;
     float: left;
+    font-size: 60%;
+}
+
+.album-text {
+    width: 37.5%;
+    padding: 0px;
+    margin: 0px;
+    float: left;
+    font-size: 60%;
 }
 
 .song-window {
@@ -76,14 +90,20 @@ img {
 /* Like button for song card. */
 
 .like-button input[type="checkbox"] {
-    height: 40px;
-    width: 40px;
+    margin-top: 50%;
+    margin-bottom: 50%;
+    padding: 0px;
+    height: 50px;
+    width: 50px;
     background-image: url(img/thumb-up-filled.png)
 }
 
 .like-button input[type="checkbox"]:checked {
-    height: 40px;
-    width: 40px;
+    margin-top: 50%;
+    margin-bottom: 50%;
+    height: 50px;
+    width: 50px;
+    padding: 0px;
     background-image: url(img/thumb-up-hollow.png)
 }
 
@@ -103,6 +123,10 @@ img {
     background-color: rgba(16, 143, 22, 0.664);
     padding: 5%;
     border-radius: 30px;
+}
+
+.inline {
+    display: inline-block;
 }
 
 /*-------------------------------------------------------------------------------------------------------*/
@@ -134,11 +158,12 @@ img {
 /* Text Form Input */
 
 input[type="checkbox"] {
-    width: 30px;
-    height: 30px;
     background: rgba(92, 56, 255, 0.664);
     border-radius: 5px;
     border: 2px solid #555;
+    margin-top: 50%;
+    margin-bottom: 50%;
+    padding: 0px;
 }
 
 label {
@@ -220,9 +245,18 @@ a:active {
     color: white;
 }
 
-.b {
+.song-image {
     color: rgb(255, 255, 255) !important;
     text-decoration: underline !important;
+    width: 7.5%;
+    height: auto;
+    float: right;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.song-image:hover {
+    opacity: 0.6;
 }
 
 /*-------------------------------------------------------------------------------------------------------*/
