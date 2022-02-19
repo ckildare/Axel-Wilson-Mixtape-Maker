@@ -26,12 +26,14 @@ export function useGetRecommendedSongs() {
 
 export function useCreatePlaylist() {
     const func = useCallback(async (songs, title, description) => {
-        const ids = songs.map((song) => song.url);
+        console.dir(songs);
+        const ids = songs.map((song) => song.uri);
         const reqObj = {
             title,
             description,
             songs: ids,
         };
+        console.dir(reqObj);
         const response = await axios.post("/createPlaylist", reqObj);
         return response.data;
     }, []);

@@ -14,6 +14,7 @@ def getSpotifyClient():
     username = '312u34sxrhxiujbi424nwx3fdvwu'
     scope = 'playlist-modify-public'
     token = util.prompt_for_user_token(username, scope, redirect_uri="http://localhost:8080/")
+    print(f'Got token for axel: ' + token)
     sp = spotipy.Spotify(auth=token)
 
     return sp

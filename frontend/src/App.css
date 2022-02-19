@@ -95,7 +95,7 @@ img {
     padding: 0px;
     height: 50px;
     width: 50px;
-    background-image: url(img/thumb-up-filled.png)
+    background-image: url(img/thumb-up-filled.png);
 }
 
 .like-button input[type="checkbox"]:checked {
@@ -104,7 +104,7 @@ img {
     height: 50px;
     width: 50px;
     padding: 0px;
-    background-image: url(img/thumb-up-hollow.png)
+    background-image: url(img/thumb-up-hollow.png);
 }
 
 /*-------------------------------------------------------------------------------------------------------*/
@@ -147,10 +147,10 @@ img {
     width: 40%;
     border-radius: 12px;
     -webkit-animation: fadein 2s;
-       -moz-animation: fadein 2s;
-        -ms-animation: fadein 2s;
-         -o-animation: fadein 2s;
-            animation: fadein 2s;
+    -moz-animation: fadein 2s;
+    -ms-animation: fadein 2s;
+    -o-animation: fadein 2s;
+    animation: fadein 2s;
 }
 
 /*-------------------------------------------------------------------------------------------------------*/
@@ -173,16 +173,17 @@ label {
     text-align: center;
 }
 
-input[type="text"] {
+input[type="text"],
+textarea {
     padding: 1%;
     width: 50%;
     font-size: 120%;
-    background-color: rgb(92, 56, 255);
+    background-color: rgb(92, 56, 255) !important;
     color: white;
 }
 
 input[type="text"]::content {
-    background-color: rgb(92, 56, 255);
+    background-color: rgb(92, 56, 255) !important;
 }
 
 input[type="checkbox"] {
@@ -199,26 +200,42 @@ form {
 /* Transition Settings */
 
 @keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 /* Firefox < 16 */
 @-moz-keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 /* Safari, Chrome and Opera > 12.1 */
 @-webkit-keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 /* Internet Explorer */
 @-ms-keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 /*-------------------------------------------------------------------------------------------------------*/
