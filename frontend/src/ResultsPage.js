@@ -1,20 +1,25 @@
-import {Song} from "./Song"
+import React from "react";
+import { Song } from "./Song";
+import { Link } from "react-router-dom";
 
-export const ResultsPage = ({songs}) => {
+export const ResultsPage = ({ songs }) => {
     return (
         <div className="row">
             <div className="col-8 col-s-8">
-                {songs.map((song, index) => <Song song={song}/>)}
-                <a href="index.html">
-                    <div className="button3">
-                        Return To Home
-                    </div>
-                </a>
+                {songs.map((song, index) => (
+                    <Song song={song} />
+                ))}
+                <Link to="/playlist">
+                    <div className="button3">Create Spotify Playlist</div>
+                </Link>
+                <Link to="/">
+                    <div className="button3">Return To Home</div>
+                </Link>
             </div>
 
             <div className="col-2 col-s-2">
                 <div className="button center">
-                    <a href="tutorial.html">How To Use</a>
+                    <Link to="/tutorial">How To Use</Link>
                 </div>
             </div>
 

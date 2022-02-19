@@ -1,3 +1,4 @@
+import React from "react";
 export const Song = ({ song, handleCheck }) => {
     return (
         <div className="track">
@@ -11,7 +12,13 @@ export const Song = ({ song, handleCheck }) => {
             <div className="album-text">
                 <span>{song.albumName}</span>
             </div>
-            <div class="song-image"><img src="img/small-spotify.png" alt="Link to Song on Spotify" href={song.spotifyLink}></img></div>
+            <div class="song-image">
+                <img
+                    src="img/small-spotify.png"
+                    alt="Link to Song on Spotify"
+                    href={song.spotifyLink}
+                ></img>
+            </div>
             <div class="like-button">
                 <form>
                     <input
