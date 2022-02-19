@@ -26,7 +26,10 @@ const CreatePlaylist = ({ songs }) => {
                         Wilson's account{" "}
                         <a
                             href={link}
-                            style="color: blue; decoration: underline;"
+                            style={{
+                                color: "blue",
+                                textDecoration: "underline",
+                            }}
                         >
                             here
                         </a>
