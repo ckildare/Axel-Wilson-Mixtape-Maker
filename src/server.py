@@ -73,10 +73,12 @@ def generatePlaylist():
         response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
         return {}
 
-    playlist_URL = createPlaylist(spotify, ["50xwQXPtfNZFKFeZ0XePWc"], "hello world the third", "Another one.")
+    postData = request.json
+    songs = postData["songs"]
+    title = postData["title"]
+    description = postData["description"]
 
-    print(playlist_URL)
-
+    playlist_URL = createPlaylist(spotify, songs, playlistName=title, playlistDescription=description)
     return playlist_URL
 
 
