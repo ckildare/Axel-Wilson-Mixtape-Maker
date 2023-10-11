@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Card from '../components/cards/Card/Card';
-import styles from './styles/songSearch.module.scss'
+import { styles } from './styles/songSearch.module.scss'
 
 export default function SongSearchPage() {
 
@@ -22,7 +22,7 @@ export default function SongSearchPage() {
   });
 
   return (
-    <div>
+    <div className={styles.screenBody}>
     </div>
   )
 };
