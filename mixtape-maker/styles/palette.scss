@@ -1,0 +1,36 @@
+$black: #000000;
+$deep-purple: #5B0673;
+$purple: #A6087C;
+$pink: #BF1B68;
+$orange: #BF1B68;
+$yellow: #F29C50;
+$tan: #FFDABA;
+$white: #FFFFFF;
+
+@mixin flex-with-centering {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin font($font-family, $font-url) {
+  @font-face {
+    font-family: $font-family;
+    src: $font-url;
+    font-weight: normal;
+    font-style: normal;
+  }
+}
+
+$rubik-font: font('Rubik', url('https://fonts.googleapis.com/css2?family=Rubik&display=swap'));
+$bartex-font: font('Bartex', url('../public/fonts/Bartex.ttf'));
+
+/*
+
+Font Example
+
+h1 {
+  font-family: Rubik, arial, sans-serif;
+}
+
+*/
