@@ -2,9 +2,12 @@ import styles from './Card.module.scss';
 import classNames from 'classnames';
 import React from 'react';
 
-export default function Card(props, isInverted) {
+export default function Card({
+  isInverted,
+  ...props
+}) {
   return (
-    <div className={classNames(props.classNames, classNames(styles.cardWrapper, isInverted ? styles.cardNormal : styles.cardInverted))}>
+    <div className={classNames(props.className, classNames(styles.cardWrapper, !isInverted ? styles.cardNormal : styles.cardInverted))}>
       {props.children}
     </div>
   )

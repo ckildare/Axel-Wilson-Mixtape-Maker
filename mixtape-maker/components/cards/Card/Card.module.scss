@@ -4,19 +4,17 @@
   box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.25);
   white-space: normal;
   border-radius: 0.25rem;
-  padding: 0.5rem;
-}
-
-.cardWrapper:hover {
-  box-shadow: 10px 10px 10px 0px rgba(0, 0, 0, 0.25);
+  padding: 1rem;
 }
 
 .cardNormal {
   background-color: $tan;
-  border: 2px solid $orange;
+  border: 4px solid $orange;
+  color: $dark-purple;
 }
 
 .cardInverted {
-  background-color: $pink;
-  border: 2px solid $purple;
+  background-color: $dark-purple;
+  border: 4px solid $purple;
+  color: $tan;
 }

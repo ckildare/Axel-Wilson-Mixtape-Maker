@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Card from '../components/cards/Card/Card';
+import Button from '../components/Button/Button';
 import styles from '../styles/songSearch.module.scss';
 
 const SongSearchPage = () => {
@@ -22,8 +23,9 @@ const SongSearchPage = () => {
   });
 
   return (
-    <Card>
+    <Card >
       penis
+      <Button type={'tertiary'} text={"also penis"}/>
     </Card>
   )
 };

@@ -1,11 +1,26 @@
-import styles from './Card.module.scss';
+import styles from './Button.module.scss';
 import classNames from 'classnames';
 import React from 'react';
+import Link from 'next/link'
 
-export default function Card(props, type) {
+export default function Button({
+  text = '',
+  type = 'primary',
+  href = '',
+  ...props
+}) {
   return (
-    <div className={classNames(props.classNames, classNames(styles.cardWrapper, isInverted ? styles.cardNormal : styles.cardInverted))}>
-      {props.children}
-    </div>
+    <Link
+      href={href}
+      className={classNames(props.classNames,
+        classNames(styles.buttonWrapper,
+          {
+            'primary': styles.primary,
+            'secondary': styles.secondary,
+            'tertiary': styles.tertiary
+          }[type]
+        ))}>
+      {text}
+    </Link>
   )
 };
