@@ -6,7 +6,7 @@ import '../styles/globals.css';
 export default function App({ Component, pageProps }) {
   return <>
     <Header />
-    <div class='pagepadding'>
+    <div className='pagepadding'>
       <Component {...pageProps} />
       <Analytics/>
     </div>
