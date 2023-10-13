@@ -3,8 +3,6 @@ import Image from 'next/image';
 import Card from '../components/cards/Card/Card';
 import styles from '../styles/songSearch.module.scss';
 
-import Line from '../components/gradient/Line/Line.js'
-
 const SongSearchPage = () => {
 
   const tab = <>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</>;
@@ -24,9 +22,9 @@ const SongSearchPage = () => {
   });
 
   return (
-    <div>
+    <Card>
       penis
-    </div>
+    </Card>
   )
 };
 

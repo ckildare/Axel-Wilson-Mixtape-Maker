@@ -1,7 +1,7 @@
 @use "../../../styles/palette.module.scss"as *;
 
 .headerBody {
-  height: 8rem;
+  height: min-content;
   width: 100%;
 
   .headerTitle {
