@@ -1,8 +1,8 @@
 $black: #000000;
-$deep-purple: #5B0673;
+$dark-purple: #5B0673;
 $purple: #A6087C;
 $pink: #BF1B68;
-$orange: #BF1B68;
+$orange: #D94848;
 $yellow: #F29C50;
 $tan: #FFDABA;
 $white: #FFFFFF;
@@ -13,17 +13,26 @@ $white: #FFFFFF;
   justify-content: center;
 }
 
-@mixin font($font-family, $font-url) {
-  @font-face {
-    font-family: $font-family;
-    src: $font-url;
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: 'Rubik';
+  src: url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+  font-weight: normal;
+  font-style: normal;
 }
 
-$rubik-font: font('Rubik', url('https://fonts.googleapis.com/css2?family=Rubik&display=swap'));
-$bartex-font: font('Bartex', url('../public/fonts/Bartex.ttf'));
+@font-face {
+  font-family: 'Bartex';
+  src:
+    url('./../public/fonts/Bartex.woff2') format("woff2"),
+    url('./../public/fonts/Bartex.woff') format("woff"),
+    url('./../public/fonts/Bartex.ttf') format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+$bartex: 'Bartex', serif;
+
+$rubik: 'Rubik', sans-serif;
 
 /*
 
@@ -36,5 +45,7 @@ h1 {
 */
 
 .screenBody {
-  background-color: $deep-purple;
+  height: 100%;
+
+  background-color: $dark-purple;
 }

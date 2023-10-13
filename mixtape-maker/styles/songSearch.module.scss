@@ -1,4 +1,4 @@
-@use "./palette.scss" as *;
+@use "./palette.module.scss" as *;
 
 .screenBody {
   background-color: $dark-purple;

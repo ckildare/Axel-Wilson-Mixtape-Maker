@@ -1,1 +1,21 @@
 @use "../../../styles/palette.module.scss"as *;
+
+.headerBody {
+  height: 8rem;
+  width: 100%;
+
+  .headerTitle {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    height: 4rem;
+    padding: 0.25rem 0;
+    margin: 0;
+
+    font-size: 2rem;
+    text-align: center;
+    font-family: $bartex;
+    color: $tan;
+  }
+}

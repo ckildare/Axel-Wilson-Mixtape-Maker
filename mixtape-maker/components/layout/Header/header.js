@@ -1,13 +1,13 @@
-import styles from './header.module.scss';
-import Link from 'next/link';
-import Image from 'next/image';
+import Line from '../../gradient/Line/Line.js';
 
-import Card from '../../cards/Card/Card';
+import styles from './header.module.scss';
 
 export default function Header() {
 
   return (
-    <div>
+    <div className={styles.headerBody}>
+      <p className={styles.headerTitle}>Axel Wilson's Mixtape Maker</p>
+      <Line size={2} />
     </div>
   )
 };

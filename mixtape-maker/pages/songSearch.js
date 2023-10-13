@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Card from '../components/cards/Card/Card';
-import { styles } from './styles/songSearch.module.scss'
+import styles from '../styles/songSearch.module.scss';
 
-export default function SongSearchPage() {
+import Line from '../components/gradient/Line/Line.js'
+
+const SongSearchPage = () => {
 
   const tab = <>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</>;
 
@@ -22,7 +24,10 @@ export default function SongSearchPage() {
   });
 
   return (
-    <div className={styles.screenBody}>
+    <div>
+      penis
     </div>
   )
 };
+
+export default SongSearchPage;

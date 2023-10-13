@@ -1,9 +1,7 @@
 import Head from 'next/head';
 import SongSearchPage from './songSearch.js';
 
-import { styles } from '../styles/palette.module.scss';
-
-export default function Index() {
+const Index = () => {
   return (
     <>
       <Head>
@@ -15,10 +13,10 @@ export default function Index() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className={styles.screenBody}>
-          <SongSearchPage />
-        </div>
+        <SongSearchPage />
       </main>
     </>
   )
 }
+
+export default Index;
