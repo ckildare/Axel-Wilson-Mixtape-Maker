@@ -19,7 +19,7 @@ export default function TextInput({
       disabled={disabled}
       rowNumber={rowNumber}
       maxLength={maxLength}
-      placeHolder={placeHolder}
+      placeholder={placeHolder}
       onChange={(e => { () => { returnInputtedText = e.target.value } })}
       className={classNames(props.classNames,
         classNames(styles.textAreaWrapper,
