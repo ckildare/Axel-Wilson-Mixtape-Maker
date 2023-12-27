@@ -17,7 +17,6 @@ export default function TextInput({
     <textarea
       required={required}
       disabled={disabled}
-      rowNumber={rowNumber}
       maxLength={maxLength}
       placeholder={placeHolder}
       onChange={(e => { () => { returnInputtedText = e.target.value } })}

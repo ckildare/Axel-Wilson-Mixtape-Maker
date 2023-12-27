@@ -8,13 +8,13 @@
 }
 
 .cardNormal {
-  background-color: $tan;
-  border: 4px solid $orange;
-  color: $dark-purple;
+  background-color: $t50;
+  border: 4px solid $o50;
+  color: $v50;
 }
 
 .cardInverted {
-  background-color: $dark-purple;
-  border: 4px solid $purple;
-  color: $tan;
+  background-color: $v50;
+  border: 4px solid $m50;
+  color: $t50;
 }
