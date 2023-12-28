@@ -39,13 +39,13 @@ const SpotifyAPIProvider = ({ children }) => {
 
   const searchSongs = async (request) => {
     const token = window.sessionStorage.getItem('access_token');
-    if (!token) refreshTokenAndSetTimeout();
+    if (!token) await refreshTokenAndSetTimeout();
 
     const songSearchResponse = await fetchSongSearch(request, token, searchesAttempted * 5);
     if (!songSearchResponse) return;
 
     setSearchesAttempted(searchesAttempted + 1);
-    setSearchedSongs([...searchedSongs, ...songSearchResponse.tracks.items]);
+    setSearchedSongs([...songSearchResponse.tracks.items]);
   }
 
   return (
