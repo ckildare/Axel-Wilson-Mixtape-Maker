@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import SongSearchPage from './songSearch.js';
+import SongSearchPage from './songSearch/index.js';
 
 const Index = () => {
   return (

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Button from 'components/Button/Button';
 import Card from 'components/cards/Card/Card';
 import React, { useState, useContext } from 'react';
-import styles from './pageStyles/songSearch.module.scss';
+import styles from './index.module.scss';
 import TextInput from 'components/TextInput/TextInput';
 
 const SongSearchPage = () => {

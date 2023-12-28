@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { SpotifyAPIContext } from 'spotifyContext';
-import styles from './pageStyles/songSelection.module.scss';
+import styles from './index.module.scss';
 import SongCard from 'components/cards/SongCard/SongCard';
 import Button from 'components/Button/Button';
 
