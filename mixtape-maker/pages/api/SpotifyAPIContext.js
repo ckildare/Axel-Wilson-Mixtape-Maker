@@ -4,7 +4,10 @@ import fetchSongSearch from "./fetchSongSearch";
 
 const initialContext = {
   searchedSongs: [],
-  searchesAttempted: 0,
+  searchFetchCount: 0,
+  recommendationFetchCount: 0,
+  selectedSongs: [],
+  recommendedSongs: [],
   seedSong: {},
 }
 
@@ -12,7 +15,10 @@ const SpotifyAPIContext = createContext(initialContext);
 
 const SpotifyAPIProvider = ({ children }) => {
   const [searchedSongs, setSearchedSongs] = useState(initialContext.searchedSongs);
-  const [searchesAttempted, setSearchesAttempted] = useState(initialContext.searchesAttempted);
+  const [selectedSongs, setSelectedSongs] = useState(initialContext.selectedSongs);
+  const [recommendedSongs, setRecommendedSongs] = useState(initialContext.recommendedSongs);
+  const [searchFetchCount, setSearchFetchCount] = useState(initialContext.searchFetchCount);
+  const [recommendationFetchCount, setRecommendationFetchCount] = useState(initialContext.recommendationFetchCount);
   const [seedSong, setSeedSong] = useState(initialContext.seedSong);
 
   const refreshAccessToken = async () => {
@@ -34,6 +40,13 @@ const SpotifyAPIProvider = ({ children }) => {
 
     return () => clearInterval(intervalID);
   };
+
+  const getTokenFromSessionStorage = async () => {
+    const token = window.sessionStorage.getItem('access_token');
+    if (!token) await refreshTokenAndSetTimeout();
+    return token;
+  };
+
 
   // Get Client Auth Token and Start Auth Token Refresh Interval
   useEffect(() => {
@@ -62,24 +75,36 @@ const SpotifyAPIProvider = ({ children }) => {
   });
 
   const searchSongs = async (request) => {
-    const token = window.sessionStorage.getItem('access_token');
-    if (!token) await refreshTokenAndSetTimeout();
+    const token = getTokenFromSessionStorage();
 
-    const songSearchResponse = await fetchSongSearch(request, token, searchesAttempted * 5);
+    const songSearchResponse = await fetchSongSearch(request, token, searchFetchCount * 5);
     if (!songSearchResponse) return;
 
     // TODO: Handle No Results
     // For Refreshing Search In Case User Wants to See More Results From the Same Query
     // Maybe Do Pagination Instead? ( paginate every 5 results on different queries )
-    setSearchesAttempted(searchesAttempted + 1);
+    setSearchFetchCount(searchFetchCount + 1);
     setSearchedSongs([...songSearchResponse.tracks.items.map(song => mappedSong(song))]);
+  }
+
+  const getRecommendations = async (settings, isAdvanced) => {
+    const token = getTokenFromSessionStorage();
+
+    const songRecommendationsResponse = await fetchSongRecommendations(settings, isAdvanced, token);
+    if (!songRecommendationsResponse) return;
+
+    // TODO: Handle No Results
+    setRecommendationFetchCount(recommendationFetchCount + 1);
+    setRecommendedSongs([...songRecommendationsResponse.tracks.map(song => mappedSong(song))]);
   }
 
   return (
     <SpotifyAPIContext.Provider value={{
       ...initialContext,
       searchedSongs,
-      searchSongs
+      recommendedSongs,
+      searchSongs,
+      getRecommendations
     }}>
       {children}
     </SpotifyAPIContext.Provider>
