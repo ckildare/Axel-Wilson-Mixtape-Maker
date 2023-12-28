@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { useRouter } from 'next/router';
 import { SpotifyAPIContext } from './api/SpotifyAPIContext';
 import Card from '../components/cards/Card/Card';
 import Button from '../components/Button/Button';
@@ -8,7 +9,8 @@ import styles from '../styles/songSearch.module.scss';
 import fetchSongSearch from './api/fetchSongSearch';
 
 const SongSearchPage = () => {
-  const { searchSongs } = useContext(SpotifyAPIContext);
+  const { searchSongs, searchedSongs } = useContext(SpotifyAPIContext);
+  const router = useRouter();
 
   const tab = <>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</>;
 
@@ -27,6 +29,17 @@ const SongSearchPage = () => {
     };
   });
 
+  const handleSearchButtonClick = (inputSongTitle) => {
+    searchSongs(inputSongTitle);
+
+    if (searchedSongs.length < 1) {
+      // TODO: display no songs found message
+      console.log('no songs found');
+    }
+
+    router.push('/songSelection');
+  };
+
   return (
     <Card >
       penis
@@ -38,7 +51,7 @@ const SongSearchPage = () => {
         placeHolder={'Enter Song Title'}
         onChange={(e) => setInputSongTitle(e)}
       />
-      <Button type={'tertiary'} text={"also penis"} onClick={() => searchSongs(inputSongTitle)} />
+      <Button type={'tertiary'} text={"also penis"} onClick={() => handleSearchButtonClick(inputSongTitle)} />
     </Card>
   )
 };

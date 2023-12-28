@@ -23,6 +23,7 @@ export default function SongSelectionPage() {
 
   return (
     <div>
+      hi
     </div>
   )
 };
