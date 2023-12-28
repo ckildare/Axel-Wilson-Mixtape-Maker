@@ -3,7 +3,6 @@ import fetchAccessToken from "./fetchAccessToken";
 import fetchSongSearch from "./fetchSongSearch";
 
 const initialContext = {
-  token: null,
   searchedSongs: [],
   searchesAttempted: 0,
 }
@@ -11,18 +10,15 @@ const initialContext = {
 const SpotifyAPIContext = createContext(initialContext);
 
 const SpotifyAPIProvider = ({ children }) => {
-  const [token, setToken] = useState(initialContext.token);
   const [searchedSongs, setSearchedSongs] = useState(initialContext.searchedSongs);
   const [searchesAttempted, setSearchesAttempted] = useState(initialContext.searchesAttempted);
 
   const refreshAccessToken = async () => {
-    const newTokenData = await fetchAccessToken();
+    const newToken = await fetchAccessToken();
 
-    if (!newTokenData) {
-      return;
+    if (newToken) {
+      window.sessionStorage.setItem('access_token', newToken)
     }
-
-    setToken(newTokenData?.access_token);
   }
 
   useEffect(() => {
@@ -42,23 +38,23 @@ const SpotifyAPIProvider = ({ children }) => {
 
   const searchSongs = async (request) => {
     try {
+      const token = window.sessionStorage.getItem('access_token');
+      if (!token) refreshTokenAndSetTimeout();
+
       const songSearchResponse = await fetchSongSearch(request, token, searchesAttempted * 5);
-      if (!songSearchResponse) {
-        return;
-      }
+      if (!songSearchResponse) return;
 
       setSearchesAttempted(searchesAttempted + 1);
       setSearchedSongs([...searchedSongs, ...songSearchResponse.tracks.items]);
       return data;
     } catch {
-      console.error('Error fetching song search')
+      console.error('Error fetching song search');
     }
   }
 
   return (
     <SpotifyAPIContext.Provider value={{
       ...initialContext,
-      token,
       searchSongs
     }}>
       {children}

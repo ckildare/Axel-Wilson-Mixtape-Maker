@@ -5,15 +5,17 @@ const fetchSongSearch = async (request, token, offset) => {
       `https://api.spotify.com/v1/search?q=track%3A${request}&type=track&limit=10&offset=${offset}`,
       {
         headers: {
-          Authorization: 'Bearer' + token
+          Authorization: 'Bearer ' + token
         },
         mode: 'no-cors',
-        method: "POST"
+        method: "GET"
       }
     );
 
-    if (!response) {
-      console.error(`Error fetching song search: No Response`);
+    if (!response.ok) {
+      console.error(`Error fetching song search: ${response.status} - ${response.statusText}`);
+      const errorText = await response.text();
+      console.error('Error response text:', errorText);
       return null;
     }
 
