@@ -13,12 +13,12 @@ const SongSelectionPage = () => {
 
     // Users shouldn't be here if they haven't made a query yet, send them back
     if (!songTitleQuery) router.push('/');
-    await searchSongs(inputSongTitle);
+    await searchSongs(songTitleQuery);
   }
 
   useEffect(() => {
     // Make sure we have songs
-    if (searchedSongs.length < 1) handleNoSongs()
+    if (searchedSongs.length < 1) handleNoSongs();
   }, [])
 
   return (

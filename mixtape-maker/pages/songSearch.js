@@ -11,9 +11,9 @@ const SongSearchPage = () => {
   const router = useRouter();
   const [inputSongTitle, setInputSongTitle] = useState('');
 
-  const handleSearchButtonClick = (inputSongTitle) => {
+  const handleSearchButtonClick = async (inputSongTitle) => {
     window.sessionStorage.setItem('search_query_title', inputSongTitle)
-    searchSongs(inputSongTitle);
+    await searchSongs(inputSongTitle);
 
     if (searchedSongs.length < 1) {
       // TODO: display no songs found message
