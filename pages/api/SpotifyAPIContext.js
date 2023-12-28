@@ -75,7 +75,7 @@ const SpotifyAPIProvider = ({ children }) => {
   });
 
   const searchSongs = async (request) => {
-    const token = getTokenFromSessionStorage();
+    const token = await getTokenFromSessionStorage();
 
     const songSearchResponse = await fetchSongSearch(request, token, searchFetchCount * 5);
     if (!songSearchResponse) return;
