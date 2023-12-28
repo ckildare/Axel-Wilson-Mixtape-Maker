@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
+import React, { useEffect, useState, useContext } from 'react';
+import { SpotifyAPIContext } from './api/SpotifyAPIContext';
 import Card from '../components/cards/Card/Card';
 import Button from '../components/Button/Button';
 import TextInput from '../components/TextInput/TextInput';
@@ -8,6 +8,7 @@ import styles from '../styles/songSearch.module.scss';
 import fetchSongSearch from './api/fetchSongSearch';
 
 const SongSearchPage = () => {
+  const { searchSongs } = useContext(SpotifyAPIContext);
 
   const tab = <>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</>;
 
@@ -35,9 +36,9 @@ const SongSearchPage = () => {
         autocorrect
         type={'tertiary'}
         placeHolder={'Enter Song Title'}
-        onChange={(e => {console.log(`e Object: ${JSON.stringify(e)}`)})}
+        onChange={(e) => setInputSongTitle(e)}
       />
-      <Button type={'tertiary'} text={"also penis"} onClick={fetchSongSearch(inputSongTitle, )} />
+      <Button type={'tertiary'} text={"also penis"} onClick={() => searchSongs(inputSongTitle)} />
     </Card>
   )
 };

@@ -1,22 +1,26 @@
-const fetchSongSearch = async (req, token, offset) => {
+const fetchSongSearch = async (request, token, offset) => {
+  console.log('fetchSongSearch token', token);
   try {
-    const { query } = req.body;
     const response = await fetch(
-      `https://api.spotify.com/v1/search?q=${encodeURIcomponent(query)}&type=track&limit=10&offset=${offset}&include_external=audio`,
+      `https://api.spotify.com/v1/search?q=track%3A${request}&type=track&limit=10&offset=${offset}`,
       {
-        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer' + token
+          Authorization: 'Bearer' + token
         },
-        body: JSON.stringify(query)
+        mode: 'no-cors',
+        method: "POST"
       }
     );
 
+    if (!response) {
+      console.error(`Error fetching song search: No Response`);
+      return null;
+    }
+
     const data = await response.json();
     return data;
-  } catch {
-    console.error('Error fetching song search')
+  } catch (e) {
+    console.error(`Error fetching song search: ${e}`)
   }
 }
 
