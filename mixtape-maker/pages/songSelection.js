@@ -1,16 +1,28 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { SpotifyAPIContext } from 'spotifyContext';
-import styles from './styles/songSelection.module.scss'
+import styles from './pageStyles/songSelection.module.scss';
 import SongCard from 'components/cards/SongCard/SongCard';
 
 const SongSelectionPage = () => {
   const router = useRouter();
-  const { searchedSongs } = useContext(SpotifyAPIContext);
+  const { searchedSongs, searchSongs } = useContext(SpotifyAPIContext);
+
+  const handleNoSongs = async () => {
+    const songTitleQuery = window.sessionStorage.getItem('search_query_title');
+
+    // Users shouldn't be here if they haven't made a query yet, send them back
+    if (!songTitleQuery) router.push('/');
+    await searchSongs(inputSongTitle);
+  }
+
+  useEffect(() => {
+    // Make sure we have songs
+    if (searchedSongs.length < 1) handleNoSongs()
+  }, [])
 
   return (
-    <div>
-      hi
+    <div className={styles.screenWrapper}>
       {(searchedSongs || []).map((song, key) => {
         return (
           <SongCard key={key} song={song} index={key} handleSongClick={() => {}} />

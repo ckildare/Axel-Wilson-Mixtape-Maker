@@ -5,6 +5,7 @@ import fetchSongSearch from "./fetchSongSearch";
 const initialContext = {
   searchedSongs: [],
   searchesAttempted: 0,
+  seedSong: {},
 }
 
 const SpotifyAPIContext = createContext(initialContext);
@@ -12,6 +13,7 @@ const SpotifyAPIContext = createContext(initialContext);
 const SpotifyAPIProvider = ({ children }) => {
   const [searchedSongs, setSearchedSongs] = useState(initialContext.searchedSongs);
   const [searchesAttempted, setSearchesAttempted] = useState(initialContext.searchesAttempted);
+  const [seedSong, setSeedSong] = useState(initialContext.seedSong);
 
   const refreshAccessToken = async () => {
     const newToken = await fetchAccessToken();

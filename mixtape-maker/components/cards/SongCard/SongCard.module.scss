@@ -1,0 +1,12 @@
+.songCard {
+  display: flex;
+  flex-direction: row;
+
+  gap: 0.5rem;
+}
+
+.songData {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
