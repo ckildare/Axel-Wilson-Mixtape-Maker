@@ -1,6 +1,4 @@
 const fetchSongSearch = async (request, token, offset) => {
-  console.log('fetchSongSearch token', token);
-
   try {
     const response = await fetch(
       `https://api.spotify.com/v1/search?q=track%3A${request}&type=track&limit=5&offset=${offset}`,
