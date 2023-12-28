@@ -17,6 +17,7 @@ const SpotifyAPIProvider = ({ children }) => {
     const newToken = await fetchAccessToken();
 
     if (newToken) {
+      // Only need this for the given session
       window.sessionStorage.setItem('access_token', newToken)
     }
   }
@@ -24,18 +25,37 @@ const SpotifyAPIProvider = ({ children }) => {
   const refreshTokenAndSetTimeout = async () => {
     await refreshAccessToken();
 
-    const intervalId = setInterval(() => {
+    // Refresh Token Every 59 Minutes-- Token Expires Every Hour, Refreshing Every 59 Minutes Ensures Token Never Expires
+    const intervalID = setInterval(() => {
       refreshAccessToken();
-    }, 3600000);
+    }, 3540000);
 
-    // Cleanup function
-    return () => clearInterval(intervalId);
+    return () => clearInterval(intervalID);
   };
 
+  // Get Client Auth Token and Start Auth Token Refresh Interval
   useEffect(() => {
-
     refreshTokenAndSetTimeout();
   }, []);
+
+  // Mapped song object is more lightweight to pass around, easier to document / work with
+  const mappedSong = (song) => ({
+    id: song.id,
+    name: song.name,
+    artists: [...song.artists.map(artist => ({
+      name: artist.name, 
+      href: artist.href
+    }))],
+    album: {
+      name: song.album.name,
+      href: song.album.href,
+      images: song.album.images,
+      releaseDate: song.album.release_date,
+    },
+    duration: song.duration_ms,
+    href: song.href,
+    preview: song.preview_url,
+  });
 
   const searchSongs = async (request) => {
     const token = window.sessionStorage.getItem('access_token');
@@ -44,13 +64,17 @@ const SpotifyAPIProvider = ({ children }) => {
     const songSearchResponse = await fetchSongSearch(request, token, searchesAttempted * 5);
     if (!songSearchResponse) return;
 
+    // TODO: Handle No Results
+    // For Refreshing Search In Case User Wants to See More Results From the Same Query
+    // Maybe Do Pagination Instead? ( paginate every 5 results on different queries )
     setSearchesAttempted(searchesAttempted + 1);
-    setSearchedSongs([...songSearchResponse.tracks.items]);
+    setSearchedSongs([...songSearchResponse.tracks.items.map(song => mappedSong(song))]);
   }
 
   return (
     <SpotifyAPIContext.Provider value={{
       ...initialContext,
+      searchedSongs,
       searchSongs
     }}>
       {children}
