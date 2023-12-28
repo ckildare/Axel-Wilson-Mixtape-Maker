@@ -1,7 +1,7 @@
 import { SpotifyAPIContext } from "spotifyContext";
 import { useContext } from "react";
 
-const recommendationSettings = (settings, isAdvanced) => {
+const recommendationSettings = (settings) => {
   const { seedSong } = useContext(SpotifyAPIContext);
   
   return settingsString = `
@@ -10,7 +10,7 @@ const recommendationSettings = (settings, isAdvanced) => {
     &seed_tracks=${seedSong.id}`;
 }
 
-const advancedSettings = (settings, isAdvanced) => {
+const advancedSettings = (settings) => {
   var advancedSettingsString = '';
 
   // TODO: Add advanced settings
@@ -22,7 +22,7 @@ const advancedSettings = (settings, isAdvanced) => {
   return advancedSettingsString;
 }
 
-const fetchSongRecommendations = async (settings, isAdvanced, token, offset) => {
+const fetchSongRecommendations = async (settings, isAdvanced, token) => {
   try {
     const url = `https://api.spotify.com/v1/recommendations?${recommendationSettings(settings)}${isAdvanced && advancedSettings(settings)}`;
     console.log(`fetchSongRecommendations url: ${url}`);
