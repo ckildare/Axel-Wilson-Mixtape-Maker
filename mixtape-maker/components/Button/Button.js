@@ -3,15 +3,17 @@ import classNames from 'classnames';
 import React from 'react';
 import Link from 'next/link'
 
-export default function Button({
+const Button = ({
   text = '',
   type = 'primary',
+  onClick = () => null,
   href = '',
   ...props
-}) {
+}) => {
   return (
-    <Link
+    <button
       href={href}
+      onClick={() => onClick()}
       className={classNames(props.classNames,
         classNames(styles.buttonWrapper,
           {
@@ -21,6 +23,8 @@ export default function Button({
           }[type]
         ))}>
       {text}
-    </Link>
+    </button>
   )
 };
+
+export default Button;
