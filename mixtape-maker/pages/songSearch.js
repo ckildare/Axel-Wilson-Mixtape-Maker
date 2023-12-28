@@ -1,33 +1,15 @@
-import React, { useEffect, useState, useContext } from 'react';
+import { SpotifyAPIContext } from 'spotifyContext';
 import { useRouter } from 'next/router';
-import { SpotifyAPIContext } from './api/SpotifyAPIContext';
-import Card from '../components/cards/Card/Card';
-import Button from '../components/Button/Button';
-import TextInput from '../components/TextInput/TextInput';
+import Button from 'components/Button/Button';
+import Card from 'components/cards/Card/Card';
+import React, { useState, useContext } from 'react';
 import styles from '../styles/songSearch.module.scss';
-
-import fetchSongSearch from './api/fetchSongSearch';
+import TextInput from 'components/TextInput/TextInput';
 
 const SongSearchPage = () => {
   const { searchSongs, searchedSongs } = useContext(SpotifyAPIContext);
   const router = useRouter();
-
-  const tab = <>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</>;
-
-  const [isMobile, setIsMobile] = useState(false);
   const [inputSongTitle, setInputSongTitle] = useState('');
-
-  useEffect(() => {
-    const handleWindowResize = () => {
-      setIsMobile(window.innerWidth < 1150);
-    };
-
-    window.addEventListener('resize', handleWindowResize);
-
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  });
 
   const handleSearchButtonClick = (inputSongTitle) => {
     searchSongs(inputSongTitle);

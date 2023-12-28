@@ -1,27 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
-import Image from 'next/image';
 import styles from './Line.module.scss';
 
 const Line = ({
   size = 1
 }) => {
-
-  const tab = <>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</>;
-
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const handleWindowResize = () => {
-      setIsMobile(window.innerWidth < 1150);
-    };
-
-    window.addEventListener('resize', handleWindowResize);
-
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  });
 
   const lineSize = (size) => {
     return {

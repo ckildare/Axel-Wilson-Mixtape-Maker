@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "components/*": ["./components/*"],
+      "public/*": ["./public/*"],
+      "palette": ["./styles/palette.module.scss"],
+      "spotifyContext": ["./pages/api/SpotifyAPIContext"],
+    }
+  }
+}

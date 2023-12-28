@@ -1,8 +1,8 @@
 import styles from './TextInput.module.scss';
 import classNames from 'classnames';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-export default function TextInput({
+const TextInput = ({
   type = 'primary',
   placeHolder = '',
   onChange,
@@ -12,13 +12,13 @@ export default function TextInput({
   disabled,
   value,
   ...props
-}) {
-  const [inputValue, setInputValue] = useState('')
+}) => {
+  const [inputValue, setInputValue] = useState('');
 
   const changeInput = (value) => {
     setInputValue(value);
     onChange(value);
-  }
+  };
 
   return (
     <input
@@ -38,5 +38,7 @@ export default function TextInput({
           }[type]
         ))}
     />
-  )
+  );
 };
+
+export default TextInput;

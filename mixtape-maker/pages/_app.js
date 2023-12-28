@@ -1,6 +1,6 @@
-import Header from '../components/layout/header/header.js';
+import Header from 'components/layout/Header/Header';
 import { Analytics } from '@vercel/analytics/react';
-import { SpotifyAPIProvider } from './api/SpotifyAPIContext.js';
+import { SpotifyAPIProvider } from 'spotifyContext';
 
 import '../styles/globals.css';
 
