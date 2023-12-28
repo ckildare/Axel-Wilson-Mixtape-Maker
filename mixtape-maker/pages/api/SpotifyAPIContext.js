@@ -21,35 +21,31 @@ const SpotifyAPIProvider = ({ children }) => {
     }
   }
 
+  const refreshTokenAndSetTimeout = async () => {
+    await refreshAccessToken();
+
+    const intervalId = setInterval(() => {
+      refreshAccessToken();
+    }, 3600000);
+
+    // Cleanup function
+    return () => clearInterval(intervalId);
+  };
+
   useEffect(() => {
-    const refreshTokenAndSetTimeout = async () => {
-      await refreshAccessToken();
-
-      const intervalId = setInterval(() => {
-        refreshAccessToken();
-      }, 3600000);
-
-      // Cleanup function
-      return () => clearInterval(intervalId);
-    };
 
     refreshTokenAndSetTimeout();
   }, []);
 
   const searchSongs = async (request) => {
-    try {
-      const token = window.sessionStorage.getItem('access_token');
-      if (!token) refreshTokenAndSetTimeout();
+    const token = window.sessionStorage.getItem('access_token');
+    if (!token) refreshTokenAndSetTimeout();
 
-      const songSearchResponse = await fetchSongSearch(request, token, searchesAttempted * 5);
-      if (!songSearchResponse) return;
+    const songSearchResponse = await fetchSongSearch(request, token, searchesAttempted * 5);
+    if (!songSearchResponse) return;
 
-      setSearchesAttempted(searchesAttempted + 1);
-      setSearchedSongs([...searchedSongs, ...songSearchResponse.tracks.items]);
-      return data;
-    } catch {
-      console.error('Error fetching song search');
-    }
+    setSearchesAttempted(searchesAttempted + 1);
+    setSearchedSongs([...searchedSongs, ...songSearchResponse.tracks.items]);
   }
 
   return (
