@@ -19,10 +19,9 @@ const SongSelectionPage = () => {
   };
 
   const handleButtonClick = async () => {
-    const selectedSong = searchedSongs[selectedSongIndex];
+    await getRecommendations(searchedSongs[selectedSongIndex]);
 
-    await getRecommendations(selectedSong);
-    if (recommendedSongs.length < 1) {
+    if (recommendedSongs.length == 0) {
       // TODO: display no recommendations found message
       console.log('no recommendations found');
     } else {
@@ -31,8 +30,7 @@ const SongSelectionPage = () => {
   };
 
   useEffect(() => {
-    // Make sure we have songs
-    if (searchedSongs.length < 1) handleNoSongs();
+    if (searchedSongs.length == 0) handleNoSongs();
   }, []);
 
   return (

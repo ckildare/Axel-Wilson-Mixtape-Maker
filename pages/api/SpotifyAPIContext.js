@@ -9,7 +9,6 @@ const initialContext = {
   searchedSongs: [],
   searchFetchCount: 0,
   recommendationFetchCount: 0,
-  selectedSongIDs: [],
   recommendedSongs: [],
 }
 
@@ -17,7 +16,6 @@ const SpotifyAPIContext = createContext(initialContext);
 
 const SpotifyAPIProvider = ({ children }) => {
   const [searchedSongs, setSearchedSongs] = useState(initialContext.searchedSongs);
-  const [selectedSongIDs, setSelectedSongIDs] = useState(initialContext.selectedSongIDs);
   const [recommendedSongs, setRecommendedSongs] = useState(initialContext.recommendedSongs);
   const [searchFetchCount, setSearchFetchCount] = useState(initialContext.searchFetchCount);
   const [recommendationFetchCount, setRecommendationFetchCount] = useState(initialContext.recommendationFetchCount);
@@ -48,7 +46,6 @@ const SpotifyAPIProvider = ({ children }) => {
     return token;
   };
 
-
   // Get Client Auth Token and Start Auth Token Refresh Interval
   useEffect(() => {
     refreshTokenAndSetTimeout();
@@ -58,9 +55,11 @@ const SpotifyAPIProvider = ({ children }) => {
     const token = await getTokenFromSessionStorage();
 
     const songSearchResponse = await fetchSongSearch(request, token, searchFetchCount * 5);
-    if (!songSearchResponse) return;
+    if (!songSearchResponse || songSearchResponse?.tracks?.items.length == 0) {
+      console.error('No songs found for request: ', request);
+      return;
+    };
 
-    // TODO: Handle No Results
     // For Refreshing Search In Case User Wants to See More Results From the Same Query
     // Maybe Do Pagination Instead? ( paginate every 5 results on different queries )
     setSearchFetchCount(searchFetchCount + 1);
@@ -69,15 +68,14 @@ const SpotifyAPIProvider = ({ children }) => {
 
   const getRecommendations = async (song) => {
     const token = await getTokenFromSessionStorage();
-    setSelectedSongIDs([...selectedSongIDs, song.id]);
-
-    console.log('selectedSongIDs 1', selectedSongIDs);
-    const settings = buildSettings(selectedSongIDs, song.artists, 5);
+    const settings = buildSettings(song.id, song.artists, 5);
 
     const songRecommendationsResponse = await fetchSongRecommendations(settings, token);
-    if (!songRecommendationsResponse) return;
+    if (!songRecommendationsResponse || songRecommendationsResponse?.tracks?.length == 0) {
+      console.error('No recommendations found for song ID: ', song.id);
+      return;
+    };
 
-    // TODO: Handle No Results
     setRecommendationFetchCount(recommendationFetchCount + 1);
     setRecommendedSongs([...songRecommendationsResponse.tracks.map(song => mapSong(song))]);
     console.table(recommendedSongs);
@@ -88,7 +86,6 @@ const SpotifyAPIProvider = ({ children }) => {
       ...initialContext,
       searchedSongs,
       recommendedSongs,
-      selectedSongIDs,
       searchSongs,
       getRecommendations
     }}>
