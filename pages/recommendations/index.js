@@ -12,7 +12,6 @@ const RecommendationsPage = () => {
 
   const handleRecommend = async () => {
     await getRecommendations(recommendedTracks[selectedTrackIndex]);
-    router.push('/recommendations');
   };
 
   const handleFinish = () => {

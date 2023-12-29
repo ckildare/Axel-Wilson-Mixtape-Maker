@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import fetchTrackSearch from './fetchTrackSearch';
 import fetchTrackRecommendations from './fetchTrackRecommendations';
-import mapTrack from 'utils/trackUtils';
+import { mapTrack, addTracksToTree } from 'utils/trackUtils';
 import buildSettings from 'utils/reccUtils';
 import { refreshTokenAndSetTimeout, getTokenFromSessionStorage } from 'utils/tokenUtils';
 
@@ -10,7 +10,7 @@ const initialContext = {
   searchFetchCount: 0,
   recommendationFetchCount: 0,
   recommendedTracks: [],
-  trackTree: {},
+  trackTree: null,
 };
 
 const SpotifyAPIContext = createContext(initialContext);
@@ -18,7 +18,7 @@ const SpotifyAPIContext = createContext(initialContext);
 const SpotifyAPIProvider = ({ children }) => {
   const [searchedTracks, setSearchedTracks] = useState(initialContext.searchedTracks);
   const [recommendedTracks, setRecommendedTracks] = useState(initialContext.recommendedTracks);
-  // const [trackTree, setTrackTree] = useState(initialContext.trackTree);
+  const [trackTree, setTrackTree] = useState(initialContext.trackTree);
   const [searchFetchCount, setSearchFetchCount] = useState(initialContext.searchFetchCount);
   const [recommendationFetchCount, setRecommendationFetchCount] = useState(initialContext.recommendationFetchCount);
 
@@ -26,6 +26,10 @@ const SpotifyAPIProvider = ({ children }) => {
   useEffect(() => {
     refreshTokenAndSetTimeout();
   }, []);
+
+  useEffect(() => {
+    console.log(`trackTree: ${JSON.stringify(trackTree, null, 2)}`);
+  }, [trackTree]);
 
   const searchTracks = async (request) => {
     const token = await getTokenFromSessionStorage();
@@ -55,6 +59,7 @@ const SpotifyAPIProvider = ({ children }) => {
 
     setRecommendationFetchCount(recommendationFetchCount + 1);
     setRecommendedTracks([...trackRecommendationsResponse.tracks.map(track => mapTrack(track))]);
+    setTrackTree(addTracksToTree(trackTree, track.id, trackRecommendationsResponse.tracks));
     console.table(recommendedTracks);
   };
 
@@ -63,6 +68,8 @@ const SpotifyAPIProvider = ({ children }) => {
       ...initialContext,
       searchedTracks,
       recommendedTracks,
+      trackTree,
+      setTrackTree,
       searchTracks,
       getRecommendations
     }}>

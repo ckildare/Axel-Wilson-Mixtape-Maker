@@ -13,7 +13,6 @@ const fetchReccs = async (url, token) => await fetch(
 const fetchTrackRecommendations = async (settings, trackName, token) => {
   try {
     const url = `https://api.spotify.com/v1/recommendations?${settings}`;
-    console.info(`fetchTrackRecommendations URL: ${url}`);
 
     let response = null;
 
@@ -24,6 +23,7 @@ const fetchTrackRecommendations = async (settings, trackName, token) => {
       const refreshedToken = await getTokenFromSessionStorage();
       response = await fetchReccs(url, refreshedToken);
     }
+    console.info(`fetchTrackRecommendations response: ${JSON.stringify(response, null, 2)}`);
 
     if (!response.ok) {
       throw new Error(`Error fetching track recommendations: ${response.status} - ${response.statusText}`);
@@ -36,7 +36,7 @@ const fetchTrackRecommendations = async (settings, trackName, token) => {
 
     const data = await response.json();
     console.info(`Successfully fetched track recommendations for ${trackName}`);
-    // console.info(data);
+    console.info(`fetchTrackRecommendations data: ${JSON.stringify(data, null, 2)}`);
     return data;
   } catch (error) {
     console.error(`Error fetching track recommendations: ${error.message}`);

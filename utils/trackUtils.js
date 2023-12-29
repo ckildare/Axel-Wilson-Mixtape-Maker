@@ -1,4 +1,4 @@
-function mapTrack(track) {
+export const mapTrack = (track) => {
   return {
     id: track.id,
     name: track.name,
@@ -18,6 +18,44 @@ function mapTrack(track) {
     href: track.href,
     preview: track.preview_url,
   };
-}
+};
 
-export default mapTrack;
+export const mapTrackTreeNode = (track) => {
+  const smallestImg = track.album.images[track.album.images.length - 1];
+  return {
+    'id': track.id,
+    'href': track.href,
+    'img': smallestImg.url,
+    'imgDim': smallestImg.height,
+    'selected': false
+  };
+};
+
+export const mapTrackTreeRow = (parent, tracks) => {
+  let mappedTrackTreeRow = { 'parent': parent, 'tracks': [] };
+  tracks.forEach(track => {
+    mappedTrackTreeRow.tracks.push(mapTrackTreeNode(track));
+  });
+
+  return mappedTrackTreeRow;
+};
+
+export const addTracksToTree = (trackTree, parent, tracks) => {
+  if (!trackTree) {
+    return {
+      0: mapTrackTreeRow(null, tracks),
+    };
+  }
+  let newTrackTree = { ...trackTree };
+
+  const lastKey = Object.keys(trackTree).length - 1;
+  if (newTrackTree[lastKey] && newTrackTree[lastKey].tracks) {
+    const selectedTrack = newTrackTree[lastKey].tracks.find(track => track.id == parent);
+    if (selectedTrack) {
+      selectedTrack.isSelected = true;
+    }
+  }
+
+  newTrackTree[Object.keys(trackTree).length] = mapTrackTreeRow(parent, tracks);
+  return newTrackTree;
+};
