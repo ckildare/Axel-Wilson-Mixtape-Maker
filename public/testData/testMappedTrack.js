@@ -1,4 +1,4 @@
-export const testMappedSong = {
+export const testMappedTrack = {
   'id': '2WRtSs0Ep9mrLV5eOAzJVq',
   'name': 'HOWDY',
   'artists': [

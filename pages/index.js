@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import SongSearchPage from './songSearch/index.js';
+import TrackSearchPage from './trackSearch/index.js';
 
 const Index = () => {
   return (
@@ -14,7 +14,7 @@ const Index = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <SongSearchPage />
+        <TrackSearchPage />
       </main>
     </>
   );

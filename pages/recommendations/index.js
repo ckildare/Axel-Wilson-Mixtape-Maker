@@ -1,17 +1,17 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styles from './index.module.scss';
-import SongCard from 'components/cards/SongCard/SongCard';
+import TrackCard from 'components/cards/TrackCard/TrackCard';
 import Button from 'components/Button/Button';
 import { SpotifyAPIContext } from 'spotifyContext';
 import { useRouter } from 'next/router';
 
 const RecommendationsPage = () => {
   const router = useRouter();
-  const { getRecommendations, recommendedSongs } = useContext(SpotifyAPIContext);
-  const [selectedSongIndex, setSelectedSongIndex] = useState(null);
+  const { getRecommendations, recommendedTracks } = useContext(SpotifyAPIContext);
+  const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
 
   const handleRecommend = async () => {
-    await getRecommendations(recommendedSongs[selectedSongIndex]);
+    await getRecommendations(recommendedTracks[selectedTrackIndex]);
     router.push('/recommendations');
   };
 
@@ -20,19 +20,19 @@ const RecommendationsPage = () => {
   };
 
   useEffect(() => {
-    if (recommendedSongs.length == 0) router.push('/songSelection');
+    if (recommendedTracks.length == 0) router.push('/trackSelection');
   }, []);
 
   return (
     <div className={styles.screenWrapper}>
-      {(recommendedSongs || []).map((song, key) => {
+      {(recommendedTracks || []).map((track, key) => {
         return (
-          <div key={key} onClick={() => { setSelectedSongIndex(key); }}>
-            <SongCard song={song} isSelected={selectedSongIndex === key} />
+          <div key={key} onClick={() => { setSelectedTrackIndex(key); }}>
+            <TrackCard track={track} isSelected={selectedTrackIndex === key} />
           </div>
         );
       })}
-      <Button text={'Recommend'} onClick={() => handleRecommend()} disabled={!selectedSongIndex} />
+      <Button text={'Recommend'} onClick={() => handleRecommend()} disabled={!selectedTrackIndex} />
       <Button text={'Finish'} onClick={() => handleFinish()} />
     </div>
   );

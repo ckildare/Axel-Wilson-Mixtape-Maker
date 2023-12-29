@@ -1,4 +1,4 @@
-export const testSongFromAPI = {
+export const testTrackFromAPI = {
   'album': {
     'album_type': 'single',
     'artists': [
