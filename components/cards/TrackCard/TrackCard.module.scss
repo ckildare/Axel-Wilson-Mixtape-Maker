@@ -1,12 +1,58 @@
+@use "palette" as *;
+
 .trackCard {
   display: flex;
   flex-direction: row;
+  border-radius: $s;
+  color: $t00;
 
-  gap: 0.5rem;
+  padding: $s;
+  gap: $m;
+}
+
+.unSelected {
+  background-color: $v40;
+  border: 2px solid $v30;
+}
+
+.unSelected:hover {
+  background-color: $v30;
+  border: 2px solid $v20;
+}
+
+.selected {
+  background-color: $v10;
+  border: 2px solid $v30;
+
+  .title {
+    color: $y10;
+  }
+
+  .albumCover {
+    border: 2px solid $y10;
+  }
+}
+
+.selected:hover {
+  background-color: $v00;
+  border: 2px solid $v20;
 }
 
 .trackData {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: $s;
+
+  .title {
+    font-size: $fm;
+  }
+
+  .author {
+    font-size: $fs;
+  }
+}
+
+.albumCover {
+  border: 2px solid $v00;
+  border-radius: $s;
 }

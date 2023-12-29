@@ -53,7 +53,7 @@ const TrackSelectionPage = () => {
     <div className={styles.screenWrapper}>
       {(currentTracks || []).map((track, key) => {
         return (
-          <div key={key} onClick={() => { setSelectedTrackIndex(key); }}>
+          <div key={key} onClick={() => { setSelectedTrackIndex(key == selectedTrackIndex ? null : key); }}>
             <TrackCard track={track} isSelected={selectedTrackIndex === key} />
           </div>
         );

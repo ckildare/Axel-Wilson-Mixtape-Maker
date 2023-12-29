@@ -1,18 +1,27 @@
 import styles from './TrackCard.module.scss';
-import Card from 'components/cards/Card/Card';
 import React from 'react';
 
+import Image from 'next/image';
+import classNames from 'classnames';
+
 const TrackCard = ({ track, isSelected }) => {
+  const trackImage = track?.album?.images[0];
   return (
-    <Card
-      className={styles.trackCard}
+    <div
+      className={classNames(styles.trackCard, isSelected ? styles.selected : styles.unSelected)}
     >
-      <input type={'checkbox'} checked={isSelected} readOnly/>
+      <Image
+        src={trackImage.url}
+        alt={`Cover art for ${track.name}`}
+        width={64}
+        height={64}
+        className={styles.albumCover}
+      />
       <div className={styles.trackData}>
-        <div>{track.name}</div>
-        <div>{track.artists.map(artist => artist.name).join(', ')}</div>
+        <div className={styles.title}>{track.name}</div>
+        <div className={styles.author}>{track.artists.map(artist => artist.name).join(', ')}</div>
       </div>
-    </Card>
+    </div>
   );
 };
 

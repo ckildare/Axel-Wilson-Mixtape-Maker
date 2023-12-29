@@ -25,10 +25,6 @@ const SpotifyAPIProvider = ({ children }) => {
     refreshTokenAndSetTimeout();
   }, []);
 
-  useEffect(() => {
-    console.log(`trackTree: ${JSON.stringify(trackTree, null, 2)}`);
-  }, [trackTree]);
-
   const searchTracks = async (request) => {
     const token = await getTokenFromSessionStorage();
 

@@ -82,9 +82,23 @@ $t80: #b39982;
 $t90: #998370;
 $t100: #806d5d;
 
-
 $black: #000000;
 $white: #FFFFFF;
+
+// Font Sizes
+$fxs: 0.625rem;
+$fs: 0.75rem;
+$fm: 1rem;
+$fl: 1.5rem;
+$fxl: 2rem;
+
+// Spacing Sizes
+$xs: 0.125rem;
+$s: 0.25rem;
+$m: 0.5rem;
+$l: 1rem;
+$xl: 2rem;
+$xxl: 4rem;
 
 @mixin flex-with-centering {
   display: flex;

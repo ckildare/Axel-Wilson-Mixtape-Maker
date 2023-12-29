@@ -23,7 +23,6 @@ const fetchTrackRecommendations = async (settings, trackName, token) => {
       const refreshedToken = await getTokenFromSessionStorage();
       response = await fetchReccs(url, refreshedToken);
     }
-    console.info(`fetchTrackRecommendations response: ${JSON.stringify(response, null, 2)}`);
 
     if (!response.ok) {
       throw new Error(`Error fetching track recommendations: ${response.status} - ${response.statusText}`);
@@ -36,7 +35,7 @@ const fetchTrackRecommendations = async (settings, trackName, token) => {
 
     const data = await response.json();
     console.info(`Successfully fetched track recommendations for ${trackName}`);
-    console.info(`fetchTrackRecommendations data: ${JSON.stringify(data, null, 2)}`);
+    // console.info(`fetchTrackRecommendations data: ${JSON.stringify(data, null, 2)}`);
     return data;
   } catch (error) {
     console.error(`Error fetching track recommendations: ${error.message}`);
