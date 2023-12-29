@@ -10,7 +10,7 @@ const Card = ({
     <div className={classNames(props.className, classNames(styles.cardWrapper, !isInverted ? styles.cardNormal : styles.cardInverted))}>
       {props.children}
     </div>
-  )
+  );
 };
 
 export default Card;

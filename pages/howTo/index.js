@@ -1,9 +1,11 @@
 import React from 'react';
-import styles from './index.module.scss'
+// import styles from './index.module.scss';
 
-export default function HowToPage() {
+const HowToPage = () => {
   return (
     <div>
     </div>
-  )
+  );
 };
+
+export default HowToPage;

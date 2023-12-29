@@ -12,8 +12,8 @@ const Line = ({
       2: styles.lineSize2,
       3: styles.lineSize3,
       4: styles.lineSize4
-    }[size]
-  }
+    }[size];
+  };
 
   const lineWrapper = (size) => {
     return {
@@ -22,7 +22,7 @@ const Line = ({
       3: styles.lineWrapperSize3,
       4: styles.lineWrapperSize4
     }[size];
-  }
+  };
 
   return (
     <div className={classNames(styles.lineWrapper, lineWrapper(size))}>
@@ -31,7 +31,7 @@ const Line = ({
       <div className={classNames(styles.line3, lineSize(size))} />
       <div className={classNames(styles.line4, lineSize(size))} />
     </div>
-  )
+  );
 };
 
 export default Line;

@@ -37,7 +37,7 @@ const SongSelectionPage = () => {
     <div className={styles.screenWrapper}>
       {(searchedSongs || []).map((song, key) => {
         return (
-          <div key={key} onClick={() => { setSelectedSongIndex(key) }}>
+          <div key={key} onClick={() => { setSelectedSongIndex(key); }}>
             <SongCard song={song} isSelected={selectedSongIndex === key} />
           </div>
         );

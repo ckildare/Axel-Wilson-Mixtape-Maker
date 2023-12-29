@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import styles from './index.module.scss'
+import styles from './index.module.scss';
 import SongCard from 'components/cards/SongCard/SongCard';
 import Button from 'components/Button/Button';
 import { SpotifyAPIContext } from 'spotifyContext';
@@ -13,11 +13,11 @@ const RecommendationsPage = () => {
   const handleRecommend = async () => {
     await getRecommendations(recommendedSongs[selectedSongIndex]);
     router.push('/recommendations');
-  }
+  };
 
   const handleFinish = () => {
     router.push('/result');
-  }
+  };
 
   useEffect(() => {
     if (recommendedSongs.length == 0) router.push('/songSelection');
@@ -27,7 +27,7 @@ const RecommendationsPage = () => {
     <div className={styles.screenWrapper}>
       {(recommendedSongs || []).map((song, key) => {
         return (
-          <div key={key} onClick={() => { setSelectedSongIndex(key) }}>
+          <div key={key} onClick={() => { setSelectedSongIndex(key); }}>
             <SongCard song={song} isSelected={selectedSongIndex === key} />
           </div>
         );
@@ -35,7 +35,7 @@ const RecommendationsPage = () => {
       <Button text={'Recommend'} onClick={() => handleRecommend()} disabled={!selectedSongIndex} />
       <Button text={'Finish'} onClick={() => handleFinish()} />
     </div>
-  )
+  );
 };
 
 export default RecommendationsPage;

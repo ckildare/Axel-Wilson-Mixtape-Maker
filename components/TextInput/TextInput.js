@@ -6,11 +6,9 @@ const TextInput = ({
   type = 'primary',
   placeHolder = '',
   onChange,
-  rowNumber = 1,
   maxLength = 100,
   required,
   disabled,
-  value,
   ...props
 }) => {
   const [inputValue, setInputValue] = useState('');

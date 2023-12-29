@@ -1,4 +1,4 @@
-import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from "./credentials";
+import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from './credentials';
 
 const fetchAccessToken = async () => {
   try {
@@ -26,6 +26,6 @@ const fetchAccessToken = async () => {
     console.error('Error fetching access token:', error.message);
     return null;
   }
-}
+};
 
 export default fetchAccessToken;

@@ -1,5 +1,6 @@
 import styles from './SongCard.module.scss';
 import Card from 'components/cards/Card/Card';
+import React from 'react';
 
 const SongCard = ({ song, isSelected }) => {
   return (
@@ -13,6 +14,6 @@ const SongCard = ({ song, isSelected }) => {
       </div>
     </Card>
   );
-}
+};
 
 export default SongCard;

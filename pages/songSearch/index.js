@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Button from 'components/Button/Button';
 import Card from 'components/cards/Card/Card';
 import React, { useState, useContext } from 'react';
-import styles from './index.module.scss';
+// import styles from './index.module.scss';
 import TextInput from 'components/TextInput/TextInput';
 
 const SongSearchPage = () => {
@@ -12,7 +12,7 @@ const SongSearchPage = () => {
   const [inputSongTitle, setInputSongTitle] = useState('');
 
   const handleSearchButtonClick = async (inputSongTitle) => {
-    window.sessionStorage.setItem('search_query_title', inputSongTitle)
+    window.sessionStorage.setItem('search_query_title', inputSongTitle);
     await searchSongs(inputSongTitle);
 
     if (searchedSongs.length < 1) {
@@ -34,9 +34,9 @@ const SongSearchPage = () => {
         placeHolder={'Enter Song Title'}
         onChange={(e) => setInputSongTitle(e)}
       />
-      <Button type={'tertiary'} text={"also penis"} onClick={() => handleSearchButtonClick(inputSongTitle)} />
+      <Button type={'tertiary'} text={'also penis'} onClick={() => handleSearchButtonClick(inputSongTitle)} />
     </Card>
-  )
+  );
 };
 
 export default SongSearchPage;

@@ -1,16 +1,16 @@
-import { createContext, useEffect, useState } from "react";
-import fetchSongSearch from "./fetchSongSearch";
-import fetchSongRecommendations from "./fetchSongRecommendations";
-import mapSong from "utils/songUtils";
-import buildSettings from "utils/reccUtils";
-import { refreshTokenAndSetTimeout, getTokenFromSessionStorage } from "utils/tokenUtils";
+import React, { createContext, useEffect, useState } from 'react';
+import fetchSongSearch from './fetchSongSearch';
+import fetchSongRecommendations from './fetchSongRecommendations';
+import mapSong from 'utils/songUtils';
+import buildSettings from 'utils/reccUtils';
+import { refreshTokenAndSetTimeout, getTokenFromSessionStorage } from 'utils/tokenUtils';
 
 const initialContext = {
   searchedSongs: [],
   searchFetchCount: 0,
   recommendationFetchCount: 0,
   recommendedSongs: [],
-}
+};
 
 const SpotifyAPIContext = createContext(initialContext);
 
@@ -32,13 +32,13 @@ const SpotifyAPIProvider = ({ children }) => {
     if (!songSearchResponse || songSearchResponse?.tracks?.items.length == 0) {
       console.error('No songs found for request: ', request);
       return;
-    };
+    }
 
     // For Refreshing Search In Case User Wants to See More Results From the Same Query
     // Maybe Do Pagination Instead? ( paginate every 5 results on different queries )
     setSearchFetchCount(searchFetchCount + 1);
     setSearchedSongs([...songSearchResponse.tracks.items.map(song => mapSong(song))]);
-  }
+  };
 
   const getRecommendations = async (song) => {
     const token = await getTokenFromSessionStorage();
@@ -48,12 +48,12 @@ const SpotifyAPIProvider = ({ children }) => {
     if (!songRecommendationsResponse || songRecommendationsResponse?.tracks?.length == 0) {
       console.error('No recommendations found for song ID: ', song.id);
       return;
-    };
+    }
 
     setRecommendationFetchCount(recommendationFetchCount + 1);
     setRecommendedSongs([...songRecommendationsResponse.tracks.map(song => mapSong(song))]);
     console.table(recommendedSongs);
-  }
+  };
 
   return (
     <SpotifyAPIContext.Provider value={{
@@ -65,7 +65,7 @@ const SpotifyAPIProvider = ({ children }) => {
     }}>
       {children}
     </SpotifyAPIContext.Provider>
-  )
-}
+  );
+};
 
 export { SpotifyAPIProvider, SpotifyAPIContext };

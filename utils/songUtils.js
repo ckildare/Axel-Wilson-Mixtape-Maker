@@ -17,7 +17,7 @@ function mapSong(song) {
     duration: song.duration_ms,
     href: song.href,
     preview: song.preview_url,
-  }
+  };
 }
 
 export default mapSong;
