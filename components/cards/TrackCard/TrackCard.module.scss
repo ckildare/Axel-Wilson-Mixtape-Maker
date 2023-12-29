@@ -1,5 +1,13 @@
 @use "palette" as *;
 
+$focus1white: $white50;
+$focus2white: $white75;
+$focus3white: $white90;
+
+$focus1border: 1px solid $white50;
+$focus2border: 1px solid $white75;
+$focus3border: 1px solid $white90;
+
 .trackCard {
   display: flex;
   flex-direction: row;
@@ -12,7 +20,7 @@
 
 .unSelected {
   background-color: $v40;
-  border: 1px solid $white50;
+  border: $focus1border;
 
   .title {
     color: $white90;
@@ -21,13 +29,13 @@
     color: $white50;
   }
   .albumCover {
-    border: 1px solid $white50;
+    border: $focus1border;
   }
 }
 
 .unSelected:hover {
   background-color: $v30;
-  border: 1px solid $white75;
+  border: $focus2border;
 
   .title {
     color: $white;
@@ -37,13 +45,13 @@
     color: $white75;
   }
   .albumCover {
-    border: 1px solid $white75;
+    border: $focus2border;
   }
 }
 
 .selected {
   background-color: $v10;
-  border: 1px solid $white75;
+  border: $focus2border;
 
   .title {
     color: $white;
@@ -52,19 +60,19 @@
     color: $white75;
   }
   .albumCover {
-    border: 1px solid $white75;
+    border: $focus2border;
   }
 }
 
 .selected:hover {
   background-color: $v00;
-  border: 1px solid $white90;
+  border: $focus3border;
 
   .author {
     color: $white90;
   }
   .albumCover {
-    border: 1px solid $white90;
+    border: $focus3border;
   }
 }
 
