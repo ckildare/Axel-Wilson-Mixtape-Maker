@@ -1,25 +1,26 @@
 import { createContext, useEffect, useState } from "react";
 import fetchAccessToken from "./fetchAccessToken";
 import fetchSongSearch from "./fetchSongSearch";
+import fetchSongRecommendations from "./fetchSongRecommendations";
+import mapSong from "utils/songUtils";
+import buildSettings from "utils/reccUtils";
 
 const initialContext = {
   searchedSongs: [],
   searchFetchCount: 0,
   recommendationFetchCount: 0,
-  selectedSongs: [],
+  selectedSongIDs: [],
   recommendedSongs: [],
-  seedSong: {},
 }
 
 const SpotifyAPIContext = createContext(initialContext);
 
 const SpotifyAPIProvider = ({ children }) => {
   const [searchedSongs, setSearchedSongs] = useState(initialContext.searchedSongs);
-  const [selectedSongs, setSelectedSongs] = useState(initialContext.selectedSongs);
+  const [selectedSongIDs, setSelectedSongIDs] = useState(initialContext.selectedSongIDs);
   const [recommendedSongs, setRecommendedSongs] = useState(initialContext.recommendedSongs);
   const [searchFetchCount, setSearchFetchCount] = useState(initialContext.searchFetchCount);
   const [recommendationFetchCount, setRecommendationFetchCount] = useState(initialContext.recommendationFetchCount);
-  const [seedSong, setSeedSong] = useState(initialContext.seedSong);
 
   const refreshAccessToken = async () => {
     const newToken = await fetchAccessToken();
@@ -53,27 +54,6 @@ const SpotifyAPIProvider = ({ children }) => {
     refreshTokenAndSetTimeout();
   }, []);
 
-  // Mapped song object is more lightweight to pass around, easier to document / work with
-  const mappedSong = (song) => ({
-    id: song.id,
-    name: song.name,
-    artists: [...song.artists.map(artist => ({
-      name: artist.name, 
-      href: artist.href,
-      id: artist.id
-    }))],
-    album: {
-      name: song.album.name,
-      href: song.album.href,
-      images: song.album.images,
-      releaseDate: song.album.release_date,
-      id: song.album.id,
-    },
-    duration: song.duration_ms,
-    href: song.href,
-    preview: song.preview_url,
-  });
-
   const searchSongs = async (request) => {
     const token = await getTokenFromSessionStorage();
 
@@ -84,18 +64,23 @@ const SpotifyAPIProvider = ({ children }) => {
     // For Refreshing Search In Case User Wants to See More Results From the Same Query
     // Maybe Do Pagination Instead? ( paginate every 5 results on different queries )
     setSearchFetchCount(searchFetchCount + 1);
-    setSearchedSongs([...songSearchResponse.tracks.items.map(song => mappedSong(song))]);
+    setSearchedSongs([...songSearchResponse.tracks.items.map(song => mapSong(song))]);
   }
 
-  const getRecommendations = async (settings, isAdvanced) => {
-    const token = getTokenFromSessionStorage();
+  const getRecommendations = async (song) => {
+    const token = await getTokenFromSessionStorage();
+    setSelectedSongIDs([...selectedSongIDs, song.id]);
 
-    const songRecommendationsResponse = await fetchSongRecommendations(settings, isAdvanced, token);
+    console.log('selectedSongIDs 1', selectedSongIDs);
+    const settings = buildSettings(selectedSongIDs, song.artists, 5);
+
+    const songRecommendationsResponse = await fetchSongRecommendations(settings, token);
     if (!songRecommendationsResponse) return;
 
     // TODO: Handle No Results
     setRecommendationFetchCount(recommendationFetchCount + 1);
-    setRecommendedSongs([...songRecommendationsResponse.tracks.map(song => mappedSong(song))]);
+    setRecommendedSongs([...songRecommendationsResponse.tracks.map(song => mapSong(song))]);
+    console.table(recommendedSongs);
   }
 
   return (
@@ -103,6 +88,7 @@ const SpotifyAPIProvider = ({ children }) => {
       ...initialContext,
       searchedSongs,
       recommendedSongs,
+      selectedSongIDs,
       searchSongs,
       getRecommendations
     }}>

@@ -5,6 +5,7 @@
       "@/*": ["./src/*"],
       "components/*": ["./components/*"],
       "public/*": ["./public/*"],
+      "utils/*": ["./utils/*"],
       "palette": ["./styles/palette.module.scss"],
       "spotifyContext": ["./pages/api/SpotifyAPIContext"],
     }

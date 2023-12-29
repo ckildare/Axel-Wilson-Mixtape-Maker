@@ -15,7 +15,7 @@ const fetchSongSearch = async (request, token, offset) => {
     }
 
     const data = await response.json();
-    console.log('Song Search Response:', data);
+    console.info('Song Search Response: \n', data);
     return data;
   } catch (error) {
     console.error(`Error fetching song search: ${error.message}`);

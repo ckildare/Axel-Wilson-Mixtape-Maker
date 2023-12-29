@@ -19,15 +19,15 @@ const SongSelectionPage = () => {
   };
 
   const handleButtonClick = async () => {
-    // await getRecommendations();
-    // if (recommendedSongs.length < 1) {
-    //   // TODO: display no recommendations found message
-    //   console.log('no recommendations found');
-    // }
+    const selectedSong = searchedSongs[selectedSongIndex];
 
-    // router.push('/recommendations');
-
-    console.log('Selected Song ID:', selectedSong.id);
+    await getRecommendations(selectedSong);
+    if (recommendedSongs.length < 1) {
+      // TODO: display no recommendations found message
+      console.log('no recommendations found');
+    } else {
+      router.push('/recommendations');
+    }
   };
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const SongSelectionPage = () => {
           </div>
         );
       })}
-      <Button text={'Recommend'} onClick={() => handleButtonClick()}  />
+      <Button text={'Recommend'} onClick={() => handleButtonClick()} disabled={!selectedSongIndex} />
     </div>
   );
 };
