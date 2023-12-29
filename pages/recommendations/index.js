@@ -32,7 +32,7 @@ const RecommendationsPage = () => {
           </div>
         );
       })}
-      <Button text={'Recommend'} type={'secondary'} onClick={() => handleRecommend()} disabled={!selectedTrackIndex || recommendationFetchCount > 15} />
+      <Button text={'Recommend'} type={'primary'} onClick={() => handleRecommend()} disabled={!selectedTrackIndex || recommendationFetchCount > 15} />
       <Button text={'Finish'} onClick={() => handleFinish()} />
     </div>
   );
