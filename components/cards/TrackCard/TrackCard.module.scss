@@ -12,7 +12,7 @@
 
 .unSelected {
   background-color: $v40;
-  border: 1px solid $v30;
+  border: 1px solid $white50;
 
   .title {
     color: $white90;
@@ -27,7 +27,7 @@
 
 .unSelected:hover {
   background-color: $v30;
-  border: 1px solid $v20;
+  border: 1px solid $white75;
 
   .title {
     color: $white;
@@ -43,7 +43,7 @@
 
 .selected {
   background-color: $v10;
-  border: 1px solid $v30;
+  border: 1px solid $white75;
 
   .title {
     color: $white;
@@ -58,7 +58,7 @@
 
 .selected:hover {
   background-color: $v00;
-  border: 1px solid $v20;
+  border: 1px solid $white90;
 
   .author {
     color: $white90;
