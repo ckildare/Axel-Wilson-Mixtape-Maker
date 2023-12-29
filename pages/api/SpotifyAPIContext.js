@@ -1,9 +1,9 @@
 import { createContext, useEffect, useState } from "react";
-import fetchAccessToken from "./fetchAccessToken";
 import fetchSongSearch from "./fetchSongSearch";
 import fetchSongRecommendations from "./fetchSongRecommendations";
 import mapSong from "utils/songUtils";
 import buildSettings from "utils/reccUtils";
+import { refreshTokenAndSetTimeout, getTokenFromSessionStorage } from "utils/tokenUtils";
 
 const initialContext = {
   searchedSongs: [],
@@ -19,32 +19,6 @@ const SpotifyAPIProvider = ({ children }) => {
   const [recommendedSongs, setRecommendedSongs] = useState(initialContext.recommendedSongs);
   const [searchFetchCount, setSearchFetchCount] = useState(initialContext.searchFetchCount);
   const [recommendationFetchCount, setRecommendationFetchCount] = useState(initialContext.recommendationFetchCount);
-
-  const refreshAccessToken = async () => {
-    const newToken = await fetchAccessToken();
-
-    if (newToken) {
-      // Only need this for the given session
-      window.sessionStorage.setItem('access_token', newToken)
-    }
-  }
-
-  const refreshTokenAndSetTimeout = async () => {
-    await refreshAccessToken();
-
-    // Refresh Token Every 59 Minutes-- Token Expires Every Hour, Refreshing Every 59 Minutes Ensures Token Never Expires
-    const intervalID = setInterval(() => {
-      refreshAccessToken();
-    }, 3540000);
-
-    return () => clearInterval(intervalID);
-  };
-
-  const getTokenFromSessionStorage = async () => {
-    const token = window.sessionStorage.getItem('access_token');
-    if (!token) await refreshTokenAndSetTimeout();
-    return token;
-  };
 
   // Get Client Auth Token and Start Auth Token Refresh Interval
   useEffect(() => {
