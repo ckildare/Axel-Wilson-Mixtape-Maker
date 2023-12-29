@@ -25,15 +25,19 @@ const RecommendationsPage = () => {
 
   return (
     <div className={styles.screenWrapper}>
-      {(currentTracks || []).map((track, key) => {
-        return (
-          <div key={key} onClick={() => { setSelectedTrackIndex(key == selectedTrackIndex ? null : key); }}>
-            <TrackCard track={track} isSelected={selectedTrackIndex === key} />
-          </div>
-        );
-      })}
-      <Button text={'Recommend'} type={'primary'} onClick={() => handleRecommend()} disabled={!selectedTrackIndex || recommendationFetchCount > 15} />
-      <Button text={'Finish'} onClick={() => handleFinish()} />
+      <div className={styles.tracks}>
+        {(currentTracks || []).map((track, key) => {
+          return (
+            <div key={key} onClick={() => { setSelectedTrackIndex(key == selectedTrackIndex ? null : key); }}>
+              <TrackCard track={track} isSelected={selectedTrackIndex === key} />
+            </div>
+          );
+        })}
+      </div>
+      <div className={styles.bottomButtons}>
+        <Button text={'Recommend'} type={'primary'} onClick={() => handleRecommend()} disabled={!selectedTrackIndex || recommendationFetchCount > 15} />
+        <Button text={'Finish'} onClick={() => handleFinish()} />
+      </div>
     </div>
   );
 };

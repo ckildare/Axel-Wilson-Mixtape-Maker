@@ -3,6 +3,20 @@
 .screenWrapper {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 
-  gap: 0.5rem;
+  gap: $m;
+
+  .tracks {
+    display: flex;
+    flex-direction: column;
+    gap: $s;
+  }
+
+  .bottomButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: $xl;
+  }
 }
