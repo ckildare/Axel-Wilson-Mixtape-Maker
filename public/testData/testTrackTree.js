@@ -1,118 +1,96 @@
 export const testTrackTree = {
-  0: {
+  '0': {
     'parent': null,
     'tracks': [
       {
-        'id': '1',
-        'url': 'https://open.spotify.com/track/1',
-        'img': 'https://i.scdn.co/image/ab67616d0000b2731',
-        'selected': true,
+        'id': '3Qa944OTMZkg8DHjET8JQv',
+        'href': 'https://api.spotify.com/v1/tracks/3Qa944OTMZkg8DHjET8JQv',
+        'img': 'https://i.scdn.co/image/ab67616d0000485126b7dd89810cc1a40ada642c',
+        'imgDim': 64,
+        'selected': false,
+        'isSelected': true
       }
     ]
   },
-  1: {
-    'parent': 1,
+  '1': {
+    'parent': '3Qa944OTMZkg8DHjET8JQv',
     'tracks': [
       {
-        'id': '6',
-        'url': 'https://open.spotify.com/track/6',
-        'img': 'https://i.scdn.co/image/ab67616d0000b2736',
+        'id': '7qwt4xUIqQWCu1DJf96g2k',
+        'href': 'https://api.spotify.com/v1/tracks/7qwt4xUIqQWCu1DJf96g2k',
+        'img': 'https://i.scdn.co/image/ab67616d00004851bf94e27360806b5aa5025f93',
+        'imgDim': 64,
         'selected': false,
+        'isSelected': true
       },
       {
-        'id': '7',
-        'url': 'https://open.spotify.com/track/7',
-        'img': 'https://i.scdn.co/image/ab67616d0000b2737',
-        'selected': false,
+        'id': '467t3218y3yihFcyDGWjr0',
+        'href': 'https://api.spotify.com/v1/tracks/467t3218y3yihFcyDGWjr0',
+        'img': 'https://i.scdn.co/image/ab67616d0000485124a1563d4e61f31efec9be17',
+        'imgDim': 64,
+        'selected': false
       },
       {
-        'id': '8',
-        'url': 'https://open.spotify.com/track/8',
-        'img': 'https://i.scdn.co/image/ab67616d0000b2738',
-        'selected': true,
+        'id': '7Ks4VCY1wFebnOdJrM13t6',
+        'href': 'https://api.spotify.com/v1/tracks/7Ks4VCY1wFebnOdJrM13t6',
+        'img': 'https://i.scdn.co/image/ab67616d00004851cdb645498cd3d8a2db4d05e1',
+        'imgDim': 64,
+        'selected': false
       },
       {
-        'id': '9',
-        'url': 'https://open.spotify.com/track/9',
-        'img': 'https://i.scdn.co/image/ab67616d0000b2739',
-        'selected': false,
+        'id': '5sW3srOkA46WbgBRpbSLzu',
+        'href': 'https://api.spotify.com/v1/tracks/5sW3srOkA46WbgBRpbSLzu',
+        'img': 'https://i.scdn.co/image/ab67616d000048517c1ca5a38521b23b0c15f99c',
+        'imgDim': 64,
+        'selected': false
       },
       {
-        'id': '10',
-        'url': 'https://open.spotify.com/track/10',
-        'img': 'https://i.scdn.co/image/ab67616d0000b27310',
-        'selected': false,
+        'id': '6WVSnyKQGzs1fosa2I3FMQ',
+        'href': 'https://api.spotify.com/v1/tracks/6WVSnyKQGzs1fosa2I3FMQ',
+        'img': 'https://i.scdn.co/image/ab67616d00004851d93501aba7bc1140aac628c6',
+        'imgDim': 64,
+        'selected': false
       }
     ]
   },
-  2: {
-    'parent': 8,
+  '2': {
+    'parent': '7qwt4xUIqQWCu1DJf96g2k',
     'tracks': [
       {
-        'id': '11',
-        'url': 'https://open.spotify.com/track/11',
-        'img': 'https://i.scdn.co/image/ab67616d0000b27311',
-        'selected': false,
+        'id': '1yYlpGuBiRRf33e1gY61bN',
+        'href': 'https://api.spotify.com/v1/tracks/1yYlpGuBiRRf33e1gY61bN',
+        'img': 'https://i.scdn.co/image/ab67616d0000485124db806e309c9de68cc190c5',
+        'imgDim': 64,
+        'selected': false
       },
       {
-        'id': '12',
-        'url': 'https://open.spotify.com/track/12',
-        'img': 'https://i.scdn.co/image/ab67616d0000b27312',
-        'selected': true,
+        'id': '3RIgHHpnFKj5Rni1shokDj',
+        'href': 'https://api.spotify.com/v1/tracks/3RIgHHpnFKj5Rni1shokDj',
+        'img': 'https://i.scdn.co/image/ab67616d00004851879e9318cb9f4e05ee552ac9',
+        'imgDim': 64,
+        'selected': false
       },
       {
-        'id': '13',
-        'url': 'https://open.spotify.com/track/13',
-        'img': 'https://i.scdn.co/image/ab67616d0000b27313',
-        'selected': false,
+        'id': '5bIgzvxvlefRUCQK9JPocF',
+        'href': 'https://api.spotify.com/v1/tracks/5bIgzvxvlefRUCQK9JPocF',
+        'img': 'https://i.scdn.co/image/ab67616d00004851a91b75c9ef65ed8d760ff600',
+        'imgDim': 64,
+        'selected': false
       },
       {
-        'id': '14',
-        'url': 'https://open.spotify.com/track/14',
-        'img': 'https://i.scdn.co/image/ab67616d0000b27314',
-        'selected': false,
+        'id': '2hwOoMtWPtTSSn6WHV7Vp5',
+        'href': 'https://api.spotify.com/v1/tracks/2hwOoMtWPtTSSn6WHV7Vp5',
+        'img': 'https://i.scdn.co/image/ab67616d0000485126b7dd89810cc1a40ada642c',
+        'imgDim': 64,
+        'selected': false
       },
       {
-        'id': '15',
-        'url': 'https://open.spotify.com/track/15',
-        'img': 'https://i.scdn.co/image/ab67616d0000b27315',
-        'selected': false,
+        'id': '12ILYlOEfWL8ei0BEgFJn0',
+        'href': 'https://api.spotify.com/v1/tracks/12ILYlOEfWL8ei0BEgFJn0',
+        'img': 'https://i.scdn.co/image/ab67616d00004851962ff78ff496c98e5fed40d8',
+        'imgDim': 64,
+        'selected': false
       }
     ]
-  },
-  3: {
-    'parent': 12,
-    'tracks': [
-      {
-        'id': '16',
-        'url': 'https://open.spotify.com/track/16',
-        'img': 'https://i.scdn.co/image/ab67616d0000b27316',
-        'selected': false,
-      },
-      {
-        'id': '17',
-        'url': 'https://open.spotify.com/track/17',
-        'img': 'https://i.scdn.co/image/ab67616d0000b27317',
-        'selected': false,
-      },
-      {
-        'id': '18',
-        'url': 'https://open.spotify.com/track/18',
-        'img': 'https://i.scdn.co/image/ab67616d0000b27318',
-        'selected': false,
-      },
-      {
-        'id': '19',
-        'url': 'https://open.spotify.com/track/19',
-        'img': 'https://i.scdn.co/image/ab67616d0000b27319',
-        'selected': false,
-      },
-      {
-        'id': '20',
-        'url': 'https://open.spotify.com/track/20',
-        'img': 'https://i.scdn.co/image/ab67616d0000b27320',
-        'selected': true,
-      }
-    ]
-  },
+  }
 };
