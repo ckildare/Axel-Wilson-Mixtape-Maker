@@ -8,7 +8,7 @@ import { addTracksToTree } from 'utils/trackUtils';
 
 const TrackSelectionPage = () => {
   const router = useRouter();
-  const { searchedTracks, searchTracks, getRecommendations, recommendedTracks, trackTree, setTrackTree } = useContext(SpotifyAPIContext);
+  const { searchTracks, getRecommendations, recommendationFetchCount, currentTracks, trackTree, setTrackTree } = useContext(SpotifyAPIContext);
   const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
 
   const handleNoTracks = async () => {
@@ -20,7 +20,7 @@ const TrackSelectionPage = () => {
   };
 
   const handleButtonClick = async () => {
-    setTrackTree(addTracksToTree(null, null, [searchedTracks[selectedTrackIndex]]));
+    setTrackTree(addTracksToTree(null, null, [currentTracks[selectedTrackIndex]]));
   };
 
   useEffect(() => {
@@ -29,35 +29,36 @@ const TrackSelectionPage = () => {
     }
     if (selectedTrackIndex === null) return;
 
-    const targetTrack = searchedTracks[selectedTrackIndex];
-    console.log(`selectedTrackIndex: ${JSON.stringify(selectedTrackIndex, null, 2)}`);
+    const targetTrack = currentTracks[selectedTrackIndex];
     getReccs(targetTrack);
     setSelectedTrackIndex(null);
   }, [trackTree !== null]);
 
   useEffect(() => {
-    if (recommendedTracks.length == 0) {
+    if (currentTracks.length == 0) {
       // TODO: display no recommendations found message
       console.log('no recommendations found');
-    } else {
+      return;
+    }
+    if (recommendationFetchCount > 0) {
       router.push('/recommendations');
     }
-  }, [recommendedTracks]);
+  }, [recommendationFetchCount]);
 
   useEffect(() => {
-    if (searchedTracks.length == 0) handleNoTracks();
+    if (currentTracks.length == 0) handleNoTracks();
   }, []);
 
   return (
     <div className={styles.screenWrapper}>
-      {(searchedTracks || []).map((track, key) => {
+      {(currentTracks || []).map((track, key) => {
         return (
           <div key={key} onClick={() => { setSelectedTrackIndex(key); }}>
             <TrackCard track={track} isSelected={selectedTrackIndex === key} />
           </div>
         );
       })}
-      <Button text={'Recommend'} onClick={() => handleButtonClick()} disabled={!selectedTrackIndex} />
+      <Button text={'Recommend'} onClick={() => handleButtonClick()} disabled={selectedTrackIndex === null} />
     </div>
   );
 };

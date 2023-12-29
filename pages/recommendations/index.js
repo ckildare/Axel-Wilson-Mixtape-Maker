@@ -7,11 +7,11 @@ import { useRouter } from 'next/router';
 
 const RecommendationsPage = () => {
   const router = useRouter();
-  const { getRecommendations, recommendedTracks, recommendationFetchCount } = useContext(SpotifyAPIContext);
+  const { getRecommendations, currentTracks, recommendationFetchCount } = useContext(SpotifyAPIContext);
   const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
 
   const handleRecommend = async () => {
-    await getRecommendations(recommendedTracks[selectedTrackIndex]);
+    await getRecommendations(currentTracks[selectedTrackIndex]);
     setSelectedTrackIndex(null);
   };
 
@@ -20,12 +20,12 @@ const RecommendationsPage = () => {
   };
 
   useEffect(() => {
-    if (recommendedTracks.length == 0) router.push('/trackSelection');
+    if (currentTracks.length == 0) router.push('/trackSelection');
   }, []);
 
   return (
     <div className={styles.screenWrapper}>
-      {(recommendedTracks || []).map((track, key) => {
+      {(currentTracks || []).map((track, key) => {
         return (
           <div key={key} onClick={() => { setSelectedTrackIndex(key); }}>
             <TrackCard track={track} isSelected={selectedTrackIndex === key} />

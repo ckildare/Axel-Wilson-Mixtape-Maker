@@ -7,7 +7,7 @@ import React, { useState, useContext } from 'react';
 import TextInput from 'components/TextInput/TextInput';
 
 const TrackSearchPage = () => {
-  const { searchTracks, searchedTracks } = useContext(SpotifyAPIContext);
+  const { searchTracks, currentTracks } = useContext(SpotifyAPIContext);
   const router = useRouter();
   const [inputTrackTitle, setInputTrackTitle] = useState('');
 
@@ -15,7 +15,7 @@ const TrackSearchPage = () => {
     window.sessionStorage.setItem('search_query_title', inputTrackTitle);
     await searchTracks(inputTrackTitle);
 
-    if (searchedTracks.length == 1) {
+    if (currentTracks.length == 1) {
       // TODO: display no tracks found message
       console.log('no tracks found');
     }
