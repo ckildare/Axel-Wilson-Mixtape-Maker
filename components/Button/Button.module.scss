@@ -1,7 +1,7 @@
 @use "palette" as *;
 
 .buttonWrapper {
-  box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 2px 2px 2px 0px inherit;
   white-space: normal;
   border-radius: 0.25rem;
   
@@ -21,15 +21,23 @@
 
 .primary {
   background-color: $t50;
+  border: 2px solid $y40;
   color: $v50;
 }
 
 .secondary {
   background-color: $p50;
+  border: 2px solid $p70;
   color: $white;
 }
 
 .tertiary {
   background-color: $v50;
+  border: 2px solid $v70;
   color: $t50;
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.625;
 }

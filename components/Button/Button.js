@@ -7,20 +7,24 @@ const Button = ({
   type = 'primary',
   onClick = () => null,
   href = '',
-  ...props
+  disabled
 }) => {
+  const buttonClasses = () => {
+    return classNames(disabled ? styles.disabled : '',
+      classNames(styles.buttonWrapper,
+        {
+          'primary': styles.primary,
+          'secondary': styles.secondary,
+          'tertiary': styles.tertiary
+        }[type]
+      ));
+  };
   return (
     <button
       href={href}
+      disabled={disabled}
       onClick={() => onClick()}
-      className={classNames(props.classNames,
-        classNames(styles.buttonWrapper,
-          {
-            'primary': styles.primary,
-            'secondary': styles.secondary,
-            'tertiary': styles.tertiary
-          }[type]
-        ))}>
+      className={buttonClasses()}>
       {text}
     </button>
   );

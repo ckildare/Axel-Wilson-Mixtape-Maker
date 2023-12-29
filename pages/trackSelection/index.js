@@ -32,6 +32,7 @@ const TrackSelectionPage = () => {
     const targetTrack = searchedTracks[selectedTrackIndex];
     console.log(`selectedTrackIndex: ${JSON.stringify(selectedTrackIndex, null, 2)}`);
     getReccs(targetTrack);
+    setSelectedTrackIndex(null);
   }, [trackTree !== null]);
 
   useEffect(() => {
