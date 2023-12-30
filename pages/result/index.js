@@ -9,6 +9,9 @@ import TrackTree from 'components/TrackTree/TrackTree';
 const ResultPage = () => {
   const router = useRouter();
   const [isTreeView, setIsTreeView] = useState(false);
+  const { setIsFinished } = useContext(SpotifyAPIContext);
+
+  useEffect(() => { setIsFinished(true); }, []);
 
   return (
     <div className={styles.screenWrapper}>
@@ -26,9 +29,9 @@ const ResultPage = () => {
 
 const TreeView = () => {
   const router = useRouter();
-  const { trackTree } = useContext(SpotifyAPIContext);
+  const { trackTree, navigateBack } = useContext(SpotifyAPIContext);
 
-  useEffect(() => { if (!trackTree) router.push('/trackSelection'); }, []);
+  useEffect(() => { if (!trackTree) navigateBack('result', router); }, []);
 
   return (
     <div className={styles.tree}>
@@ -40,9 +43,9 @@ const TreeView = () => {
 const TrackView = () => {
   const router = useRouter();
   const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
-  const { selectedTracks } = useContext(SpotifyAPIContext);
+  const { selectedTracks, navigateBack } = useContext(SpotifyAPIContext);
 
-  useEffect(() => { if (!selectedTracks || selectedTracks?.length == 0) router.push('/trackSelection'); }, []);
+  useEffect(() => { if (!selectedTracks || selectedTracks?.length == 0) navigateBack('result', router); }, []);
 
   return (
     <div className={styles.tracks}>

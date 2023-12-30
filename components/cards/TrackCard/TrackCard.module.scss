@@ -13,8 +13,9 @@ $focus3border: 1px solid $white90;
   flex-direction: row;
   border-radius: $s;
   color: $white75;
+  max-height: 4.5rem;
 
-  padding: $s;
+  padding: $xs;
   gap: $m;
 }
 
@@ -93,4 +94,14 @@ $focus3border: 1px solid $white90;
 .albumCover {
   border: 1px solid $white50;
   border-radius: $s;
+}
+
+.isLoading {
+  background-color: #eee;
+  background: linear-gradient(110deg, rgba($white, 0.25) 8%, rgba($white, 0.2) 18%, rgba($white, 0.25) 33%);
+  border-radius: $s;
+  border: 1px solid $white50;
+  background-size: 200% 100%;
+  animation: shine 1.5s linear infinite;
+  height: 3.875rem;
 }

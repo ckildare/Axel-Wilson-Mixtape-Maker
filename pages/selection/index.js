@@ -5,9 +5,9 @@ import styles from './index.module.scss';
 import TrackCard from 'components/cards/TrackCard/TrackCard';
 import Button from 'components/Button/Button';
 
-const TrackSelectionPage = () => {
+const SelectionPage = () => {
   const router = useRouter();
-  const { searchTracks, getRecommendations, currentTracks } = useContext(SpotifyAPIContext);
+  const { searchTracks, getRecommendations, currentTracks, navigateBack } = useContext(SpotifyAPIContext);
   const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
   const [isLoadingReccs, setIsLoadingReccs] = useState(false);
 
@@ -36,7 +36,7 @@ const TrackSelectionPage = () => {
   }, [isLoadingReccs]);
 
   useEffect(() => {
-    if (currentTracks.length == 0) handleNoTracks();
+    if (currentTracks.length == 0) navigateBack('selection', router);
   }, []);
 
   return (
@@ -53,4 +53,4 @@ const TrackSelectionPage = () => {
   );
 };
 
-export default TrackSelectionPage;
+export default SelectionPage;

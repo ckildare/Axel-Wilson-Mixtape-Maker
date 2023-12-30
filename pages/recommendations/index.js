@@ -4,15 +4,19 @@ import TrackCard from 'components/cards/TrackCard/TrackCard';
 import Button from 'components/Button/Button';
 import { SpotifyAPIContext } from 'spotifyContext';
 import { useRouter } from 'next/router';
+import Loader from 'components/cards/Loader/Loader';
 
 const RecommendationsPage = () => {
   const router = useRouter();
-  const { getRecommendations, currentTracks, selectedTracks } = useContext(SpotifyAPIContext);
+  const { getRecommendations, currentTracks, selectedTracks, navigateBack } = useContext(SpotifyAPIContext);
   const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
+  const [isReccsLoading, setIsReccsLoading] = useState(false);
 
   const handleRecommend = async () => {
+    setIsReccsLoading(true);
     await getRecommendations(currentTracks[selectedTrackIndex]);
     setSelectedTrackIndex(null);
+    setIsReccsLoading(false);
   };
 
   const handleFinish = () => {
@@ -20,7 +24,7 @@ const RecommendationsPage = () => {
   };
 
   useEffect(() => {
-    if (currentTracks.length == 0) router.push('/trackSelection');
+    if (currentTracks.length == 0) navigateBack('recommendations', router);
   }, []);
 
   return (
@@ -29,7 +33,9 @@ const RecommendationsPage = () => {
         {(currentTracks || []).map((track, key) => {
           return (
             <div key={key} onClick={() => { setSelectedTrackIndex(key == selectedTrackIndex ? null : key); }}>
-              <TrackCard track={track} isSelected={selectedTrackIndex === key} />
+              <Loader isLoading={isReccsLoading}>
+                <TrackCard track={track} isSelected={selectedTrackIndex === key} />
+              </Loader>
             </div>
           );
         })}

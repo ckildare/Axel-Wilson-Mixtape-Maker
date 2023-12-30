@@ -10,7 +10,7 @@ const fetchReccs = async (url, token) => await fetch(
   }
 );
 
-const fetchTrackRecommendations = async (settings, trackName, token) => {
+const fetchTrackRecommendations = async (settings, token) => {
   try {
     const url = `https://api.spotify.com/v1/recommendations?${settings}`;
 

@@ -7,7 +7,7 @@ import styles from './index.module.scss';
 import TextInput from 'components/TextInput/TextInput';
 import ToggleSwitch from 'components/ToggleSwitch/ToggleSwitch';
 
-const TrackSearchPage = () => {
+const SearchPage = () => {
   const { searchTracks, currentTracks, setIsArtistSearch } = useContext(SpotifyAPIContext);
   const router = useRouter();
   const [inputTrackTitle, setInputTrackTitle] = useState('');
@@ -20,7 +20,7 @@ const TrackSearchPage = () => {
       console.log('no tracks found');
     }
 
-    router.push('/trackSelection');
+    router.push('/selection');
   };
 
   return (
@@ -51,4 +51,4 @@ const TrackSearchPage = () => {
   );
 };
 
-export default TrackSearchPage;
+export default SearchPage;

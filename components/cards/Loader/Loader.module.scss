@@ -1,0 +1,17 @@
+@use "palette" as *;
+
+@keyframes shine {
+  to {
+    background-position: 200% 100%;
+  }
+}
+
+.isLoading {
+  background-color: #eee;
+  background: linear-gradient(110deg, rgba($white, 0.25) 8%, rgba($white, 0.2) 18%, rgba($white, 0.25) 33%);
+  border-radius: 5px;
+  border: 1px solid rgba($white, 0.25);
+  background-size: 200% 100%;
+  animation: shine 1.5s linear infinite;
+  height: 4.5rem;
+}

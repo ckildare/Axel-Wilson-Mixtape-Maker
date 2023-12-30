@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import TrackSearchPage from './trackSearch/index.js';
+import SearchPage from './search/index.js';
 
 const Index = () => {
   return (
@@ -14,7 +14,7 @@ const Index = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <TrackSearchPage />
+        <SearchPage />
       </main>
     </>
   );

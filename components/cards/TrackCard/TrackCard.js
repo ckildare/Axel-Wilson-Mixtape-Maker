@@ -1,11 +1,24 @@
 import styles from './TrackCard.module.scss';
-import React from 'react';
+import React, { useState } from 'react';
 
 import Image from 'next/image';
 import classNames from 'classnames';
+import Loader from '../Loader/Loader';
 
 const TrackCard = ({ track, isSelected }) => {
+  const [isImageLoading, setIsImageLoading] = useState(true);
   const trackImage = track?.album?.images[0];
+
+  const handleLoadingComplete = () => {
+    console.info('Image loaded');
+    setIsImageLoading(false);
+  };
+
+  const handleLoadingError = () => {
+    console.error('Error loading image');
+    setIsImageLoading(false);
+  };
+
   return (
     <div
       className={classNames(styles.trackCard, isSelected ? styles.selected : styles.unSelected)}
@@ -13,9 +26,12 @@ const TrackCard = ({ track, isSelected }) => {
       <Image
         src={trackImage.url}
         alt={`Cover art for ${track.name}`}
+        onLoad={handleLoadingComplete}
+        onError={handleLoadingError}
         width={64}
         height={64}
-        className={styles.albumCover}
+        layout="fixed"
+        className={isImageLoading ? styles.isLoading : styles.albumCover}
       />
       <div className={styles.trackData}>
         <div className={styles.title}>{track.name}</div>

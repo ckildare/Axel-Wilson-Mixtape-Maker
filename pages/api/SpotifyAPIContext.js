@@ -22,6 +22,7 @@ const SpotifyAPIProvider = ({ children }) => {
   const [trackTree, setTrackTree] = useState(initialContext.trackTree);
   const [searchFetchCount, setSearchFetchCount] = useState(initialContext.searchFetchCount);
   const [isArtistSearch, setIsArtistSearch] = useState(initialContext.isArtistSearch);
+  const [isFinished, setIsFinished] = useState(false);
 
   // Get Client Auth Token and Start Auth Token Refresh Interval
   useEffect(() => {
@@ -42,6 +43,14 @@ const SpotifyAPIProvider = ({ children }) => {
 
     setTrackTree(addTracksToTree(newTree, selectedTracks[selectedTracks.length - 1].id, currentTracks));
   }, [selectedTracks]);
+
+  const navigateBack = async (from, router) => {
+    if (isFinished) { router.push('/result'); return; }
+
+    if (selectedTracks.length == 1) { router.push('/selection'); return; }
+    
+    router.push('/');
+  };
 
   const searchTracks = async (request) => {
     const token = await getTokenFromSessionStorage();
@@ -64,11 +73,12 @@ const SpotifyAPIProvider = ({ children }) => {
     const token = await getTokenFromSessionStorage();
     const settings = buildSettings(track.id, track.artists, 5);
 
-    const trackRecommendationsResponse = await fetchTrackRecommendations(settings, track.name, token);
+    const trackRecommendationsResponse = await fetchTrackRecommendations(settings, token);
     if (!trackRecommendationsResponse || trackRecommendationsResponse?.tracks?.length == 0) {
       console.error('No recommendations found for track ID: ', track.id);
       return null;
     }
+    console.info('Recommendations Found: ', trackRecommendationsResponse.tracks);
 
     setCurrentTracks([...trackRecommendationsResponse.tracks.map(track => mapTrack(track))]);
     setSelectedTracks([...selectedTracks, track]);
@@ -95,10 +105,12 @@ const SpotifyAPIProvider = ({ children }) => {
       selectedTracks: selectedTracks,
       trackTree: trackTree,
       setTrackTree,
+      setIsFinished,
       searchTracks,
       getTracks,
       setIsArtistSearch,
-      getRecommendations
+      getRecommendations,
+      navigateBack
     }}>
       {children}
     </SpotifyAPIContext.Provider>
