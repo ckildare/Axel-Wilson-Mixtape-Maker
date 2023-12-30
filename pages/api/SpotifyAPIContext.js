@@ -3,11 +3,12 @@ import fetchTrackSearch from './fetchTrackSearch';
 import fetchTrackRecommendations from './fetchTrackRecommendations';
 import { mapTrack, addTracksToTree } from 'utils/trackUtils';
 import buildSettings from 'utils/reccUtils';
-import { refreshTokenAndSetTimeout, getTokenFromSessionStorage } from 'utils/tokenUtils';
+import { refreshTokenAndSetTimeout, getTokenFromSessionStorage, updateSessionStorageSearchQuery } from 'utils/tokenUtils';
 
 const initialContext = {
   currentTracks: [],
   searchFetchCount: 0,
+  isArtistSearch: false,
   recommendationFetchCount: 0,
   trackTree: null,
 };
@@ -19,6 +20,7 @@ const SpotifyAPIProvider = ({ children }) => {
   const [trackTree, setTrackTree] = useState(initialContext.trackTree);
   const [searchFetchCount, setSearchFetchCount] = useState(initialContext.searchFetchCount);
   const [recommendationFetchCount, setRecommendationFetchCount] = useState(initialContext.recommendationFetchCount);
+  const [isArtistSearch, setIsArtistSearch] = useState(initialContext.isArtistSearch);
 
   // Get Client Auth Token and Start Auth Token Refresh Interval
   useEffect(() => {
@@ -27,8 +29,10 @@ const SpotifyAPIProvider = ({ children }) => {
 
   const searchTracks = async (request) => {
     const token = await getTokenFromSessionStorage();
+    const sessionQuery = await updateSessionStorageSearchQuery(request, isArtistSearch);
+    if (!sessionQuery) return;
 
-    const trackSearchResponse = await fetchTrackSearch(request, token, searchFetchCount * 5);
+    const trackSearchResponse = await fetchTrackSearch(sessionQuery, token, searchFetchCount * 5);
     if (!trackSearchResponse || trackSearchResponse?.tracks?.items.length == 0) {
       console.error('No tracks found for request: ', request);
       return;
@@ -65,6 +69,7 @@ const SpotifyAPIProvider = ({ children }) => {
       trackTree: trackTree,
       setTrackTree,
       searchTracks,
+      setIsArtistSearch,
       getRecommendations
     }}>
       {children}

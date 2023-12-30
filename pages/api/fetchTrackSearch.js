@@ -1,7 +1,7 @@
-const fetchTrackSearch = async (request, token, offset) => {
+const fetchTrackSearch = async (query, token, offset) => {
   try {
     const response = await fetch(
-      `https://api.spotify.com/v1/search?q=track%3A${request}&type=track&limit=5&offset=${offset}`,
+      `https://api.spotify.com/v1/search?${query}&type=track&limit=5&offset=${offset}`,
       {
         method: 'GET',
         headers: {
@@ -15,7 +15,7 @@ const fetchTrackSearch = async (request, token, offset) => {
     }
 
     const data = await response.json();
-    console.info(`Successfully fetched track search for ${request}`);
+    console.info(`Successfully fetched track search for ${query}`);
     // console.info(data);
     return data;
   } catch (error) {

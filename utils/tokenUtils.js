@@ -25,3 +25,15 @@ export async function getTokenFromSessionStorage () {
   if (!token) await refreshTokenAndSetTimeout();
   return token;
 }
+
+
+export async function updateSessionStorageSearchQuery (request, isArtistSearch) {
+  if (request) {
+    const setQuery = `q=${isArtistSearch ? 'artist' : 'track'}%3A${request}`;
+    window.sessionStorage.setItem('search_query', setQuery);
+    return setQuery;
+  }
+
+  const query = window.sessionStorage.getItem('search_query');
+  return query ?? null;
+}

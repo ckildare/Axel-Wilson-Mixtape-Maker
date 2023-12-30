@@ -1,25 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './ToggleSwitch.module.scss';
 
 const ToggleSwitch = ({
   offText,
   onText,
-  isOn, 
+  isOn = false, 
   handleToggle, 
   onColor
 }) => {
   const [isOnState, setIsOnState] = useState(isOn);
-
-  const handleToggleState = () => {
-    setIsOnState(!isOnState);
-    handleToggle();
-  }
+  useEffect(() => handleToggle(isOnState), [isOnState]);
 
   return (
     <>
       <input
         checked={isOnState}
-        onChange={() => handleToggleState()}
+        onChange={() => setIsOnState(!isOnState)}
         className={styles.checkbox}
         id={'toggleSwitch'}
         type="checkbox"

@@ -8,12 +8,11 @@ import TextInput from 'components/TextInput/TextInput';
 import ToggleSwitch from 'components/ToggleSwitch/ToggleSwitch';
 
 const TrackSearchPage = () => {
-  const { searchTracks, currentTracks } = useContext(SpotifyAPIContext);
+  const { searchTracks, currentTracks, setIsArtistSearch } = useContext(SpotifyAPIContext);
   const router = useRouter();
   const [inputTrackTitle, setInputTrackTitle] = useState('');
 
   const handleSearchButtonClick = async (inputTrackTitle) => {
-    window.sessionStorage.setItem('search_query_title', inputTrackTitle);
     await searchTracks(inputTrackTitle);
 
     if (currentTracks.length == 1) {
@@ -31,7 +30,7 @@ const TrackSearchPage = () => {
           <div className={styles.searchText}>Search for a Song</div>
           <ToggleSwitch
             className={styles.seedSettingPill}
-            handleToggle={() => console.log('toggle')}
+            handleToggle={(isOn) => setIsArtistSearch(isOn)}
             onText={'Artist'}
             offText={'Title'}
             name={'artistOrTitle'}
