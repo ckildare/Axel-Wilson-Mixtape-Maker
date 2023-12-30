@@ -3,13 +3,14 @@ import fetchTrackSearch from './fetchTrackSearch';
 import fetchTrackRecommendations from './fetchTrackRecommendations';
 import { mapTrack, addTracksToTree } from 'utils/trackUtils';
 import buildSettings from 'utils/reccUtils';
-import { refreshTokenAndSetTimeout, getTokenFromSessionStorage, updateSessionStorageSearchQuery } from 'utils/tokenUtils';
+import { refreshTokenAndSetTimeout, getTokenFromSessionStorage, updateSessionStorageSearchQuery, updateSessionStorageTrackQuery } from 'utils/tokenUtils';
+import fetchGetTracks from './fetchGetTracks';
 
 const initialContext = {
   currentTracks: [],
+  selectedTracks: [],
   searchFetchCount: 0,
   isArtistSearch: false,
-  recommendationFetchCount: 0,
   trackTree: null,
 };
 
@@ -17,9 +18,9 @@ const SpotifyAPIContext = createContext(initialContext);
 
 const SpotifyAPIProvider = ({ children }) => {
   const [currentTracks, setCurrentTracks] = useState(initialContext.currentTracks);
+  const [selectedTracks, setSelectedTracks] = useState(initialContext.selectedTracks);
   const [trackTree, setTrackTree] = useState(initialContext.trackTree);
   const [searchFetchCount, setSearchFetchCount] = useState(initialContext.searchFetchCount);
-  const [recommendationFetchCount, setRecommendationFetchCount] = useState(initialContext.recommendationFetchCount);
   const [isArtistSearch, setIsArtistSearch] = useState(initialContext.isArtistSearch);
 
   // Get Client Auth Token and Start Auth Token Refresh Interval
@@ -55,20 +56,36 @@ const SpotifyAPIProvider = ({ children }) => {
       return;
     }
 
-    setRecommendationFetchCount(recommendationFetchCount + 1);
+    setSelectedTracks([...selectedTracks, track.id]);
     setCurrentTracks([...trackRecommendationsResponse.tracks.map(track => mapTrack(track))]);
     setTrackTree(addTracksToTree(trackTree, track.id, trackRecommendationsResponse.tracks));
     console.table(currentTracks);
+  };
+
+  const getTracks = async () => {
+    const token = await getTokenFromSessionStorage();
+    const query = await updateSessionStorageTrackQuery(selectedTracks);
+    console.log(query);
+
+    const tracksResponse = await fetchGetTracks(query, token);
+    if (!tracksResponse || tracksResponse?.tracks?.length == 0) {
+      console.error('Tracks not found for query: ', query);
+      return;
+    }
+
+    console.table(tracksResponse);
+    return tracksResponse;
   };
 
   return (
     <SpotifyAPIContext.Provider value={{
       ...initialContext,
       currentTracks: currentTracks,
-      recommendationFetchCount: recommendationFetchCount,
+      selectedTracks: selectedTracks,
       trackTree: trackTree,
       setTrackTree,
       searchTracks,
+      getTracks,
       setIsArtistSearch,
       getRecommendations
     }}>

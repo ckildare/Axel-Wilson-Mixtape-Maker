@@ -1,1 +1,29 @@
 @use "palette" as *;
+
+.screenWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  gap: $m;
+
+  .topButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: $l;
+  }
+
+  .tracks {
+    display: flex;
+    flex-direction: column;
+    gap: $s;
+  }
+
+  .bottomButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: $xl;
+  }
+}

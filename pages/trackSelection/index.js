@@ -8,15 +8,14 @@ import { addTracksToTree } from 'utils/trackUtils';
 
 const TrackSelectionPage = () => {
   const router = useRouter();
-  const { searchTracks, getRecommendations, recommendationFetchCount, currentTracks, trackTree, setTrackTree } = useContext(SpotifyAPIContext);
+  const { searchTracks, getRecommendations, selectedTracks, currentTracks, trackTree, setTrackTree } = useContext(SpotifyAPIContext);
   const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
 
   const handleNoTracks = async () => {
-    const trackTitleQuery = window.sessionStorage.getItem('search_query_title');
-
     // Users shouldn't be here if they haven't made a query yet, send them back
-    if (!trackTitleQuery) router.push('/');
-    await searchTracks(trackTitleQuery);
+    await searchTracks();
+
+    if (currentTracks?.length == 0) router.push('/');
   };
 
   const handleButtonClick = async () => {
@@ -40,10 +39,8 @@ const TrackSelectionPage = () => {
       console.log('no recommendations found');
       return;
     }
-    if (recommendationFetchCount > 0) {
-      router.push('/recommendations');
-    }
-  }, [recommendationFetchCount]);
+    router.push('/recommendations');
+  }, [selectedTracks]);
 
   useEffect(() => {
     if (currentTracks.length == 0) handleNoTracks();

@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 
 const RecommendationsPage = () => {
   const router = useRouter();
-  const { getRecommendations, currentTracks, recommendationFetchCount } = useContext(SpotifyAPIContext);
+  const { getRecommendations, currentTracks, selectedTracks } = useContext(SpotifyAPIContext);
   const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
 
   const handleRecommend = async () => {
@@ -35,7 +35,7 @@ const RecommendationsPage = () => {
         })}
       </div>
       <div className={styles.bottomButtons}>
-        <Button text={'Recommend'} type={'primary'} onClick={() => handleRecommend()} disabled={!selectedTrackIndex || recommendationFetchCount > 15} />
+        <Button text={'Recommend'} type={'primary'} onClick={() => handleRecommend()} disabled={!selectedTrackIndex || selectedTracks.length > 15} />
         <Button text={'Finish'} onClick={() => handleFinish()} />
       </div>
     </div>

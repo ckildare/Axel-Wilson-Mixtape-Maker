@@ -37,3 +37,14 @@ export async function updateSessionStorageSearchQuery (request, isArtistSearch) 
   const query = window.sessionStorage.getItem('search_query');
   return query ?? null;
 }
+
+export async function updateSessionStorageTrackQuery (selectedTracks) {
+  const query = window.sessionStorage.getItem('track_query');
+  if (query) return query;
+
+  if (!selectedTracks || selectedTracks?.length == 0) return null;
+
+  const setQuery = encodeURIComponent(selectedTracks.join(','));
+  window.sessionStorage.setItem('track_query', setQuery);
+  return setQuery;
+}
