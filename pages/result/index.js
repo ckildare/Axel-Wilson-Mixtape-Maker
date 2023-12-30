@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { SpotifyAPIContext } from 'spotifyContext';
 import TrackCard from 'components/cards/TrackCard/TrackCard';
 import Button from 'components/Button/Button';
+import TrackTree from 'components/TrackTree/TrackTree';
 
 const ResultPage = () => {
   const router = useRouter();
@@ -15,7 +16,7 @@ const ResultPage = () => {
         <Button disabled={!isTreeView} text={'Tracks'} onClick={() => setIsTreeView(false)} />
         <Button disabled={isTreeView} text={'Tree'} onClick={() => setIsTreeView(true)} />
       </div>
-      {isTreeView ? <TreeView router={router} /> : <TrackView router={router} /> }
+      {isTreeView ? <TreeView /> : <TrackView/> }
       <div className={styles.bottomButtons}>
         <Button text={'Restart'} onClick={() => router.push('/')} />
       </div>
@@ -23,48 +24,28 @@ const ResultPage = () => {
   );
 };
 
-const TreeView = (router) => {
+const TreeView = () => {
+  const router = useRouter();
   const { trackTree } = useContext(SpotifyAPIContext);
-  console.log(router);
+
+  useEffect(() => { if (!trackTree) router.push('/trackSelection'); }, []);
 
   return (
     <div className={styles.tree}>
-      {trackTree}
+      <TrackTree trackTree={trackTree} />
     </div>
   );
-}
+};
 
 const TrackView = (router) => {
-  const { getTracks } = useContext(SpotifyAPIContext);
   const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
-  const [tracks, setTracks] = useState([]);
+  const { selectedTracks } = useContext(SpotifyAPIContext);
 
-  const fetchTracks = async () => {
-    try {
-      const tracksResponse = await getTracks();
-      if (!tracksResponse || tracksResponse?.length === 0) {
-        router.push('/recommend');
-        return;
-      } 
-      
-      setTracks(tracksResponse);
-    } catch (error) {
-      console.error('Error fetching tracks:', error);
-    }
-  };
-
-  useEffect(() => {
-    // Define a separate function to handle the asynchronous behavior
-    const fetchData = async () => {
-      await fetchTracks();
-    };
-
-    fetchData(); // Call the function inside useEffect
-  }, []); // Add an empty dependency array to run the effect only once
+  useEffect(() => { if (!selectedTracks || selectedTracks?.length == 0) router.push('/trackSelection'); }, []);
 
   return (
     <div className={styles.tracks}>
-      {tracks.map((track, key) => (
+      {selectedTracks.map((track, key) => (
         <div key={key} onClick={() => setSelectedTrackIndex(key === selectedTrackIndex ? null : key)}>
           <TrackCard track={track} isSelected={selectedTrackIndex === key} />
         </div>

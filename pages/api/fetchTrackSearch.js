@@ -15,8 +15,6 @@ const fetchTrackSearch = async (query, token, offset) => {
     }
 
     const data = await response.json();
-    console.info(`Successfully fetched track search for ${query}`);
-    // console.info(data);
     return data;
   } catch (error) {
     console.error(`Error fetching track search: ${error.message}`);

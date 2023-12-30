@@ -15,8 +15,6 @@ const fetchGetTracks = async (ids, token) => {
     }
 
     const data = await response.json();
-    console.info('Successfully fetched tracks.');
-    console.info(data.tracks);
     return data.tracks;
   } catch (error) {
     console.error(`Error fetching tracks: ${error.message}`);

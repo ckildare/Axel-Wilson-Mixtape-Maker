@@ -4,43 +4,36 @@ import { SpotifyAPIContext } from 'spotifyContext';
 import styles from './index.module.scss';
 import TrackCard from 'components/cards/TrackCard/TrackCard';
 import Button from 'components/Button/Button';
-import { addTracksToTree } from 'utils/trackUtils';
 
 const TrackSelectionPage = () => {
   const router = useRouter();
-  const { searchTracks, getRecommendations, selectedTracks, currentTracks, trackTree, setTrackTree } = useContext(SpotifyAPIContext);
+  const { searchTracks, getRecommendations, currentTracks } = useContext(SpotifyAPIContext);
   const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
+  const [isLoadingReccs, setIsLoadingReccs] = useState(false);
 
   const handleNoTracks = async () => {
-    // Users shouldn't be here if they haven't made a query yet, send them back
     await searchTracks();
-
     if (currentTracks?.length == 0) router.push('/');
   };
 
   const handleButtonClick = async () => {
-    setTrackTree(addTracksToTree(null, null, [currentTracks[selectedTrackIndex]]));
+    setIsLoadingReccs(true);
+    if (selectedTrackIndex === null) return;
+    const targetTrack = currentTracks[selectedTrackIndex];
+
+    setIsLoadingReccs(await getRecommendations(targetTrack) !== null);
+    setSelectedTrackIndex(null);
   };
 
   useEffect(() => {
-    async function getReccs(targetTrack) {
-      await getRecommendations(targetTrack);
-    }
-    if (selectedTrackIndex === null) return;
-
-    const targetTrack = currentTracks[selectedTrackIndex];
-    getReccs(targetTrack);
-    setSelectedTrackIndex(null);
-  }, [trackTree !== null]);
-
-  useEffect(() => {
+    if (!isLoadingReccs) return;
     if (currentTracks.length == 0) {
       // TODO: display no recommendations found message
       console.log('no recommendations found');
       return;
     }
     router.push('/recommendations');
-  }, [selectedTracks]);
+  }, [isLoadingReccs]);
 
   useEffect(() => {
     if (currentTracks.length == 0) handleNoTracks();

@@ -34,8 +34,6 @@ const fetchTrackRecommendations = async (settings, trackName, token) => {
     }
 
     const data = await response.json();
-    console.info(`Successfully fetched track recommendations for ${trackName}`);
-    // console.info(`fetchTrackRecommendations data: ${JSON.stringify(data, null, 2)}`);
     return data;
   } catch (error) {
     console.error(`Error fetching track recommendations: ${error.message}`);

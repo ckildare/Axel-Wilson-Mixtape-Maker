@@ -28,6 +28,21 @@ const SpotifyAPIProvider = ({ children }) => {
     refreshTokenAndSetTimeout();
   }, []);
 
+  useEffect(() => {
+    console.info('Track Tree Updated: ', trackTree);
+  }, [trackTree]);
+
+  useEffect(() => {
+    if (selectedTracks.length == 0) return;
+    console.info('selectedTracks Tracks Updated: ', selectedTracks);
+    let newTree = trackTree;
+    if (selectedTracks.length == 1) {
+      newTree = addTracksToTree(null, null, selectedTracks);
+    }
+
+    setTrackTree(addTracksToTree(newTree, selectedTracks[selectedTracks.length - 1].id, currentTracks));
+  }, [selectedTracks]);
+
   const searchTracks = async (request) => {
     const token = await getTokenFromSessionStorage();
     const sessionQuery = await updateSessionStorageSearchQuery(request, isArtistSearch);
@@ -43,7 +58,6 @@ const SpotifyAPIProvider = ({ children }) => {
     // Maybe Do Pagination Instead? ( paginate every 5 results on different queries )
     setSearchFetchCount(searchFetchCount + 1);
     setCurrentTracks([...trackSearchResponse.tracks.items.map(track => mapTrack(track))]);
-    console.table(currentTracks);
   };
 
   const getRecommendations = async (track) => {
@@ -53,19 +67,17 @@ const SpotifyAPIProvider = ({ children }) => {
     const trackRecommendationsResponse = await fetchTrackRecommendations(settings, track.name, token);
     if (!trackRecommendationsResponse || trackRecommendationsResponse?.tracks?.length == 0) {
       console.error('No recommendations found for track ID: ', track.id);
-      return;
+      return null;
     }
 
-    setSelectedTracks([...selectedTracks, track.id]);
     setCurrentTracks([...trackRecommendationsResponse.tracks.map(track => mapTrack(track))]);
-    setTrackTree(addTracksToTree(trackTree, track.id, trackRecommendationsResponse.tracks));
-    console.table(currentTracks);
+    setSelectedTracks([...selectedTracks, track]);
+    return trackRecommendationsResponse.tracks;
   };
 
   const getTracks = async () => {
     const token = await getTokenFromSessionStorage();
     const query = await updateSessionStorageTrackQuery(selectedTracks);
-    console.log(query);
 
     const tracksResponse = await fetchGetTracks(query, token);
     if (!tracksResponse || tracksResponse?.tracks?.length == 0) {
@@ -73,7 +85,6 @@ const SpotifyAPIProvider = ({ children }) => {
       return;
     }
 
-    console.table(tracksResponse);
     return tracksResponse;
   };
 
