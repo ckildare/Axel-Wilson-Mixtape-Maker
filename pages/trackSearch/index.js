@@ -3,8 +3,9 @@ import { useRouter } from 'next/router';
 import Button from 'components/Button/Button';
 import Card from 'components/cards/Card/Card';
 import React, { useState, useContext } from 'react';
-// import styles from './index.module.scss';
+import styles from './index.module.scss';
 import TextInput from 'components/TextInput/TextInput';
+import ToggleSwitch from 'components/ToggleSwitch/ToggleSwitch';
 
 const TrackSearchPage = () => {
   const { searchTracks, currentTracks } = useContext(SpotifyAPIContext);
@@ -24,18 +25,30 @@ const TrackSearchPage = () => {
   };
 
   return (
-    <Card >
-      penis
-      <TextInput
-        rowNumber={1}
-        required
-        autocorrect
-        type={'tertiary'}
-        placeHolder={'Enter Track Title'}
-        onChange={(e) => setInputTrackTitle(e)}
-      />
-      <Button type={'tertiary'} text={'also penis'} onClick={() => handleSearchButtonClick(inputTrackTitle)} />
-    </Card>
+    <div className={styles.screenWrapper}>
+      <Card className={styles.searchCard}>
+        <div className={styles.topRow}>
+          <div className={styles.searchText}>Search for a Song</div>
+          <ToggleSwitch
+            className={styles.seedSettingPill}
+            handleToggle={() => console.log('toggle')}
+            onText={'Artist'}
+            offText={'Title'}
+            name={'artistOrTitle'}
+          />
+        </div>
+        <TextInput
+          rowNumber={1}
+          required
+          autocorrect
+          type={'tertiary'}
+          placeHolder={'Enter Track Title'}
+          onChange={(e) => setInputTrackTitle(e)}
+        />
+        <Button type={'tertiary'} text={'Search'} onClick={() => handleSearchButtonClick(inputTrackTitle)} />
+      </Card>
+      <Button type={'primary'} text={'About'} onClick={() => router.push('/about')} />
+    </div>
   );
 };
 

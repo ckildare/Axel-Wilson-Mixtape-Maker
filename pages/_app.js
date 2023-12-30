@@ -8,7 +8,7 @@ import '../styles/globals.css';
 export default function App({ Component, pageProps }) {
   return <>
     <Header />
-    <div className='pagepadding'>
+    <div className='pagePadding'>
       <SpotifyAPIProvider>
         <Component {...pageProps} />
       </SpotifyAPIProvider>

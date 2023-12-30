@@ -1,0 +1,63 @@
+@use "palette" as *;
+
+.checkbox {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: $m;
+  width: 6rem;
+  height: 2rem;
+  background: $o50;
+  border-radius: 2rem;
+  position: relative;
+  transition: background-color .2s;
+}
+
+.label .toggleText {
+  content: '';
+  font-family: $bartex;
+  position: absolute;
+  user-select: none;
+  font-size: $fxl;
+  font-weight: 500;
+  color: $white;
+  top: 25%;
+  left: 0.5rem; /* Initial position on the left when switch is off */
+  width: 2rem; /* Set the same width as .button */
+  transition: left 0.2s; /* Updated to apply transition only on left property */
+}
+
+.label .button {
+  content: '';
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem; /* Initial position on the right when switch is off */
+  width: 2rem;
+  height: 1.5rem;
+  border-radius: 2rem;
+  background: $t50;
+  box-shadow: 0 0 2px 0 $white90;
+  transition: right 0.2s, left 0.2s, width 0.2s; /* Updated to apply transition on right, left, and width properties */
+}
+
+.checkbox:checked + .label .button {
+  right: calc(100% - 2.5rem); /* Slide to the left when switch is on */
+  left: 0.25rem; /* Ensure left is set when transitioning towards the left */
+}
+
+.checkbox:checked + .label .toggleText {
+  left: calc(100% - 3rem); /* Slide to the left during active or focus states */
+  right: 0.5rem; /* Ensure right is set when transitioning towards the left */
+}
+
+.label:active .button,
+.label:focus-within .button {
+  width: 2.5rem; /* Enlarge width during active or focus states */
+}

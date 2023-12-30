@@ -5,6 +5,35 @@
   flex-direction: column;
 
   gap: 0.5rem;
+
+  .searchCard {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem;
+
+    .topRow {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+
+      .searchText {
+        font-family: $bartex;
+        font-size: $fjm;
+        font-weight: 500;
+        color: $v50;
+      }
+
+      .seedSettingPill {
+        font-family: $bartex;
+        font-size: $fjm;
+        font-weight: 500;
+        color: $v50;
+      }
+    }
+  }
 }
 
 
