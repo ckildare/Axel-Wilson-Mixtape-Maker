@@ -1,0 +1,76 @@
+@use "palette" as *;
+
+.treeWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    max-width: 35rem;
+    width: 100%;
+
+    .leafRow {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+
+      .rightConnectorWrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        justify-self: stretch;
+        height: 1rem;
+        width: calc(100% - 4.75rem);
+
+        .rightConnector {
+          min-width: 1rem;
+          height: 1rem;
+          text-align: center;
+        }
+
+        .rightConnectorBottom {
+          min-width: 1rem;
+          height: 1rem;
+          text-align: center;
+          rotate: -180deg;
+        }
+      }
+    }
+
+    .leafColumn {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      width: 4.75rem;
+
+      .bottomConnectorWrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        height: 1rem;
+
+        .bottomConnector {
+          width: 1rem;
+          height: 1rem;
+          text-align: center;
+          rotate: -90deg;
+        }
+
+        .bottomConnectorRight {
+          width: 1rem;
+          height: 1rem;
+          text-align: center;
+          rotate: 90deg;
+        }
+      }
+    }
+  }
+}

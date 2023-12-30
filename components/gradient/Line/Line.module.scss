@@ -3,15 +3,9 @@
 .lineWrapper {
   display: flex;
   flex-direction: column;
+  width: stretch;
+  height: stretch;
 }
-
-.lineWrapperSize1 { height: 1rem; }
-
-.lineWrapperSize2 { height: 2rem; }
-
-.lineWrapperSize3 { height: 4rem; }
-
-.lineWrapperSize4 { height: 8rem; }
 
 .line {
   height: .5rem;

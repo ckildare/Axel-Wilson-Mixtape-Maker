@@ -37,7 +37,8 @@ const TreeView = () => {
   );
 };
 
-const TrackView = (router) => {
+const TrackView = () => {
+  const router = useRouter();
   const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
   const { selectedTracks } = useContext(SpotifyAPIContext);
 

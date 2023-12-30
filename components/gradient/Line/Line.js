@@ -3,7 +3,8 @@ import classNames from 'classnames';
 import styles from './Line.module.scss';
 
 const Line = ({
-  size = 1
+  size = 1,
+  ...props
 }) => {
 
   const lineSize = (size) => {
@@ -25,7 +26,7 @@ const Line = ({
   };
 
   return (
-    <div className={classNames(styles.lineWrapper, lineWrapper(size))}>
+    <div className={classNames(props.className, classNames(styles.lineWrapper, lineWrapper(size)))}>
       <div className={classNames(styles.line1, lineSize(size))} />
       <div className={classNames(styles.line2, lineSize(size))} />
       <div className={classNames(styles.line3, lineSize(size))} />

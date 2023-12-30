@@ -15,18 +15,19 @@ export const mapTrack = (track) => {
       id: track.album.id,
     },
     duration: track.duration_ms,
-    href: track.href,
+    href: track.external_urls.spotify,
     preview: track.preview_url,
   };
 };
 
-export const mapTrackTreeNode = (track) => {
+export const mapTrackTreeLeaf = (track) => {
   const smallestImg = track.album.images[track.album.images.length - 1];
   return {
     'id': track.id,
     'href': track.href,
     'img': smallestImg.url,
     'imgDim': smallestImg.height,
+    'name': track.name,
     'selected': false
   };
 };
@@ -34,7 +35,7 @@ export const mapTrackTreeNode = (track) => {
 export const mapTrackTreeRow = (parent, tracks) => {
   let mappedTrackTreeRow = { 'parent': parent, 'tracks': [] };
   tracks.forEach(track => {
-    mappedTrackTreeRow.tracks.push(mapTrackTreeNode(track));
+    mappedTrackTreeRow.tracks.push(mapTrackTreeLeaf(track));
   });
 
   return mappedTrackTreeRow;
