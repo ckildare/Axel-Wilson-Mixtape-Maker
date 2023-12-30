@@ -1,0 +1,40 @@
+@use "palette" as *;
+
+$retro: url('../../public/images/retro.jpg');
+
+.screenWrapper {
+  display: flex;
+  flex-direction: column;
+
+  gap: $l;
+
+  .axelCard {
+    display: flex;
+    flex-direction: row;
+    gap: $l;
+    padding: $m;
+    background: $retro;
+    color: $white;
+
+    .axel {
+      width: 100%;
+      max-width: 10rem;
+      height: auto;
+      border-radius: $m;
+      border: 1px solid $white;
+    }
+
+    .axelInfo {
+      display: flex;
+      flex-direction: column;
+      gap: $m;
+      background-color: rgba($v50, 0.25);
+      border-radius: $m;
+      border: 1px solid rgba($white, 0.25);
+      padding: $m;
+      min-height: 5rem;
+      height: min-content;
+      backdrop-filter: blur(1px);
+    }
+  }
+}
