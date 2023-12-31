@@ -1,39 +1,57 @@
+import { getTokenFromSessionStorage } from 'utils/sessionStorageUtils';
 import styles from './TrackCard.module.scss';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import Image from 'next/image';
-import classNames from 'classnames';
+const TrackCard = () => {
+  const [deviceId, setDeviceId] = useState(null);
 
-const TrackCard = ({ track, isSelected }) => {
-  const [isImageLoading, setIsImageLoading] = useState(true);
-  const trackImage = track?.album?.images[0];
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://sdk.scdn.co/spotify-player.js';
+    script.async = true;
+    document.body.appendChild(script);
 
-  const handleLoadingComplete = () => {
-    setIsImageLoading(false);
-  };
+    script.onload = () => {
+      window.onSpotifyWebPlaybackSDKReady = () => {
+        const player = new Spotify.Player({
+          name: 'Your App Name',
+          getOAuthToken: async (callback) => {
+            const token = await getTokenFromSessionStorage();
+            console.log('token: ', token);
+            callback(token);
+          },
+        });
 
-  const handleLoadingError = () => {
-    console.error('Error loading image', trackImage.url);
-    setIsImageLoading(false);
+        player.addListener('ready', ({ device_id }) => {
+          console.log(`Ready with Device ID: ${device_id}`);
+          setDeviceId(device_id);
+        });
+
+        player.connect();
+      };
+    };
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  return (
+    <TrackCardEmbed deviceId={deviceId} />
+  );
+};
+
+const TrackCardEmbed = ({ deviceId }) => {
+  const handlePlayClick = () => {
+    // Use the deviceId to play the track or perform other actions
+    fetch(`/api/play-track?deviceId=${deviceId}&trackId=${track.id}`, {
+      method: 'POST',
+    });
   };
 
   return (
-    <div
-      className={classNames(styles.trackCard, isSelected ? styles.selected : styles.unSelected)}
-    >
-      <Image
-        src={trackImage.url}
-        alt={`Cover art for ${track.name}`}
-        onLoad={handleLoadingComplete}
-        onError={handleLoadingError}
-        width={64}
-        height={64}
-        className={isImageLoading ? styles.isLoading : styles.albumCover}
-      />
-      <div className={styles.trackData}>
-        <div className={styles.title}>{track.name}</div>
-        <div className={styles.author}>{track.artists.map(artist => artist.name).join(', ')}</div>
-      </div>
+    <div>
+      <button onClick={handlePlayClick}>Play Track</button>
     </div>
   );
 };

@@ -11,97 +11,55 @@ $focus3border: 1px solid $white90;
 .trackCard {
   display: flex;
   flex-direction: row;
-  border-radius: $s;
+  border-radius: calc($l - 3px);
   color: $white75;
-  max-height: 4.5rem;
-
-  padding: $xs;
+  height: calc(5rem + 2px);
   gap: $m;
+  position: relative;
 }
 
-.unSelected {
-  background-color: $v40;
-  border: $focus1border;
+.iframe {
+  width: 100%;
+  height: 5rem;
+  position: relative;
+  z-index: 1;
+}
 
-  .title {
-    color: $white90;
-  }
-  .author {
-    color: $white50;
-  }
-  .albumCover {
+.unSelected .iframe {
+  .iframe {
+    background-color: $v40;
     border: $focus1border;
+    z-index: 2;
   }
 }
 
 .unSelected:hover {
   background-color: $v30;
   border: $focus2border;
-
-  .title {
-    color: $white;
-    opacity: 0.9;
-  }
-  .author {
-    color: $white75;
-  }
-  .albumCover {
-    border: $focus2border;
-  }
 }
 
 .selected {
   background-color: $v10;
   border: $focus2border;
-
-  .title {
-    color: $white;
-  }
-  .author {
-    color: $white75;
-  }
-  .albumCover {
-    border: $focus2border;
-  }
 }
 
 .selected:hover {
   background-color: $v00;
   border: $focus3border;
-
-  .author {
-    color: $white90;
-  }
-  .albumCover {
-    border: $focus3border;
-  }
-}
-
-.trackData {
-  display: flex;
-  flex-direction: column;
-  gap: $s;
-
-  .title {
-    font-size: $fm;
-  }
-
-  .author {
-    font-size: $fs;
-  }
-}
-
-.albumCover {
-  border: 1px solid $white50;
-  border-radius: $s;
 }
 
 .isLoading {
   background-color: #eee;
-  background: linear-gradient(110deg, rgba($white, 0.25) 8%, rgba($white, 0.2) 18%, rgba($white, 0.25) 33%);
-  border-radius: $s;
+  background: linear-gradient(
+    110deg,
+    rgba($white, 0.25) 8%,
+    rgba($white, 0.2) 18%,
+    rgba($white, 0.25) 33%
+  );
+  border-radius: $l;
   border: 1px solid $white50;
   background-size: 200% 100%;
   animation: shine 1.5s linear infinite;
   height: 3.875rem;
+  z-index: 2;
 }

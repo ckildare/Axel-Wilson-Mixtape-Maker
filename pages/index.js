@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import SearchPage from './search/index.js';
+import Script from 'next/script.js';
 
 const Index = () => {
   return (
@@ -14,6 +15,7 @@ const Index = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        <Script src={'https://sdk.scdn.co/spotify-player.js'} />
         <SearchPage />
       </main>
     </>

@@ -2,13 +2,15 @@ import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from './credentials';
 
 const fetchAccessToken = async () => {
   try {
+    const scopes = 'user-read-playback-state user-modify-playback-state user-top-read user-follow-read';
+
     const authOptions = {
       method: 'POST',
       headers: {
         'Authorization': 'Basic ' + btoa(SPOTIFY_CLIENT_ID + ':' + SPOTIFY_CLIENT_SECRET),
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: 'grant_type=client_credentials',
+      body: `grant_type=client_credentials&scope=${encodeURIComponent(scopes)}`,
     };
 
     const response = await fetch('https://accounts.spotify.com/api/token', authOptions);

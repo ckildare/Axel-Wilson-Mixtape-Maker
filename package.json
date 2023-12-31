@@ -1,24 +1,33 @@
 {
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "start": "next start"
+    "start": "next start",
+    "server": "node server.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^1.1.0",
     "classnames": "^2.3.2",
     "next": "latest",
+    "node-fetch": "^2.6.1",
+    "path": "^0.12.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "sass": "^1.69.1",
+    "sharp": "^0.33.1",
+    "spotify-player": "^1.0.0-alpha.1",
     "styled-components": "^6.1.6"
   },
   "engines": {
     "node": ">=18"
   },
   "devDependencies": {
+    "dotenv": "^16.3.1",
     "eslint": "^8.56.0",
-    "eslint-plugin-react": "^7.33.2"
+    "eslint-plugin-react": "^7.33.2",
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6"
   }
 }
