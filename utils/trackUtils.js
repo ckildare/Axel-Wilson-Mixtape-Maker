@@ -1,3 +1,6 @@
+import { useRouter } from 'next/router';
+import React from 'react';
+
 export const mapTrack = (track) => {
   return {
     id: track.id,
@@ -59,4 +62,9 @@ export const addTracksToTree = (trackTree, parent, tracks) => {
 
   newTrackTree[Object.keys(trackTree).length] = mapTrackTreeRow(parent, tracks);
   return newTrackTree;
+};
+
+export const navigateTo = (path) => {
+  const router = useRouter();
+  return (<>{router.push(path)}</>);
 };

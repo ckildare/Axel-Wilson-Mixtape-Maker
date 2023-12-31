@@ -11,16 +11,19 @@ const SearchPage = () => {
   const { searchTracks, currentTracks, setIsArtistSearch } = useContext(SpotifyAPIContext);
   const router = useRouter();
   const [inputTrackTitle, setInputTrackTitle] = useState('');
+  const [isLoadingSearch, setIsLoadingSearch] = useState(false);
 
   const handleSearchButtonClick = async (inputTrackTitle) => {
+    setIsLoadingSearch(true);
     await searchTracks(inputTrackTitle);
 
     if (currentTracks.length == 1) {
       // TODO: display no tracks found message
       console.log('no tracks found');
     }
-
+    
     router.push('/selection');
+    setIsLoadingSearch(false);
   };
 
   return (
@@ -44,7 +47,7 @@ const SearchPage = () => {
           placeHolder={'Enter Track Title'}
           onChange={(e) => setInputTrackTitle(e)}
         />
-        <Button type={'tertiary'} text={'Search'} onClick={() => handleSearchButtonClick(inputTrackTitle)} />
+        <Button isLoading={isLoadingSearch} type={'tertiary'} text={'Search'} onClick={() => handleSearchButtonClick(inputTrackTitle)} />
       </Card>
       <Button type={'primary'} text={'About'} onClick={() => router.push('/about')} />
     </div>

@@ -7,7 +7,8 @@ const Button = ({
   type = 'primary',
   onClick = () => null,
   href = '',
-  disabled
+  disabled,
+  isLoading
 }) => {
   const buttonClasses = () => {
     return classNames(disabled ? styles.disabled : '',
@@ -22,10 +23,10 @@ const Button = ({
   return (
     <button
       href={href}
-      disabled={disabled}
+      disabled={disabled || isLoading}
       onClick={() => onClick()}
       className={buttonClasses()}>
-      {text}
+      {isLoading ? <div className={styles.loader}><div/><div/><div/><div/><div/></div> : text}
     </button>
   );
 };

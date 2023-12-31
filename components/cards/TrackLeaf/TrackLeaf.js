@@ -1,21 +1,39 @@
 import Card from '../Card/Card';
 import styles from './TrackLeaf.module.scss';
 // import classNames from 'classnames';
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 
 const TrackLeaf = ({ track }) => {
-  console.info('TrackTree track: ', track);
+  const [isImageLoading, setIsImageLoading] = useState(true);
 
   const navigateToTrack = () => {
     console.info('navigateToTrack: ', track.href);
     window.open(track.href, '_blank');
   };
 
+  const handleLoadingComplete = () => {
+    console.info('Image loaded');
+    setIsImageLoading(false);
+  };
+
+  const handleLoadingError = () => {
+    console.error('Error loading image');
+    setIsImageLoading(false);
+  };
+
   return (
     <div onClick={() => navigateToTrack()}>
       <Card className={styles.card}>
-        <Image className={styles.art} width={track.imgDim} height={track.imgDim} src={track.img} alt={`Album cover for ${track.name}`} />
+        <Image
+          src={track.img}
+          alt={`Album cover for ${track.name}`}
+          onLoad={handleLoadingComplete}
+          onError={handleLoadingError}
+          width={track.imgDim}
+          height={track.imgDim}
+          className={isImageLoading ? styles.isLoading : styles.albumCover}
+        />
       </Card>
     </div>
   );

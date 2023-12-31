@@ -5,13 +5,22 @@ import { SpotifyAPIContext } from 'spotifyContext';
 import TrackCard from 'components/cards/TrackCard/TrackCard';
 import Button from 'components/Button/Button';
 import TrackTree from 'components/TrackTree/TrackTree';
+import { updateSessionStorageTrackQuery } from 'utils/tokenUtils';
 
 const ResultPage = () => {
   const router = useRouter();
   const [isTreeView, setIsTreeView] = useState(false);
-  const { setIsFinished } = useContext(SpotifyAPIContext);
+  const { selectedTracks, trackTree, useFinalTracks } = useContext(SpotifyAPIContext);
 
-  useEffect(() => { setIsFinished(true); }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (selectedTracks?.length > 0) return;
+
+      const query = await updateSessionStorageTrackQuery(selectedTracks);
+      if (await useFinalTracks(query) == null) router.push(`/recommendations`);
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className={styles.screenWrapper}>
@@ -19,7 +28,7 @@ const ResultPage = () => {
         <Button disabled={!isTreeView} text={'Tracks'} onClick={() => setIsTreeView(false)} />
         <Button disabled={isTreeView} text={'Tree'} onClick={() => setIsTreeView(true)} />
       </div>
-      {isTreeView ? <TreeView /> : <TrackView/> }
+      {isTreeView && trackTree && selectedTracks ? <TreeView /> : <TrackView />}
       <div className={styles.bottomButtons}>
         <Button text={'Restart'} onClick={() => router.push('/')} />
       </div>
@@ -28,10 +37,7 @@ const ResultPage = () => {
 };
 
 const TreeView = () => {
-  const router = useRouter();
-  const { trackTree, navigateBack } = useContext(SpotifyAPIContext);
-
-  useEffect(() => { if (!trackTree) navigateBack('result', router); }, []);
+  const { trackTree } = useContext(SpotifyAPIContext);
 
   return (
     <div className={styles.tree}>
@@ -41,11 +47,8 @@ const TreeView = () => {
 };
 
 const TrackView = () => {
-  const router = useRouter();
   const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
-  const { selectedTracks, navigateBack } = useContext(SpotifyAPIContext);
-
-  useEffect(() => { if (!selectedTracks || selectedTracks?.length == 0) navigateBack('result', router); }, []);
+  const { selectedTracks } = useContext(SpotifyAPIContext);
 
   return (
     <div className={styles.tracks}>

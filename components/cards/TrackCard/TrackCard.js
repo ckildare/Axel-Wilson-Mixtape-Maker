@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 
 import Image from 'next/image';
 import classNames from 'classnames';
-import Loader from '../Loader/Loader';
 
 const TrackCard = ({ track, isSelected }) => {
   const [isImageLoading, setIsImageLoading] = useState(true);
@@ -30,7 +29,6 @@ const TrackCard = ({ track, isSelected }) => {
         onError={handleLoadingError}
         width={64}
         height={64}
-        layout="fixed"
         className={isImageLoading ? styles.isLoading : styles.albumCover}
       />
       <div className={styles.trackData}>

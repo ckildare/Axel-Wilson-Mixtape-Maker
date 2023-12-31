@@ -7,14 +7,9 @@ import Button from 'components/Button/Button';
 
 const SelectionPage = () => {
   const router = useRouter();
-  const { searchTracks, getRecommendations, currentTracks, navigateBack } = useContext(SpotifyAPIContext);
+  const { getRecommendations, currentTracks, searchTracks } = useContext(SpotifyAPIContext);
   const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
   const [isLoadingReccs, setIsLoadingReccs] = useState(false);
-
-  const handleNoTracks = async () => {
-    await searchTracks();
-    if (currentTracks?.length == 0) router.push('/');
-  };
 
   const handleButtonClick = async () => {
     setIsLoadingReccs(true);
@@ -36,7 +31,11 @@ const SelectionPage = () => {
   }, [isLoadingReccs]);
 
   useEffect(() => {
-    if (currentTracks.length == 0) navigateBack('selection', router);
+    const fetchData = async () => {
+      if (currentTracks?.length > 0) return;
+      if (await searchTracks() == null) router.push('/');
+    };
+    fetchData();
   }, []);
 
   return (
@@ -48,7 +47,7 @@ const SelectionPage = () => {
           </div>
         );
       })}
-      <Button text={'Recommend'} onClick={() => handleButtonClick()} disabled={selectedTrackIndex === null} />
+      <Button text={'Recommend'} isLoading={isLoadingReccs} onClick={() => handleButtonClick()} disabled={selectedTrackIndex === null} />
     </div>
   );
 };

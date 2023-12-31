@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import fetchTrackSearch from './fetchTrackSearch';
 import fetchTrackRecommendations from './fetchTrackRecommendations';
-import { mapTrack, addTracksToTree } from 'utils/trackUtils';
+import { mapTrack, addTracksToTree, navigateTo } from 'utils/trackUtils';
 import buildSettings from 'utils/reccUtils';
 import { refreshTokenAndSetTimeout, getTokenFromSessionStorage, updateSessionStorageSearchQuery, updateSessionStorageTrackQuery } from 'utils/tokenUtils';
 import fetchGetTracks from './fetchGetTracks';
@@ -22,7 +22,6 @@ const SpotifyAPIProvider = ({ children }) => {
   const [trackTree, setTrackTree] = useState(initialContext.trackTree);
   const [searchFetchCount, setSearchFetchCount] = useState(initialContext.searchFetchCount);
   const [isArtistSearch, setIsArtistSearch] = useState(initialContext.isArtistSearch);
-  const [isFinished, setIsFinished] = useState(false);
 
   // Get Client Auth Token and Start Auth Token Refresh Interval
   useEffect(() => {
@@ -44,14 +43,6 @@ const SpotifyAPIProvider = ({ children }) => {
     setTrackTree(addTracksToTree(newTree, selectedTracks[selectedTracks.length - 1].id, currentTracks));
   }, [selectedTracks]);
 
-  const navigateBack = async (from, router) => {
-    if (isFinished) { router.push('/result'); return; }
-
-    if (selectedTracks.length == 1) { router.push('/selection'); return; }
-    
-    router.push('/');
-  };
-
   const searchTracks = async (request) => {
     const token = await getTokenFromSessionStorage();
     const sessionQuery = await updateSessionStorageSearchQuery(request, isArtistSearch);
@@ -67,9 +58,11 @@ const SpotifyAPIProvider = ({ children }) => {
     // Maybe Do Pagination Instead? ( paginate every 5 results on different queries )
     setSearchFetchCount(searchFetchCount + 1);
     setCurrentTracks([...trackSearchResponse.tracks.items.map(track => mapTrack(track))]);
+    return trackSearchResponse.tracks.items;
   };
 
   const getRecommendations = async (track) => {
+    console.log('getRecommendations: ', track);
     const token = await getTokenFromSessionStorage();
     const settings = buildSettings(track.id, track.artists, 5);
 
@@ -85,9 +78,8 @@ const SpotifyAPIProvider = ({ children }) => {
     return trackRecommendationsResponse.tracks;
   };
 
-  const getTracks = async () => {
+  const useFinalTracks = async (query) => {
     const token = await getTokenFromSessionStorage();
-    const query = await updateSessionStorageTrackQuery(selectedTracks);
 
     const tracksResponse = await fetchGetTracks(query, token);
     if (!tracksResponse || tracksResponse?.tracks?.length == 0) {
@@ -95,6 +87,7 @@ const SpotifyAPIProvider = ({ children }) => {
       return;
     }
 
+    if (selectedTracks?.length < 1) setSelectedTracks([...tracksResponse.tracks.map(track => mapTrack(track))]);
     return tracksResponse;
   };
 
@@ -105,12 +98,10 @@ const SpotifyAPIProvider = ({ children }) => {
       selectedTracks: selectedTracks,
       trackTree: trackTree,
       setTrackTree,
-      setIsFinished,
       searchTracks,
-      getTracks,
       setIsArtistSearch,
       getRecommendations,
-      navigateBack
+      useFinalTracks
     }}>
       {children}
     </SpotifyAPIContext.Provider>
