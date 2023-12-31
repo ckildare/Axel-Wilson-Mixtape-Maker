@@ -24,7 +24,7 @@ const RecommendationsPage = () => {
   };
 
   useEffect(() => {
-    if (selectedTracks.length < 1 && currentTracks?.length < 1) router.push('/selection');
+    if (selectedTracks.length < 1 && currentTracks?.length < 1) router.push('/');
   }, []);
 
   return (

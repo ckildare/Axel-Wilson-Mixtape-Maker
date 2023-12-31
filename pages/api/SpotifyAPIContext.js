@@ -38,22 +38,20 @@ const SpotifyAPIProvider = ({ children }) => {
     setTrackTree(addTracksToTree(newTree, selectedTracks[selectedTracks.length - 1].id, currentTracks));
   }, [selectedTracks]);
 
-  const searchTracks = async (request) => {
+  const searchTracks = async (request, isRetry) => {
     const token = await getTokenFromSessionStorage();
     const sessionQuery = await updateSessionSearchQuery(request, isArtistSearch);
     if (!sessionQuery) return;
+    const newFetchCount = isRetry ? searchFetchCount + 1 : 0;
 
-    const trackSearchResponse = await fetchTrackSearch(sessionQuery, token, searchFetchCount * 5);
+    const trackSearchResponse = await fetchTrackSearch(sessionQuery, token, newFetchCount * 5);
     if (!trackSearchResponse || trackSearchResponse?.tracks?.items.length == 0) {
       console.error('No tracks found for request: ', request);
       return;
     }
 
-    // For Refreshing Search In Case User Wants to See More Results From the Same Query
-    // Maybe Do Pagination Instead? ( paginate every 5 results on different queries )
-    setSearchFetchCount(searchFetchCount + 1);
+    setSearchFetchCount(newFetchCount);
     setCurrentTracks([...trackSearchResponse.tracks.items.map(track => mapTrack(track))]);
-    return trackSearchResponse.tracks.items;
   };
 
   const getRecommendations = async (track) => {
