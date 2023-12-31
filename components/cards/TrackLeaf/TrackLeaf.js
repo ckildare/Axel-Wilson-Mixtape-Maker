@@ -17,7 +17,7 @@ const TrackLeaf = ({ track }) => {
   };
 
   const handleLoadingError = () => {
-    console.error('Error loading image');
+    console.error('Error loading image', track.img);
     setIsImageLoading(false);
   };
 

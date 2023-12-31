@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 export const mapTrack = (track) => {
-  console.log('track: ', track);
   return {
     id: track.id,
     name: track.name,

@@ -29,12 +29,7 @@ const SpotifyAPIProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    console.info('Track Tree Updated: ', trackTree);
-  }, [trackTree]);
-
-  useEffect(() => {
     if (selectedTracks.length == 0) return;
-    console.info('selectedTracks Tracks Updated: ', selectedTracks);
     let newTree = trackTree;
     if (selectedTracks.length == 1) {
       newTree = addTracksToTree(null, null, selectedTracks);
@@ -62,7 +57,6 @@ const SpotifyAPIProvider = ({ children }) => {
   };
 
   const getRecommendations = async (track) => {
-    console.log('getRecommendations: ', track);
     const token = await getTokenFromSessionStorage();
     const settings = buildSettings(track.id, track.artists, 5);
 
@@ -71,7 +65,6 @@ const SpotifyAPIProvider = ({ children }) => {
       console.error('No recommendations found for track ID: ', track.id);
       return null;
     }
-    console.info('Recommendations Found: ', trackRecommendationsResponse.tracks);
 
     setCurrentTracks([...trackRecommendationsResponse.tracks.map(track => mapTrack(track))]);
     setSelectedTracks([...selectedTracks, track]);
@@ -80,6 +73,7 @@ const SpotifyAPIProvider = ({ children }) => {
 
   const useFinalTracks = async (query) => {
     const token = await getTokenFromSessionStorage();
+    if (!query) return;
 
     const tracksResponse = await fetchGetTracks(query, token);
     if (!tracksResponse || tracksResponse?.length < 1 || tracksResponse[0] == null) {

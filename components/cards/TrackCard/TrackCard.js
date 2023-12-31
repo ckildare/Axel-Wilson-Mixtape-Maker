@@ -13,7 +13,7 @@ const TrackCard = ({ track, isSelected }) => {
   };
 
   const handleLoadingError = () => {
-    console.error('Error loading image');
+    console.error('Error loading image', trackImage.url);
     setIsImageLoading(false);
   };
 

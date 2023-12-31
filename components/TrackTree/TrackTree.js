@@ -1,11 +1,9 @@
 import TrackLeaf from 'components/cards/TrackLeaf/TrackLeaf';
 import styles from './TrackTree.module.scss';
-// import classNames from 'classnames';
 import React from 'react';
 import Line from 'components/gradient/Line/Line';
 
 const TrackTree = ({ trackTree }) => {
-  console.info('TrackTree: ', trackTree);
   return (
     <div className={styles.treeWrapper}>
       {Object.entries(trackTree)
