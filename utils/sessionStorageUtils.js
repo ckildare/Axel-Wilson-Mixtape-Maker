@@ -26,8 +26,7 @@ export async function getTokenFromSessionStorage () {
   return token;
 }
 
-
-export async function updateSessionStorageSearchQuery (request, isArtistSearch) {
+export async function updateSessionSearchQuery (request, isArtistSearch) {
   if (request) {
     const setQuery = `q=${isArtistSearch ? 'artist' : 'track'}%3A${request}`;
     window.sessionStorage.setItem('search_query', setQuery);
@@ -38,7 +37,7 @@ export async function updateSessionStorageSearchQuery (request, isArtistSearch) 
   return query ?? null;
 }
 
-export async function updateSessionStorageTrackQuery (selectedTracks) {
+export async function updateSessionTrackQuery (selectedTracks) {
   const query = window.sessionStorage.getItem('track_query');
   if (query) return query;
 
@@ -47,4 +46,12 @@ export async function updateSessionStorageTrackQuery (selectedTracks) {
   const setQuery = encodeURIComponent(selectedTracks.join(','));
   window.sessionStorage.setItem('track_query', setQuery);
   return setQuery;
+}
+
+export function removeSearchQuery () {
+  window.sessionStorage.removeItem('search_query');
+}
+
+export function removeTrackQuery () {
+  window.sessionStorage.removeItem('track_query');
 }

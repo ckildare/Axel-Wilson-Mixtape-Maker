@@ -5,22 +5,27 @@ import { SpotifyAPIContext } from 'spotifyContext';
 import TrackCard from 'components/cards/TrackCard/TrackCard';
 import Button from 'components/Button/Button';
 import TrackTree from 'components/TrackTree/TrackTree';
-import { updateSessionStorageTrackQuery } from 'utils/tokenUtils';
+import { updateSessionTrackQuery } from 'utils/sessionStorageUtils';
 
 const ResultPage = () => {
   const router = useRouter();
   const [isTreeView, setIsTreeView] = useState(false);
-  const { selectedTracks, trackTree, useFinalTracks } = useContext(SpotifyAPIContext);
+  const { selectedTracks, trackTree, useFinalTracks, restart } = useContext(SpotifyAPIContext);
 
   useEffect(() => {
     const fetchData = async () => {
       if (selectedTracks?.length > 0) return;
 
-      const query = await updateSessionStorageTrackQuery(selectedTracks);
-      if (await useFinalTracks(query) == null) router.push(`/recommendations`);
+      const query = await updateSessionTrackQuery(selectedTracks);
+      if (await useFinalTracks(query) == null) router.push('/recommendations');
     };
     fetchData();
   }, []);
+
+  const handleRestart = () => {
+    restart();
+    router.push('/');
+  };
 
   return (
     <div className={styles.screenWrapper}>
@@ -30,7 +35,7 @@ const ResultPage = () => {
       </div>
       {isTreeView && trackTree && selectedTracks ? <TreeView /> : <TrackView />}
       <div className={styles.bottomButtons}>
-        <Button text={'Restart'} onClick={() => router.push('/')} />
+        <Button text={'Restart'} onClick={() => handleRestart()} />
       </div>
     </div>
   );

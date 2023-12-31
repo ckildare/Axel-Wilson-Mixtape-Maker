@@ -1,9 +1,9 @@
 import React, { createContext, useEffect, useState } from 'react';
 import fetchTrackSearch from './fetchTrackSearch';
 import fetchTrackRecommendations from './fetchTrackRecommendations';
-import { mapTrack, addTracksToTree, navigateTo } from 'utils/trackUtils';
+import { mapTrack, addTracksToTree } from 'utils/trackUtils';
 import buildSettings from 'utils/reccUtils';
-import { refreshTokenAndSetTimeout, getTokenFromSessionStorage, updateSessionStorageSearchQuery, updateSessionStorageTrackQuery } from 'utils/tokenUtils';
+import { refreshTokenAndSetTimeout, getTokenFromSessionStorage, updateSessionSearchQuery, removeTrackQuery, removeSearchQuery } from 'utils/sessionStorageUtils';
 import fetchGetTracks from './fetchGetTracks';
 
 const initialContext = {
@@ -45,7 +45,7 @@ const SpotifyAPIProvider = ({ children }) => {
 
   const searchTracks = async (request) => {
     const token = await getTokenFromSessionStorage();
-    const sessionQuery = await updateSessionStorageSearchQuery(request, isArtistSearch);
+    const sessionQuery = await updateSessionSearchQuery(request, isArtistSearch);
     if (!sessionQuery) return;
 
     const trackSearchResponse = await fetchTrackSearch(sessionQuery, token, searchFetchCount * 5);
@@ -82,13 +82,23 @@ const SpotifyAPIProvider = ({ children }) => {
     const token = await getTokenFromSessionStorage();
 
     const tracksResponse = await fetchGetTracks(query, token);
-    if (!tracksResponse || tracksResponse?.tracks?.length == 0) {
+    if (!tracksResponse || tracksResponse?.length < 1 || tracksResponse[0] == null) {
       console.error('Tracks not found for query: ', query);
       return;
     }
 
-    if (selectedTracks?.length < 1) setSelectedTracks([...tracksResponse.tracks.map(track => mapTrack(track))]);
+    if (selectedTracks?.length < 1) setSelectedTracks([...tracksResponse.map(track => mapTrack(track))]);
     return tracksResponse;
+  };
+
+  const restart = () => {
+    removeSearchQuery();
+    removeTrackQuery();
+    setCurrentTracks([]);
+    setSelectedTracks([]);
+    setTrackTree(null);
+    setSearchFetchCount(0);
+    setIsArtistSearch(false);
   };
 
   return (
@@ -101,7 +111,8 @@ const SpotifyAPIProvider = ({ children }) => {
       searchTracks,
       setIsArtistSearch,
       getRecommendations,
-      useFinalTracks
+      useFinalTracks,
+      restart
     }}>
       {children}
     </SpotifyAPIContext.Provider>

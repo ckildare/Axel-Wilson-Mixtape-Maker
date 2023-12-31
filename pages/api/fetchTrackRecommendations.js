@@ -1,4 +1,4 @@
-import getTokenFromSessionStorage from 'utils/tokenUtils';
+import getTokenFromSessionStorage from 'utils/sessionStorageUtils';
 
 const fetchReccs = async (url, token) => await fetch(
   url,

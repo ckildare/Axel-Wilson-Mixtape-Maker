@@ -9,7 +9,6 @@ const TrackCard = ({ track, isSelected }) => {
   const trackImage = track?.album?.images[0];
 
   const handleLoadingComplete = () => {
-    console.info('Image loaded');
     setIsImageLoading(false);
   };
 

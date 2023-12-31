@@ -13,7 +13,6 @@ const TrackLeaf = ({ track }) => {
   };
 
   const handleLoadingComplete = () => {
-    console.info('Image loaded');
     setIsImageLoading(false);
   };
 
