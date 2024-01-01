@@ -1,8 +1,8 @@
 import express from 'express';
-import path from 'path';
 import dotenv from 'dotenv';
 import { URLSearchParams } from 'url';
 import fetch from 'node-fetch';
+import cookieParser from 'cookie-parser';
 
 const serverPort = 5000;
 
@@ -58,10 +58,15 @@ app.get('/auth/callback', async (req, res) => {
     const response = await fetch('https://accounts.spotify.com/api/token', authOptions);
     const body = await response.json();
 
-    console.log('authOptions: ', authOptions);
-
     if (response.ok) {
       access_token = body.access_token;
+      res.cookie('access_token', access_token,
+        {
+          exprires: Date.now().addHours(1),
+          httpOnly: true,
+          secure: true,
+          sameSite: 'Lax'
+        });
       res.redirect('/auth/token');
     } else {
       res.status(response.status).json(body);
