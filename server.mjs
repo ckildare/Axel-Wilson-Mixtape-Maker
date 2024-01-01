@@ -4,18 +4,12 @@ import dotenv from 'dotenv';
 import { URLSearchParams } from 'url';
 import fetch from 'node-fetch';
 
-const port = 5000;
-
-// startServer();
-
-const __filename = new URL(import.meta.url).pathname;
-const __dirname = path.dirname(__filename);
+const serverPort = 5000;
 
 const app = express();
-dotenv.config({ path: path.join(__dirname, '.env') });
-
-const spotifyClientId = '9fe7be0b53224126b11e0acb22cba33b';
-const spotifyClientSecret = 'cef02e066c3c4094992af7a065ffe2c9';
+dotenv.config();
+const spotifyClientId = process.env.SPOTIFY_CLIENT_ID;
+const spotifyClientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 
 const generateRandomString = function (length) {
   var text = '';
@@ -31,12 +25,13 @@ let access_token = null;
 
 app.get('/auth/login', (req, res) => {
   console.log('login');
+  console.log('spotifyClientId: ', spotifyClientId);
 
   const auth_query_parameters = new URLSearchParams({
     response_type: 'code',
     client_id: spotifyClientId,
     scope: 'streaming user-read-email user-read-private',
-    redirect_uri: 'http://localhost:5000/auth/callback',
+    redirect_uri: `${serverPort == 5000 ? 'http://localhost:5000' : 'https://axelwilson'}/auth/callback`,
     state: generateRandomString(16),
   });
 
@@ -53,8 +48,8 @@ app.get('/auth/callback', async (req, res) => {
       'Authorization': `Basic ${btoa(credentials)}`,
     },
     body: new URLSearchParams({
-      code: req.query.codecode,
-      redirect_uri: 'http://localhost:5000/auth/callback',
+      code: req.query.code,
+      redirect_uri: `${serverPort == 5000 ? 'http://localhost:5000' : 'https://axelwilson'}/auth/callback`,
       grant_type: 'authorization_code',
     }),
   };
@@ -63,9 +58,10 @@ app.get('/auth/callback', async (req, res) => {
     const response = await fetch('https://accounts.spotify.com/api/token', authOptions);
     const body = await response.json();
 
+    console.log('authOptions: ', authOptions);
+
     if (response.ok) {
       access_token = body.access_token;
-      console.log('access_token: ', access_token);
       res.redirect('/auth/token');
     } else {
       res.status(response.status).json(body);
@@ -78,14 +74,12 @@ app.get('/auth/callback', async (req, res) => {
 
 app.get('/auth/token', (req, res) => {
   if (access_token) {
-    res.redirect('http://localhost:3000');
+    res.redirect('http://localhost:3000/search');
   } else {
     res.status(401).json({ error: 'Access token not available' });
   }
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}`);
+app.listen(serverPort, () => {
+  serverPort == 5000 && console.log(`Listening at http://localhost:${serverPort}`);
 });

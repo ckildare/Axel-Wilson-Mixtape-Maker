@@ -59,7 +59,6 @@ const SearchPage = () => {
   }, [isLoadingReccs]);
 
   useEffect(() => {
-    //
     async function getToken() {
       const response = await fetch('/auth/token');
       const json = await response.json();
@@ -67,13 +66,6 @@ const SearchPage = () => {
     }
 
     getToken();
-    //
-
-    const fetchData = async () => {
-      if (currentTracks?.length > 0) return;
-      await searchTracks(null, false);
-    };
-    fetchData();
   }, []);
 
   return (
