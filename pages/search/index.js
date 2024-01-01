@@ -1,5 +1,6 @@
 import { SpotifyAPIContext } from 'spotifyContext';
 import { useRouter } from 'next/router';
+import { getAccessTokenCookie } from 'utils/sessionStorageUtils';
 import Button from 'components/Button/Button';
 import Card from 'components/cards/Card/Card';
 import React, { useState, useContext, useEffect } from 'react';
@@ -37,15 +38,24 @@ const SearchPage = () => {
     if (selectedTracksForRecommendations.length < 1) return;
 
     setIsLoadingReccs(await getRecommendations(selectedTracksForRecommendations) !== null);
-    selectedTracksForRecommendations([]);
+    setSelectedTracksForRecommendations([]);
   };
 
   const handleTrackSelect = (isSelected, track) => {
     track.isSelected = isSelected;
-    let newSelectedTracks = [...currentTracks];
-    isSelected ? newSelectedTracks.push(track) : newSelectedTracks.splice(newSelectedTracks.findIndex(t => t.id === track.id), 1);
+    let newSelectedTracks = [...selectedTracksForRecommendations];
+
+    if (isSelected) {
+      newSelectedTracks.push(track);
+    } else {
+      const indexToRemove = newSelectedTracks.findIndex(t => t.id === track.id);
+      if (indexToRemove !== -1) {
+        newSelectedTracks.splice(indexToRemove, 1);
+      }
+    }
+
     console.log('newSelectedTracks: ', newSelectedTracks);
-    setSelectedTracksForRecommendations(...newSelectedTracks);
+    setSelectedTracksForRecommendations(newSelectedTracks);
   };
 
   useEffect(() => {
@@ -60,9 +70,13 @@ const SearchPage = () => {
 
   useEffect(() => {
     async function getToken() {
-      const response = await fetch('/auth/token');
-      const json = await response.json();
-      setToken(json.access_token);
+      let token = getAccessTokenCookie();
+      if (!token) {
+        await fetch('/auth/token');
+        token = getAccessTokenCookie();
+      }
+      console.log('token: ', token);
+      if (token) setToken(token);
     }
 
     getToken();
@@ -70,7 +84,7 @@ const SearchPage = () => {
 
   return (
     <div className={styles.screenWrapper}>
-      {(token === '') ? <Login /> : <WebPlayback token={token} />}
+      {token === '' && <Login />}
       <Card className={styles.searchCard}>
         <div className={styles.topRow}>
           <div className={styles.searchText}>Search for a Song</div>
@@ -94,11 +108,13 @@ const SearchPage = () => {
       </Card>
       {currentTracks.length > 0 &&
         <div className={styles.screenWrapper}>
-          {(currentTracks || []).map((track, key) => {
-            return (
-              <TrackCard key={key} track={track} onSelect={(e) => handleTrackSelect(e, track)} />
-            );
-          })}
+          <div className={styles.searchTracks}>
+            {(currentTracks || []).map((track, key) => {
+              return (
+                <TrackCard key={key} track={track} onSelect={(e) => handleTrackSelect(e, track)} />
+              );
+            })}
+          </div>
           <div className={styles.bottomButtons}>
             <Button text={'More Resuts'} onClick={() => handleSearchButtonClick(true)} />
             <Button text={'Recommend'} isLoading={isLoadingReccs} onClick={() => handleRecommendClick()} disabled={selectedTracksForRecommendations.length < 1} />
@@ -118,50 +134,6 @@ const Login = () => {
         </Link>
       </header>
     </div>
-  );
-};
-
-const WebPlayback = ({ token }) => {
-  const [player, setPlayer] = useState(null);
-
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://sdk.scdn.co/spotify-player.js';
-    script.async = true;
-
-    document.body.appendChild(script);
-
-    window.onSpotifyWebPlaybackSDKReady = () => {
-
-      const player = new window.Spotify.Player({
-        name: 'Web Playback SDK',
-        getOAuthToken: cb => { cb(token); },
-        volume: 0.5
-      });
-
-      setPlayer(player);
-
-      player.addListener('ready', ({ device_id }) => {
-        console.log('Ready with Device ID', device_id);
-      });
-
-      player.addListener('not_ready', ({ device_id }) => {
-        console.log('Device ID has gone offline', device_id);
-      });
-
-
-      player.connect();
-
-    };
-  }, []);
-  return (
-    <>
-      <div className="container">
-        <div className="main-wrapper">
-
-        </div>
-      </div>
-    </>
   );
 };
 

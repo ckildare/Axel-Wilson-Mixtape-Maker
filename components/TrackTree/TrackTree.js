@@ -10,8 +10,8 @@ const TrackTree = ({ trackTree }) => {
         .map(([rowNumber, row]) => {
           return (
             <div key={rowNumber} className={styles.row}>
-              {(row.tracks || []).map((track, key) => {
-                const isMiddle = key + 1 != row.tracks.length;
+              {(row || []).map((track, key) => {
+                const isMiddle = key + 1 != row.length;
                 return (
                   <div style={{ width: `${isMiddle ? '100%' : '4.75rem'}` }} key={key} className={styles.leafRow}>
                     <div key={key} className={styles.leafColumn}>

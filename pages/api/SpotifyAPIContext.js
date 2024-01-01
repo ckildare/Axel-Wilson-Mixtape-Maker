@@ -31,12 +31,15 @@ const SpotifyAPIProvider = ({ children }) => {
   useEffect(() => {
     if (selectedTracks.length == 0) return;
     let newTree = trackTree;
-    if (selectedTracks.length == 1) {
+    if (!trackTree) {
       newTree = addTracksToTree(null, null, selectedTracks);
+      console.log('newTree: ', newTree);
     }
 
-    setTrackTree(addTracksToTree(newTree, selectedTracks[selectedTracks.length - 1].id, currentTracks));
-  }, [selectedTracks]);
+
+    setTrackTree(addTracksToTree(newTree, currentTracks, selectedTracks));
+    console.log('trackTree: ', trackTree);
+  }, [currentTracks]);
 
   const searchTracks = async (request, isRetry) => {
     const token = await getTokenFromSessionStorage();
@@ -54,18 +57,19 @@ const SpotifyAPIProvider = ({ children }) => {
     setCurrentTracks([...trackSearchResponse.tracks.items.map(track => mapTrack(track))]);
   };
 
-  const getRecommendations = async (track) => {
+  const getRecommendations = async (tracks) => {
     const token = await getTokenFromSessionStorage();
-    const settings = buildSettings(track.id, track.artists, 5);
+    const trackIDs = (tracks || []).slice(0, 5).map(track => track.id);
+    const settings = buildSettings(trackIDs, 5);
 
     const trackRecommendationsResponse = await fetchTrackRecommendations(settings, token);
     if (!trackRecommendationsResponse || trackRecommendationsResponse?.tracks?.length == 0) {
-      console.error('No recommendations found for track ID: ', track.id);
+      console.error('No recommendations found for track ID: ', trackIDs.join(', '));
       return null;
     }
 
     setCurrentTracks([...trackRecommendationsResponse.tracks.map(track => mapTrack(track))]);
-    setSelectedTracks([...selectedTracks, track]);
+    setSelectedTracks([...selectedTracks, ...tracks]);
     return trackRecommendationsResponse.tracks;
   };
 

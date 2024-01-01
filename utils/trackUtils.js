@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 export const mapTrack = (track) => {
-  console.log('track: ', track);
   return {
     id: track.id,
     name: track.name,
@@ -32,40 +31,40 @@ export const mapTrackTreeLeaf = (track) => {
     'img': smallestImg.url,
     'imgDim': smallestImg.height,
     'name': track.name,
-    'selected': false
+    'isSelected': false
   };
 };
 
-export const mapTrackTreeRow = (parent, tracks) => {
-  let mappedTrackTreeRow = { 'parent': parent, 'tracks': [] };
-  tracks.forEach(track => {
-    mappedTrackTreeRow.tracks.push(mapTrackTreeLeaf(track));
-  });
-
-  return mappedTrackTreeRow;
+export const addNewTrackTreeRow = (tracks) => {
+  return tracks.map(track => mapTrackTreeLeaf(track)) || [];
 };
 
-export const addTracksToTree = (trackTree, parent, tracks) => {
+const updateLastTrackTreeRow = (trackTree, tracks) => {
+  const lastEntryIndex = Object.keys(trackTree).length - 1;
+  let updatedTree = { ...trackTree };
+
+  if (!trackTree[lastEntryIndex] || trackTree[lastEntryIndex]?.length < 1) return;
+  const updatedEntry = trackTree[lastEntryIndex].map(track => {
+    return {
+      ...track,
+      isSelected: tracks.find(t => t.id == track.id)?.isSelected || false
+    };
+  });
+  updatedTree[lastEntryIndex] = updatedEntry;
+
+  return updatedTree;
+};
+
+export const addTracksToTree = (trackTree, reccTracks, selectedTracks) => {
   if (!trackTree) {
     return {
-      0: mapTrackTreeRow(null, tracks),
+      0: [...addNewTrackTreeRow(selectedTracks)],
     };
   }
   let newTrackTree = { ...trackTree };
 
-  const lastKey = Object.keys(trackTree).length - 1;
-  if (newTrackTree[lastKey] && newTrackTree[lastKey].tracks) {
-    const selectedTrack = newTrackTree[lastKey].tracks.find(track => track.id == parent);
-    if (selectedTrack) {
-      selectedTrack.isSelected = true;
-    }
-  }
-
-  newTrackTree[Object.keys(trackTree).length] = mapTrackTreeRow(parent, tracks);
+  newTrackTree = updateLastTrackTreeRow(newTrackTree, selectedTracks);
+  console.log('updatedTrackTree: ', newTrackTree);
+  newTrackTree[Object.keys(trackTree).length] = addNewTrackTreeRow(reccTracks);
   return newTrackTree;
-};
-
-export const navigateTo = (path) => {
-  const router = useRouter();
-  return (<>{router.push(path)}</>);
 };

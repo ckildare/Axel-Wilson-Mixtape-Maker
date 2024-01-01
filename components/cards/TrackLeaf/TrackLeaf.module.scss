@@ -18,3 +18,7 @@
   background-size: cover;
   background-position: center;
 }
+
+.isLoading {
+  animation: pulse 1.5s infinite;
+}

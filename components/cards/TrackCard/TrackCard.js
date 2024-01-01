@@ -1,57 +1,34 @@
-import { getTokenFromSessionStorage } from 'utils/sessionStorageUtils';
-// import styles from './TrackCard.module.scss';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import classNames from 'classnames';
+import styles from './TrackCard.module.scss';
 
-const TrackCard = () => {
-  const [deviceId, setDeviceId] = useState(null);
+const TrackCard = ({ track, onSelect }) => {
+  const [isSelected, setIsSelected] = useState(false);
 
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://sdk.scdn.co/spotify-player.js';
-    script.async = true;
-    document.body.appendChild(script);
-
-    script.onload = () => {
-      window.onSpotifyWebPlaybackSDKReady = () => {
-        const player = new Spotify.Player({
-          name: 'Your App Name',
-          getOAuthToken: async (callback) => {
-            const token = await getTokenFromSessionStorage();
-            console.log('token: ', token);
-            callback(token);
-          },
-        });
-
-        player.addListener('ready', ({ device_id }) => {
-          console.log(`Ready with Device ID: ${device_id}`);
-          setDeviceId(device_id);
-        });
-
-        player.connect();
-      };
-    };
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
-  return (
-    <TrackCardEmbed deviceId={deviceId} />
-  );
-};
-
-const TrackCardEmbed = ({ deviceId }) => {
-  const handlePlayClick = () => {
-    // Use the deviceId to play the track or perform other actions
-    fetch(`/api/play-track?deviceId=${deviceId}&trackId=${track.id}`, {
-      method: 'POST',
-    });
+  const handleSelectChange = () => {
+    setIsSelected(!isSelected);
+    onSelect(!isSelected);
   };
 
   return (
-    <div>
-      <button onClick={handlePlayClick}>Play Track</button>
+    <div
+      className={classNames(styles.trackCard, isSelected ? styles.selected : styles.unSelected)}
+      onClick={() => handleSelectChange()}
+    >
+      <input
+        type="checkbox"
+        checked={isSelected}
+        className={styles.checkbox}
+        readOnly
+      />
+      <iframe
+        src={`https://open.spotify.com/embed/track/${track.id}?utm_source=generator&theme=0`}
+        width="100%"
+        height="80"
+        frameBorder="0"
+        allowFullScreen=""
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      ></iframe>
     </div>
   );
 };

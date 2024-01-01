@@ -1,8 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import path from 'path';
 import { URLSearchParams } from 'url';
 import fetch from 'node-fetch';
-import cookieParser from 'cookie-parser';
 
 const serverPort = 5000;
 
@@ -51,6 +51,7 @@ app.get('/auth/callback', async (req, res) => {
       code: req.query.code,
       redirect_uri: `${serverPort == 5000 ? 'http://localhost:5000' : 'https://axelwilson'}/auth/callback`,
       grant_type: 'authorization_code',
+      scope: 'user-read-playback-state user-modify-playback-state streaming',
     }),
   };
 
@@ -60,13 +61,11 @@ app.get('/auth/callback', async (req, res) => {
 
     if (response.ok) {
       access_token = body.access_token;
-      res.cookie('access_token', access_token,
-        {
-          exprires: Date.now().addHours(1),
-          httpOnly: true,
-          secure: true,
-          sameSite: 'Lax'
-        });
+      res.cookie('access_token', access_token, {
+        expires: new Date(Date.now() + 3600000),
+        secure: true,
+        sameSite: 'Lax',
+      });
       res.redirect('/auth/token');
     } else {
       res.status(response.status).json(body);
@@ -88,3 +87,5 @@ app.get('/auth/token', (req, res) => {
 app.listen(serverPort, () => {
   serverPort == 5000 && console.log(`Listening at http://localhost:${serverPort}`);
 });
+
+// app.use(express.static(path.join(__dirname, '../build')));

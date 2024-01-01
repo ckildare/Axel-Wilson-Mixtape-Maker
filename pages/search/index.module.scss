@@ -36,6 +36,12 @@
   }
 }
 
+.searchTracks {
+  display: flex;
+  flex-direction: column;
+  gap: $s;
+}
+
 .bottomButtons {
   display: flex;
   flex-direction: row;

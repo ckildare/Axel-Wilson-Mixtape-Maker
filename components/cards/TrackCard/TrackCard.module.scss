@@ -11,10 +11,11 @@ $focus3border: 1px solid $white90;
 .trackCard {
   display: flex;
   flex-direction: row;
+  align-items: center;
   border-radius: calc($l - 3px);
   color: $white75;
   height: calc(5rem + 2px);
-  gap: $m;
+  background-color: #28282875;
   position: relative;
 }
 
@@ -62,4 +63,12 @@ $focus3border: 1px solid $white90;
   animation: shine 1.5s linear infinite;
   height: 3.875rem;
   z-index: 2;
+}
+
+.checkbox {
+  display: flex;
+  flex-direction: column;
+  width: 2rem;
+  height: 2rem;
+  margin: 1.5rem;
 }

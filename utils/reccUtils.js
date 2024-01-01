@@ -1,5 +1,5 @@
 function specSettings (limit) {
-  var settings = '';
+  let settings = '';
 
   settings += `limit=${limit}`;
   settings += '&market=US';
@@ -8,12 +8,10 @@ function specSettings (limit) {
   return settings;
 }
 
-function seedSettings (trackID, artists) {
-  var settings = '';
-  var artistIDs = [(artists || []).slice(0, 4).map(artist => artist.id)];
+function seedSettings (trackIDs) {
+  let settings = '';
 
-  settings += '&seed_tracks=' + encodeURIComponent(trackID);
-  settings += '&seed_artists=' + encodeURIComponent(artistIDs.join(','));
+  settings += '&seed_tracks=' + encodeURIComponent(trackIDs.join(','));
   // settings += '&seed_genres=' + encodeURIComponent([(genres || []).map(genre => genre.id)].join(`,`));
 
   return settings;
@@ -28,12 +26,14 @@ function seedSettings (trackID, artists) {
 //   return settings;
 // }
 
-function buildSettings (trackID, artists, limit) {
+function buildSettings (trackIDs, limit) {
   var settings = '';
 
   settings += specSettings(limit);
-  settings += seedSettings(trackID, artists);
-  // settings += attributeSettings(settings);
+  settings += seedSettings(trackIDs);
+  // settings += attributeSettings(settings)
+
+  console.log('settings', settings);
 
   return settings;
 }

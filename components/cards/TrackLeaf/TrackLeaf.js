@@ -1,4 +1,4 @@
-import Card from '../Card/Card';
+import Card from 'components/cards/Card/Card';
 import styles from './TrackLeaf.module.scss';
 // import classNames from 'classnames';
 import React, { useState } from 'react';
@@ -24,7 +24,7 @@ const TrackLeaf = ({ track }) => {
   return (
     <div onClick={() => navigateToTrack()}>
       <Card className={styles.card}>
-        <Image
+        <img
           src={track.img}
           alt={`Album cover for ${track.name}`}
           onLoad={handleLoadingComplete}

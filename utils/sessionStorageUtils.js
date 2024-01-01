@@ -1,4 +1,5 @@
 import fetchAccessToken from 'pages/api/fetchAccessToken';
+import { getCookie } from 'cookies-next';
 
 const refreshAccessToken = async () => {
   const newToken = await fetchAccessToken();
@@ -54,4 +55,9 @@ export function removeSearchQuery () {
 
 export function removeTrackQuery () {
   window.sessionStorage.removeItem('track_query');
+}
+
+export function getAccessTokenCookie () {
+  const accessTokenCookie = getCookie('access_token');
+  return accessTokenCookie;
 }

@@ -52,14 +52,29 @@ const TreeView = () => {
 };
 
 const TrackView = () => {
-  const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
+  const [selectedTracksForRecommendations, setSelectedTracksForRecommendations] = useState([]);
   const { selectedTracks } = useContext(SpotifyAPIContext);
+
+  const handleTrackSelect = (isSelected, track) => {
+    track.isSelected = isSelected;
+    let newSelectedTracks = [...selectedTracksForRecommendations];
+
+    if (isSelected) {
+      newSelectedTracks.push(track);
+    } else {
+      const indexToRemove = newSelectedTracks.findIndex(t => t.id === track.id);
+      if (indexToRemove !== -1) {
+        newSelectedTracks.splice(indexToRemove, 1);
+      }
+    }
+    setSelectedTracksForRecommendations(newSelectedTracks);
+  };
 
   return (
     <div className={styles.tracks}>
       {selectedTracks.map((track, key) => (
-        <div key={key} onClick={() => setSelectedTrackIndex(key === selectedTrackIndex ? null : key)}>
-          <TrackCard track={track} isSelected={selectedTrackIndex === key} />
+        <div key={key} onClick={() => handleTrackSelect(e, track)}>
+          <TrackCard track={track} onSelect={(e) => handleTrackSelect(e, track)}/>
         </div>
       ))}
     </div>
