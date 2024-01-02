@@ -1,8 +1,8 @@
-import fetchAccessToken from 'pages/api/fetchAccessToken';
+import fetchBearerToken from 'pages/api/fetchBearerToken';
 import { getCookie } from 'cookies-next';
 
 const refreshAccessToken = async () => {
-  const newToken = await fetchAccessToken();
+  const newToken = await fetchBearerToken();
 
   if (newToken) {
     // Only need this for the given session

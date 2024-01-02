@@ -15,7 +15,6 @@ const fetchTrackRecommendations = async (settings, token) => {
     const url = `https://api.spotify.com/v1/recommendations?${settings}`;
 
     let response = null;
-
     response = await fetchReccs(url, token);
 
     if (response.status === 401) {

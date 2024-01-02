@@ -2,7 +2,6 @@ import Card from 'components/cards/Card/Card';
 import styles from './TrackLeaf.module.scss';
 // import classNames from 'classnames';
 import React, { useState } from 'react';
-import Image from 'next/image';
 
 const TrackLeaf = ({ track }) => {
   const [isImageLoading, setIsImageLoading] = useState(true);

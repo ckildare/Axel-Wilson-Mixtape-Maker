@@ -1,4 +1,3 @@
-import { SpotifyAPIContext } from 'spotifyContext';
 import { useRouter } from 'next/router';
 import { getAccessTokenCookie } from 'utils/sessionStorageUtils';
 import Button from 'components/Button/Button';
@@ -9,41 +8,29 @@ import TextInput from 'components/TextInput/TextInput';
 import ToggleSwitch from 'components/ToggleSwitch/ToggleSwitch';
 import TrackCard from 'components/cards/TrackCard/TrackCard';
 import Link from 'next/link';
+import { SearchContext, SearchProvider } from 'contexts/SearchContext';
+import { ReccsContext } from 'contexts/ReccsContext';
 
 const SearchPage = () => {
-  const { searchTracks, currentTracks, setIsArtistSearch, getRecommendations } = useContext(SpotifyAPIContext);
-  const router = useRouter();
-  const [inputTrackTitle, setInputTrackTitle] = useState('');
-  const [isLoadingSearch, setIsLoadingSearch] = useState(false);
-  const [isLoadingReccs, setIsLoadingReccs] = useState(false);
-  //
+  return (
+    <SearchProvider>
+      <SearchPageWithProvider />
+    </SearchProvider>
+  );
+};
+
+const SearchPageWithProvider = () => {
+  const { isLoadingSearch, fetchSearch, searchedTracks, mapSearchParams, setIsTitleSearch } = useContext(SearchContext);
+  const { isLoadingReccs, reccTracks, fetchTrackReccsFromSearch } = useContext(ReccsContext);
+  const [searchQuery, setSearchQuery] = useState('');
   const [token, setToken] = useState('');
-  //
-  const [selectedTracksForRecommendations, setSelectedTracksForRecommendations] = useState([]);
-
-  const handleSearchButtonClick = async (isRetry) => {
-    setIsLoadingSearch(true);
-    await searchTracks(inputTrackTitle, isRetry);
-
-    if (currentTracks.length == 1) {
-      // TODO: display no tracks found message
-      console.log('no tracks found');
-    }
-
-    setIsLoadingSearch(false);
-  };
-
-  const handleRecommendClick = async () => {
-    setIsLoadingReccs(true);
-    if (selectedTracksForRecommendations.length < 1) return;
-
-    setIsLoadingReccs(await getRecommendations(selectedTracksForRecommendations) !== null);
-    setSelectedTracksForRecommendations([]);
-  };
+  const [selectedTracks, setSelectedTracks] = useState([]);
+  const router = useRouter();
+  const { q } = router.query;
 
   const handleTrackSelect = (isSelected, track) => {
     track.isSelected = isSelected;
-    let newSelectedTracks = [...selectedTracksForRecommendations];
+    let newSelectedTracks = [...selectedTracks];
 
     if (isSelected) {
       newSelectedTracks.push(track);
@@ -55,18 +42,17 @@ const SearchPage = () => {
     }
 
     console.log('newSelectedTracks: ', newSelectedTracks);
-    setSelectedTracksForRecommendations(newSelectedTracks);
+    setSelectedTracks(newSelectedTracks);
   };
 
   useEffect(() => {
-    if (!isLoadingReccs) return;
-    if (currentTracks.length == 0) {
+    if (!reccTracks || reccTracks?.length == 0) {
       // TODO: display no recommendations found message
       console.log('no recommendations found');
       return;
     }
     router.push('/recommendations');
-  }, [isLoadingReccs]);
+  }, [reccTracks]);
 
   useEffect(() => {
     async function getToken() {
@@ -75,12 +61,15 @@ const SearchPage = () => {
         await fetch('/auth/token');
         token = getAccessTokenCookie();
       }
-      console.log('token: ', token);
       if (token) setToken(token);
     }
-
     getToken();
   }, []);
+
+  useEffect(() => {
+    console.log('q: ', q);
+    if (q) fetchSearch(q);
+  }, [q]);
 
   return (
     <div className={styles.screenWrapper}>
@@ -90,7 +79,7 @@ const SearchPage = () => {
           <div className={styles.searchText}>Search for a Song</div>
           <ToggleSwitch
             className={styles.seedSettingPill}
-            handleToggle={(isOn) => setIsArtistSearch(isOn)}
+            handleToggle={(isOn) => setIsTitleSearch(!isOn)}
             onText={'Artist'}
             offText={'Title'}
             name={'artistOrTitle'}
@@ -102,22 +91,22 @@ const SearchPage = () => {
           autocorrect
           type={'tertiary'}
           placeHolder={'Enter Track Title'}
-          onChange={(e) => setInputTrackTitle(e)}
+          onChange={(e) => setSearchQuery(e)}
         />
-        <Button isLoading={isLoadingSearch} type={'tertiary'} text={'Search'} onClick={() => handleSearchButtonClick(false)} />
+        <Button isLoading={isLoadingSearch} type={'tertiary'} text={'Search'} onClick={async () => router.push(`/search${mapSearchParams(searchQuery)}`)} />
       </Card>
-      {currentTracks.length > 0 &&
+      {searchedTracks.length > 0 &&
         <div className={styles.screenWrapper}>
           <div className={styles.searchTracks}>
-            {(currentTracks || []).map((track, key) => {
+            {(searchedTracks || []).map((track, key) => {
               return (
                 <TrackCard key={key} track={track} onSelect={(e) => handleTrackSelect(e, track)} />
               );
             })}
           </div>
           <div className={styles.bottomButtons}>
-            <Button text={'More Resuts'} onClick={() => handleSearchButtonClick(true)} />
-            <Button text={'Recommend'} isLoading={isLoadingReccs} onClick={() => handleRecommendClick()} disabled={selectedTracksForRecommendations.length < 1} />
+            <Button text={'More Results'} isLoading={isLoadingSearch} onClick={async () => await fetchSearch(searchQuery, 'next')} />
+            <Button text={'Recommend'} isLoading={isLoadingReccs} onClick={async () => await fetchTrackReccsFromSearch(selectedTracks)} disabled={selectedTracks.length < 1} />
           </div>
         </div>}
       <Button type={'primary'} text={'About'} onClick={() => router.push('/about')} />

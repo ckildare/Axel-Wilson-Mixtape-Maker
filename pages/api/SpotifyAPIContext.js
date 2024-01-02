@@ -3,7 +3,7 @@ import fetchTrackSearch from './fetchTrackSearch';
 import fetchTrackRecommendations from './fetchTrackRecommendations';
 import { mapTrack, addTracksToTree } from 'utils/trackUtils';
 import buildSettings from 'utils/reccUtils';
-import { refreshTokenAndSetTimeout, getTokenFromSessionStorage, updateSessionSearchQuery, removeTrackQuery, removeSearchQuery } from 'utils/sessionStorageUtils';
+import { getTokenFromSessionStorage, updateSessionSearchQuery, removeTrackQuery, removeSearchQuery } from 'utils/sessionStorageUtils';
 import fetchGetTracks from './fetchGetTracks';
 
 const initialContext = {
@@ -23,11 +23,6 @@ const SpotifyAPIProvider = ({ children }) => {
   const [searchFetchCount, setSearchFetchCount] = useState(initialContext.searchFetchCount);
   const [isArtistSearch, setIsArtistSearch] = useState(initialContext.isArtistSearch);
 
-  // Get Client Auth Token and Start Auth Token Refresh Interval
-  useEffect(() => {
-    refreshTokenAndSetTimeout();
-  }, []);
-
   useEffect(() => {
     if (selectedTracks.length == 0) return;
     let newTree = trackTree;
@@ -35,7 +30,6 @@ const SpotifyAPIProvider = ({ children }) => {
       newTree = addTracksToTree(null, null, selectedTracks);
       console.log('newTree: ', newTree);
     }
-
 
     setTrackTree(addTracksToTree(newTree, currentTracks, selectedTracks));
     console.log('trackTree: ', trackTree);

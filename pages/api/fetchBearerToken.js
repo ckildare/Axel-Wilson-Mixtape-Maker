@@ -1,6 +1,6 @@
 import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from './credentials';
 
-const fetchAccessToken = async () => {
+const fetchBearerToken = async () => {
   try {
     const scopes = 'user-read-playback-state user-modify-playback-state user-top-read user-follow-read';
 
@@ -14,7 +14,6 @@ const fetchAccessToken = async () => {
     };
 
     const response = await fetch('https://accounts.spotify.com/api/token', authOptions);
-
     if (!response.ok) {
       throw new Error(`Error Status: ${response.status}`);
     }
@@ -23,9 +22,9 @@ const fetchAccessToken = async () => {
     const token = data.access_token;
     return token;
   } catch (error) {
-    console.error('Error fetching access token:', error.message);
+    console.error('Error fetching bearer token:', error.message);
     return null;
   }
 };
 
-export default fetchAccessToken;
+export default fetchBearerToken;
