@@ -1,4 +1,4 @@
-import Card from 'components/cards/Card/Card';
+import Card from 'components/Card/Card';
 import styles from './TrackLeaf.module.scss';
 // import classNames from 'classnames';
 import React, { useState } from 'react';

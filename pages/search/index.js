@@ -3,7 +3,7 @@ import { getAccessTokenCookie } from 'utils/sessionStorageUtils';
 import Button from 'components/UserInput/Button/Button';
 import React, { useState, useContext, useEffect } from 'react';
 import styles from './index.module.scss';
-import TrackCard from 'components/cards/TrackCard/TrackCard';
+import TrackCard from 'components/TrackTree/TrackCard/TrackCard';
 import Link from 'next/link';
 import { SearchContext, SearchProvider } from 'contexts/SearchContext';
 import { ReccsContext } from 'contexts/ReccsContext';
@@ -72,7 +72,7 @@ const SearchPageWithProvider = () => {
 
   return (
     <div className={styles.screenWrapper}>
-      {token === '' && <Login />}
+      {/* {token === '' && <Login />} */}
       <SearchCard />
       {searchedTracks.length > 0 &&
         <div className={styles.screenWrapper}>

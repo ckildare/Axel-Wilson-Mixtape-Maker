@@ -5,7 +5,7 @@ import styles from './index.module.scss';
 import Button from 'components/UserInput/Button/Button';
 // import axelWilson from 'public/images/axel.png';
 import retro from 'public/images/retro.jpg';
-import Card from 'components/cards/Card/Card';
+import Card from 'components/Card/Card';
 
 const AboutPage = () => {
   const router = useRouter();

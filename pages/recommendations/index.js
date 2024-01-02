@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import styles from './index.module.scss';
-import TrackCard from 'components/cards/TrackCard/TrackCard';
+import TrackCard from 'components/TrackTree/TrackCard/TrackCard';
 import Button from 'components/UserInput/Button/Button';
 import { useRouter } from 'next/router';
 import Loader from 'components/Loader/Loader';
