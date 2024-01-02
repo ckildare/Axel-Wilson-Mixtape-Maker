@@ -36,12 +36,14 @@ const SearchCard = () => {
         placeHolder={`Enter the song${isTitleSearch ? ' title' : '\'s artist'}...`}
         onChange={(e) => setSearchQuery(e)}
       />
-      <Button
-        isLoading={isLoadingSearch}
-        type={'tertiary'}
-        text={'Search'}
-        onClick={async () => router.push(`/search${mapSearchParams(searchQuery)}`)}
-      />
+      <div className={styles.searchButton}>
+        <Button
+          isLoading={isLoadingSearch}
+          type={'tertiary'}
+          text={'Search'}
+          onClick={async () => router.push(`/search${mapSearchParams(searchQuery)}`)}
+        />
+      </div>
     </div>
   );
 };

@@ -15,6 +15,7 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    gap: $xs;
 
     .searchText {
       font-size: $fjs;
@@ -29,5 +30,10 @@
       font-weight: 500;
       color: $v50;
     }
+  }
+
+  .searchButton {
+    max-width: 15rem;
+    width: 100%;
   }
 }

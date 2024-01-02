@@ -18,11 +18,11 @@
 }
 
 .buttonWrapper:hover {
-  box-shadow: 4px 4px 4px 0px $v90;
+  box-shadow: 4px 4px 4px 0px rgba($black, 0.25);
 }
 
 .buttonWrapper:active {
-  box-shadow: 3px 3px 2px 0px $v90;
+  box-shadow: 3px 3px 2px 0px rgba($black, 0.25);
 }
 
 .primary {
@@ -46,6 +46,12 @@
   background-color: $v70;
   border: 2px solid $v20;
   color: $t10;
+}
+
+.tertiary:hover {
+  background-color: $v60;
+  border: 2px solid $v10;
+  color: $t00;
 }
 
 .disabled {
