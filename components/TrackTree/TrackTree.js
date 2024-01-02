@@ -1,4 +1,4 @@
-import TrackLeaf from 'components/cards/TrackLeaf/TrackLeaf';
+import TrackLeaf from 'components/TrackTree/TrackLeaf/TrackLeaf';
 import styles from './TrackTree.module.scss';
 import React from 'react';
 import Line from 'components/gradient/Line/Line';

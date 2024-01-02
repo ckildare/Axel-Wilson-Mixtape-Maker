@@ -1,14 +1,12 @@
 import { useRouter } from 'next/router';
-import { getAccessTokenCookie } from 'utils/sessionStorageUtils';
 import Button from 'components/UserInput/Button/Button';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import TrackCard from 'components/TrackTree/TrackCard/TrackCard';
-import Link from 'next/link';
 import { SearchContext, SearchProvider } from 'contexts/SearchContext';
 import { ReccsContext } from 'contexts/ReccsContext';
 import { StorageContext } from 'contexts/StorageContext';
 import SearchCard from './SearchCard/SearchCard';
+import TrackView from 'components/TrackView/TrackView';
 
 const SearchPage = () => {
   return (
@@ -21,9 +19,9 @@ const SearchPage = () => {
 const SearchPageWithProvider = () => {
   const { isLoadingSearch, fetchSearch, searchedTracks, searchQuery } = useContext(SearchContext);
   const { isLoadingReccs, reccTracks, fetchTrackReccsFromSearch } = useContext(ReccsContext);
-  const { selectedTracks } = useContext(StorageContext);
-  const [token, setToken] = useState('');
   const [searchSelectedTracks, setSearchSelectedTracks] = useState([]);
+  const { selectedTracks } = useContext(StorageContext);
+  // const [token, setToken] = useState('');
   const router = useRouter();
   const { q } = router.query;
 
@@ -53,17 +51,17 @@ const SearchPageWithProvider = () => {
     router.push('/recommendations');
   }, [reccTracks]);
 
-  useEffect(() => {
-    async function getToken() {
-      let token = getAccessTokenCookie();
-      if (!token) {
-        await fetch('/auth/token');
-        token = getAccessTokenCookie();
-      }
-      if (token) setToken(token);
-    }
-    getToken();
-  }, []);
+  // useEffect(() => {
+  //   async function getToken() {
+  //     let token = getAccessTokenCookie();
+  //     if (!token) {
+  //       await fetch('/auth/token');
+  //       token = getAccessTokenCookie();
+  //     }
+  //     if (token) setToken(token);
+  //   }
+  //   getToken();
+  // }, []);
 
   useEffect(() => {
     console.log('q: ', q);
@@ -76,13 +74,7 @@ const SearchPageWithProvider = () => {
       <SearchCard />
       {searchedTracks.length > 0 &&
         <div className={styles.screenWrapper}>
-          <div className={styles.searchTracks}>
-            {(searchedTracks || []).map((track, key) => {
-              return (
-                <TrackCard key={key} track={track} onSelect={(e) => handleTrackSelect(e, track)} />
-              );
-            })}
-          </div>
+          <TrackView tracks={searchedTracks} handleTrackSelect={(isSelected, track) => handleTrackSelect(isSelected, track)} />
           <div className={styles.bottomButtons}>
             <Button text={'More Results'} isLoading={isLoadingSearch} onClick={async () => await fetchSearch(searchQuery, 'next')} />
             <Button text={'Recommend'} isLoading={isLoadingReccs} onClick={async () => await fetchTrackReccsFromSearch(searchSelectedTracks)} disabled={searchSelectedTracks.length < 1} />
