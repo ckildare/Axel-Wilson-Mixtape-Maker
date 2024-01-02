@@ -1,6 +1,5 @@
-import { set } from 'immutable';
 import fetchBearerToken from 'pages/api/fetchBearerToken';
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
 
 const initialContext = {
   selectedTracks: [],
@@ -87,20 +86,32 @@ const StorageProvider = ({ children }) => {
     setIsRestart(false);
   };
 
-  return (
-    <StorageContext.Provider value={{
-      ...initialContext,
-      touchBearerToken,
-      getSearchQueryParams,
-      setSearchQueryParams,
-      touchReccsQueryParams,
-      setSelectedTracks,
-      setTrackTree,
-      triggerRestart,
+  const memoTouchBearerToken = useMemo(() => touchBearerToken, [touchBearerToken]);
+  const memoGetSearchQueryParams = useMemo(() => getSearchQueryParams, [getSearchQueryParams]);
+  const memoSetSearchQueryParams = useMemo(() => setSearchQueryParams, [setSearchQueryParams]);
+  const memoTouchReccsQueryParams = useMemo(() => touchReccsQueryParams, [touchReccsQueryParams]);
+  const memoSetSelectedTracks = useMemo(() => setSelectedTracks, [setSelectedTracks]);
+  const memoSetTrackTree = useMemo(() => setTrackTree, [setTrackTree]);
+  const memoTriggerRestart = useMemo(() => triggerRestart, [triggerRestart]);
+
+  const memoizedContextValue = useMemo(() => {
+    return {
+      touchBearerToken: memoTouchBearerToken,
+      getSearchQueryParams: memoGetSearchQueryParams,
+      setSearchQueryParams: memoSetSearchQueryParams,
+      touchReccsQueryParams: memoTouchReccsQueryParams,
+      setSelectedTracks: memoSetSelectedTracks,
+      setTrackTree: memoSetTrackTree,
+      triggerRestart: memoTriggerRestart,
       selectedTracks,
       trackTree,
       isRestart
-    }}>
+    };
+  }, [memoTouchBearerToken, memoGetSearchQueryParams, memoSetSearchQueryParams, memoTouchReccsQueryParams, memoSetSelectedTracks, memoSetTrackTree, memoTriggerRestart, selectedTracks, trackTree, isRestart]);
+
+
+  return (
+    <StorageContext.Provider value={memoizedContextValue}>
       {children}
     </StorageContext.Provider>
   );

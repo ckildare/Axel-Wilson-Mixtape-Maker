@@ -1,8 +1,7 @@
-import React, { useState, createContext, useContext, useEffect } from 'react';
+import React, { useState, createContext, useContext, useEffect, useMemo } from 'react';
 import { mapTrack } from 'utils/trackUtils';
 import { StorageContext } from './StorageContext';
 import fetchTrackSearch from 'pages/api/fetchTrackSearch';
-import { set } from 'immutable';
 
 const initialContext = {
   isLoadingSearch: false,
@@ -64,15 +63,23 @@ const SearchProvider = ({ children }) => {
     return;
   };
 
-  return (
-    <SearchContext.Provider value={{
-      fetchSearch,
-      mapSearchParams,
-      setIsTitleSearch,
+  const memoFetchSearch = useMemo(() => fetchSearch, [fetchSearch]);
+  const memoMapSearchParams = useMemo(() => mapSearchParams, [mapSearchParams]);
+  const memoSetIsTitleSearch = useMemo(() => setIsTitleSearch, [setIsTitleSearch]);
+
+  const memoizedContextValue = useMemo(() => {
+    return {
+      fetchSearch: memoFetchSearch,
+      mapSearchParams: memoMapSearchParams,
+      setIsTitleSearch: memoSetIsTitleSearch,
       isLoadingSearch,
       searchedTracks,
       page,
-    }}>
+    };
+  }, [memoFetchSearch, memoMapSearchParams, memoSetIsTitleSearch, isLoadingSearch, searchedTracks, page]);
+
+  return (
+    <SearchContext.Provider value={memoizedContextValue}>
       {children}
     </SearchContext.Provider>
   );

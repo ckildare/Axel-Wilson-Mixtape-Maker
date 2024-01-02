@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext, useEffect } from 'react';
+import React, { useState, createContext, useContext, useEffect, useMemo } from 'react';
 import { addTracksToTree, mapTrack } from 'utils/trackUtils';
 import { StorageContext } from './StorageContext';
 import fetchTrackRecommendations from 'pages/api/fetchTrackRecommendations';
@@ -21,7 +21,6 @@ const ReccsProvider = ({ children }) => {
   const { touchBearerToken, setSelectedTracks, trackTree, setTrackTree,isRestart  } = useContext(StorageContext);
 
   useEffect(() => {
-    if (!isRestart) return;
     setReccTracks([]);
     setSelectedSeeds([]);
     setIsLoadingReccs(false);
@@ -83,16 +82,24 @@ const ReccsProvider = ({ children }) => {
     setSelectedSeeds(newSelectedTracks);
   };
 
-  return (
-    <ReccsContext.Provider value={{
-      fetchTrackReccs,
-      fetchTrackReccsFromSearch,
-      selectSeed,
+  const memoFetchTrackReccs = useMemo(() => fetchTrackReccs, [fetchTrackReccs]);
+  const memoFetchTrackReccsFromSearch = useMemo(() => fetchTrackReccsFromSearch, [fetchTrackReccsFromSearch]);
+  const memoizedSelectSeed = useMemo(() => selectSeed, [selectSeed]);
+
+  const memoizedContextValue = useMemo(() => {
+    return {
+      fetchTrackReccs: memoFetchTrackReccs,
+      fetchTrackReccsFromSearch: memoFetchTrackReccsFromSearch,
+      selectSeed: memoizedSelectSeed,
       isLoadingReccs,
       reccTracks,
       reccRoundCount,
       selectedSeeds,
-    }}>
+    };
+  }, [memoFetchTrackReccs, memoFetchTrackReccsFromSearch, memoizedSelectSeed, isLoadingReccs, reccTracks, reccRoundCount, selectedSeeds]);
+
+  return (
+    <ReccsContext.Provider value={memoizedContextValue}>
       {children}
     </ReccsContext.Provider>
   );

@@ -10,6 +10,7 @@ import TrackCard from 'components/cards/TrackCard/TrackCard';
 import Link from 'next/link';
 import { SearchContext, SearchProvider } from 'contexts/SearchContext';
 import { ReccsContext } from 'contexts/ReccsContext';
+import { StorageContext } from 'contexts/StorageContext';
 
 const SearchPage = () => {
   return (
@@ -22,15 +23,16 @@ const SearchPage = () => {
 const SearchPageWithProvider = () => {
   const { isLoadingSearch, fetchSearch, searchedTracks, mapSearchParams, setIsTitleSearch } = useContext(SearchContext);
   const { isLoadingReccs, reccTracks, fetchTrackReccsFromSearch } = useContext(ReccsContext);
+  const { selectedTracks } = useContext(StorageContext);
   const [searchQuery, setSearchQuery] = useState('');
   const [token, setToken] = useState('');
-  const [selectedTracks, setSelectedTracks] = useState([]);
+  const [searchSelectedTracks, setSearchSelectedTracks] = useState([]);
   const router = useRouter();
   const { q } = router.query;
 
   const handleTrackSelect = (isSelected, track) => {
     track.isSelected = isSelected;
-    let newSelectedTracks = [...selectedTracks];
+    let newSelectedTracks = [...searchSelectedTracks];
 
     if (isSelected) {
       newSelectedTracks.push(track);
@@ -42,11 +44,11 @@ const SearchPageWithProvider = () => {
     }
 
     console.log('newSelectedTracks: ', newSelectedTracks);
-    setSelectedTracks(newSelectedTracks);
+    setSearchSelectedTracks(newSelectedTracks);
   };
 
   useEffect(() => {
-    if (!reccTracks || reccTracks?.length == 0) {
+    if (reccTracks?.length < 1 || selectedTracks?.length < 1) {
       // TODO: display no recommendations found message
       console.log('no recommendations found');
       return;
@@ -106,7 +108,7 @@ const SearchPageWithProvider = () => {
           </div>
           <div className={styles.bottomButtons}>
             <Button text={'More Results'} isLoading={isLoadingSearch} onClick={async () => await fetchSearch(searchQuery, 'next')} />
-            <Button text={'Recommend'} isLoading={isLoadingReccs} onClick={async () => await fetchTrackReccsFromSearch(selectedTracks)} disabled={selectedTracks.length < 1} />
+            <Button text={'Recommend'} isLoading={isLoadingReccs} onClick={async () => await fetchTrackReccsFromSearch(searchSelectedTracks)} disabled={searchSelectedTracks.length < 1} />
           </div>
         </div>}
       <Button type={'primary'} text={'About'} onClick={() => router.push('/about')} />
