@@ -93,16 +93,16 @@ const SearchPageWithProvider = () => {
   );
 };
 
-const Login = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <Link href={'http://localhost:5000/auth/login'}>
-          Login with Spotify
-        </Link>
-      </header>
-    </div>
-  );
-};
+// const Login = () => {
+//   return (
+//     <div className="App">
+//       <header className="App-header">
+//         <Link href={'http://localhost:5000/auth/login'}>
+//           Login with Spotify
+//         </Link>
+//       </header>
+//     </div>
+//   );
+// };
 
 export default SearchPage;
