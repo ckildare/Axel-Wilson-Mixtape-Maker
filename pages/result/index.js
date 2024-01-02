@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import styles from './index.module.scss';
 import { useRouter } from 'next/router';
 import TrackCard from 'components/cards/TrackCard/TrackCard';
-import Button from 'components/Button/Button';
+import Button from 'components/UserInput/Button/Button';
 import TrackTree from 'components/TrackTree/TrackTree';
 import { StorageContext } from 'contexts/StorageContext';
 

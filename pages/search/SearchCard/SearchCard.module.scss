@@ -1,0 +1,33 @@
+@use "palette" as *;
+
+.searchCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background-color: $v80;
+  border-radius: $m;
+  border: 1px solid $v100;
+  box-shadow: 2px 2px 4px 0 $v100;
+
+  .topRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    .searchText {
+      font-size: $fjs;
+      text-align: center;
+      font-weight: 500;
+      color: rgba($white, 0.75);
+    }
+
+    .seedSettingPill {
+      font-family: $bartex;
+      font-size: $fjm;
+      font-weight: 500;
+      color: $v50;
+    }
+  }
+}

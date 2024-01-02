@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 // import Image from 'next/image';
 import styles from './index.module.scss';
-import Button from 'components/Button/Button';
+import Button from 'components/UserInput/Button/Button';
 // import axelWilson from 'public/images/axel.png';
 import retro from 'public/images/retro.jpg';
 import Card from 'components/cards/Card/Card';

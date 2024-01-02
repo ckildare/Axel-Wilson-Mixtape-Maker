@@ -14,22 +14,26 @@
   padding: $m;
   width: 6rem;
   height: 2rem;
-  background: $o50;
+  background: $white50;
   border-radius: 2rem;
   position: relative;
   transition: background-color .2s;
+  border: 1px solid rgba($white, 0.65);
 }
 
 .label .toggleText {
   content: '';
-  font-family: $bartex;
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   user-select: none;
   font-size: $fxl;
   font-weight: 500;
-  color: $white;
-  top: 25%;
+  color: rgba($white, 0.85);
+  top: calc(0.25rem - 1px);
   left: 0.5rem; /* Initial position on the left when switch is off */
+  height: 1.5rem;
   width: 2rem; /* Set the same width as .button */
   transition: left 0.2s; /* Updated to apply transition only on left property */
 }
@@ -37,12 +41,13 @@
 .label .button {
   content: '';
   position: absolute;
-  top: 0.25rem;
+  top: calc(0.25rem - 1px);
   right: 0.25rem; /* Initial position on the right when switch is off */
   width: 2rem;
   height: 1.5rem;
   border-radius: 2rem;
-  background: $t50;
+  border: 1px solid rgba($white, 0.75);
+  background: $v50;
   box-shadow: 0 0 2px 0 $white90;
   transition: right 0.2s, left 0.2s, width 0.2s; /* Updated to apply transition on right, left, and width properties */
 }
@@ -53,7 +58,7 @@
 }
 
 .checkbox:checked + .label .toggleText {
-  left: calc(100% - 3rem); /* Slide to the left during active or focus states */
+  left: calc(100% - 2.75rem); /* Slide to the left during active or focus states */
   right: 0.5rem; /* Ensure right is set when transitioning towards the left */
 }
 

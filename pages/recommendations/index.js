@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import styles from './index.module.scss';
 import TrackCard from 'components/cards/TrackCard/TrackCard';
-import Button from 'components/Button/Button';
+import Button from 'components/UserInput/Button/Button';
 import { useRouter } from 'next/router';
-import Loader from 'components/cards/Loader/Loader';
+import Loader from 'components/Loader/Loader';
 import { ReccsContext } from 'contexts/ReccsContext';
 import { StorageContext } from 'contexts/StorageContext';
 

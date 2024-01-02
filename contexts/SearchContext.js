@@ -8,6 +8,7 @@ const initialContext = {
   isTitleSearch: true,
   searchedTracks: [],
   page: 0,
+  searchQuery: '',
 };
 
 const SearchContext = createContext(initialContext);
@@ -16,6 +17,7 @@ const SearchProvider = ({ children }) => {
   const [searchedTracks, setSearchedTracks] = useState(initialContext.searchedTracks);
   const [isLoadingSearch, setIsLoadingSearch] = useState(initialContext.isLoadingSearch);
   const [isTitleSearch, setIsTitleSearch] = useState(initialContext.isTitleSearch);
+  const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(initialContext.page);
   const { touchBearerToken, getSearchQueryParams, setSearchQueryParams, isRestart } = useContext(StorageContext);
 
@@ -24,6 +26,7 @@ const SearchProvider = ({ children }) => {
     setSearchedTracks([]);
     setIsLoadingSearch(false);
     setIsTitleSearch(true);
+    setSearchQuery('');
     setPage(0);
   }, [isRestart]);
 
@@ -41,9 +44,7 @@ const SearchProvider = ({ children }) => {
     const token = await touchBearerToken();
     if (pageChange) paginate(pageChange);
 
-    console.log('query 1: ', query != null && query?.length > 3);
     const builtQuery = (query != null && query?.length > 3) ? `?q=${query}` : getSearchQueryParams();
-    console.log('query 2: ', builtQuery);
     if (!builtQuery) {
       setIsLoadingSearch(false);
       return;
@@ -66,17 +67,21 @@ const SearchProvider = ({ children }) => {
   const memoFetchSearch = useMemo(() => fetchSearch, [fetchSearch]);
   const memoMapSearchParams = useMemo(() => mapSearchParams, [mapSearchParams]);
   const memoSetIsTitleSearch = useMemo(() => setIsTitleSearch, [setIsTitleSearch]);
+  const memoSetSearchQuery = useMemo(() => setSearchQuery, [setSearchQuery]);
 
   const memoizedContextValue = useMemo(() => {
     return {
       fetchSearch: memoFetchSearch,
       mapSearchParams: memoMapSearchParams,
+      setSearchQuery: memoSetSearchQuery,
       setIsTitleSearch: memoSetIsTitleSearch,
       isLoadingSearch,
+      isTitleSearch,
       searchedTracks,
+      searchQuery,
       page,
     };
-  }, [memoFetchSearch, memoMapSearchParams, memoSetIsTitleSearch, isLoadingSearch, searchedTracks, page]);
+  }, [memoFetchSearch, memoSetSearchQuery, memoMapSearchParams, memoSetIsTitleSearch, isLoadingSearch, isTitleSearch, searchQuery, searchedTracks, page]);
 
   return (
     <SearchContext.Provider value={memoizedContextValue}>

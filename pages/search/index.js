@@ -1,16 +1,14 @@
 import { useRouter } from 'next/router';
 import { getAccessTokenCookie } from 'utils/sessionStorageUtils';
-import Button from 'components/Button/Button';
-import Card from 'components/cards/Card/Card';
+import Button from 'components/UserInput/Button/Button';
 import React, { useState, useContext, useEffect } from 'react';
 import styles from './index.module.scss';
-import TextInput from 'components/TextInput/TextInput';
-import ToggleSwitch from 'components/ToggleSwitch/ToggleSwitch';
 import TrackCard from 'components/cards/TrackCard/TrackCard';
 import Link from 'next/link';
 import { SearchContext, SearchProvider } from 'contexts/SearchContext';
 import { ReccsContext } from 'contexts/ReccsContext';
 import { StorageContext } from 'contexts/StorageContext';
+import SearchCard from './SearchCard/SearchCard';
 
 const SearchPage = () => {
   return (
@@ -21,10 +19,9 @@ const SearchPage = () => {
 };
 
 const SearchPageWithProvider = () => {
-  const { isLoadingSearch, fetchSearch, searchedTracks, mapSearchParams, setIsTitleSearch } = useContext(SearchContext);
+  const { isLoadingSearch, fetchSearch, searchedTracks, searchQuery } = useContext(SearchContext);
   const { isLoadingReccs, reccTracks, fetchTrackReccsFromSearch } = useContext(ReccsContext);
   const { selectedTracks } = useContext(StorageContext);
-  const [searchQuery, setSearchQuery] = useState('');
   const [token, setToken] = useState('');
   const [searchSelectedTracks, setSearchSelectedTracks] = useState([]);
   const router = useRouter();
@@ -76,27 +73,7 @@ const SearchPageWithProvider = () => {
   return (
     <div className={styles.screenWrapper}>
       {token === '' && <Login />}
-      <Card className={styles.searchCard}>
-        <div className={styles.topRow}>
-          <div className={styles.searchText}>Search for a Song</div>
-          <ToggleSwitch
-            className={styles.seedSettingPill}
-            handleToggle={(isOn) => setIsTitleSearch(!isOn)}
-            onText={'Artist'}
-            offText={'Title'}
-            name={'artistOrTitle'}
-          />
-        </div>
-        <TextInput
-          rowNumber={1}
-          required
-          autocorrect
-          type={'tertiary'}
-          placeHolder={'Enter Track Title'}
-          onChange={(e) => setSearchQuery(e)}
-        />
-        <Button isLoading={isLoadingSearch} type={'tertiary'} text={'Search'} onClick={async () => router.push(`/search${mapSearchParams(searchQuery)}`)} />
-      </Card>
+      <SearchCard />
       {searchedTracks.length > 0 &&
         <div className={styles.screenWrapper}>
           <div className={styles.searchTracks}>
