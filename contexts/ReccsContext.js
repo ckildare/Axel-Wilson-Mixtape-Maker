@@ -18,7 +18,13 @@ const ReccsProvider = ({ children }) => {
   const [selectedSeeds, setSelectedSeeds] = useState([]);
   const [isLoadingReccs, setIsLoadingReccs] = useState(initialContext.isLoadingReccs);
   const [reccRoundCount, setReccRoundCount] = useState(initialContext.reccRoundCount);
-  const { touchBearerToken, setSelectedTracks, trackTree, setTrackTree, isRestart } = useContext(StorageContext);
+  const {
+    touchBearerToken,
+    setSelectedTracks,
+    trackTree,
+    setTrackTree,
+    isRestart
+  } = useContext(StorageContext);
 
   useEffect(() => {
     setReccTracks([]);

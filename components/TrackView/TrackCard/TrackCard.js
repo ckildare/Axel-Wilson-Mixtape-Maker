@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import styles from './TrackCard.module.scss';
 
-const TrackCard = ({ track, onSelect, parentIsLoading }) => {
+const TrackCard = ({
+  track,
+  onSelect,
+  parentIsLoading
+}) => {
   const [isSelected, setIsSelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 

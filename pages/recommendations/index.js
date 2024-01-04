@@ -8,7 +8,13 @@ import TrackView from 'components/TrackView/TrackView';
 
 const RecommendationsPage = () => {
   const { selectedTracks } = useContext(StorageContext);
-  const { fetchTrackReccs, reccTracks, isLoadingReccs, selectedSeeds, selectSeed } = useContext(ReccsContext);
+  const {
+    fetchTrackReccs,
+    reccTracks,
+    isLoadingReccs,
+    selectedSeeds,
+    selectSeed
+  } = useContext(ReccsContext);
   const router = useRouter();
 
   const handleFinish = () => {
