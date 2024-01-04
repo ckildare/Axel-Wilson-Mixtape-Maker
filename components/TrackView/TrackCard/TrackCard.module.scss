@@ -29,7 +29,7 @@ $focus3border: 1px solid $white90;
     border-radius: inherit;
     border: 1px solid $white50;
     overflow: hidden;
-    height: 5.125rem;
+    height: 100%;
     z-index: 2;
   }
   
@@ -62,7 +62,6 @@ $focus3border: 1px solid $white90;
 
 .iframe {
   width: 100%;
-  height: 5rem;
   position: relative;
   z-index: 1;
 }
