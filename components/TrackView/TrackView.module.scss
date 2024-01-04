@@ -1,0 +1,47 @@
+@use "palette" as *;
+
+.searchTracks {
+  display: flex;
+  flex-direction: column;
+  gap: $xs;
+  padding: $s;
+  background-color: $v80;
+  border-radius: $m;
+  border: 1px solid $v100;
+  box-shadow: 2px 2px 4px 0 $v100;
+}
+
+.topRow {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  gap: $xs;
+
+  .pagination {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    padding: $s $m;
+
+    background-color: rgba($black, 0.5);
+    border-radius: $m;
+    color: rgba($white, 0.75);
+    cursor: pointer;
+    border: 1px solid $v100;
+    box-shadow: 2px 2px 4px 0 $v100;
+    background-color: $v40;
+    color: $white;
+  }
+
+  .pagination:hover {
+    box-shadow: 4px 4px 4px 0px rgba($black, 0.25);
+    background-color: $v30;
+  }
+
+  .pagination:active {
+    box-shadow: 3px 3px 2px 0px rgba($black, 0.25);
+    background-color: $v40;
+  }
+}

@@ -2,6 +2,7 @@ import React, { useState, createContext, useContext, useEffect, useMemo } from '
 import { mapTrack } from 'utils/trackUtils';
 import { StorageContext } from './StorageContext';
 import fetchTrackSearch from 'pages/api/fetchTrackSearch';
+import { set } from 'immutable';
 
 const initialContext = {
   isLoadingSearch: false,
@@ -34,30 +35,25 @@ const SearchProvider = ({ children }) => {
     return `?q=${isTitleSearch ? 'track' : 'artist'}:${query}`;
   };
 
-  const paginate = (direction) => {
-    if (direction === 'next') setPage(page + 1);
-    if (direction === 'prev' && page > 0) setPage(page - 1);
-  };
-
-  const fetchSearch = async (query, pageChange) => {
+  const fetchSearch = async (pageChange) => {
     setIsLoadingSearch(true);
     const token = await touchBearerToken();
-    if (pageChange) paginate(pageChange);
+    setPage(pageChange);
 
-    const builtQuery = (query != null && query?.length > 3) ? `?q=${query}` : getSearchQueryParams();
+    const builtQuery = searchQuery?.length > 0 ? searchQuery : getSearchQueryParams();
+    console.log('builtQuery: ', builtQuery);
     if (!builtQuery) {
       setIsLoadingSearch(false);
       return;
     }
 
-    const trackSearchResponse = await fetchTrackSearch(builtQuery, token, page * 5);
+    const trackSearchResponse = await fetchTrackSearch(`?q=${builtQuery}`, token, page * 6);
     if (!trackSearchResponse || trackSearchResponse?.tracks?.items.length == 0) {
       console.error('No tracks found for request: ', builtQuery);
       setIsLoadingSearch(false);
       return;
     }
 
-    console.log('builtQuery: ', builtQuery);
     setSearchQueryParams(builtQuery);
     setSearchedTracks([...trackSearchResponse.tracks.items.map(track => mapTrack(track))]);
     setIsLoadingSearch(false);

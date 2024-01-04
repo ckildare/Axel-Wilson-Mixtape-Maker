@@ -17,7 +17,7 @@ const SearchPage = () => {
 };
 
 const SearchPageWithProvider = () => {
-  const { isLoadingSearch, fetchSearch, searchedTracks, searchQuery } = useContext(SearchContext);
+  const { isLoadingSearch, fetchSearch, searchedTracks, page } = useContext(SearchContext);
   const { isLoadingReccs, reccTracks, fetchTrackReccsFromSearch } = useContext(ReccsContext);
   const [searchSelectedTracks, setSearchSelectedTracks] = useState([]);
   const { selectedTracks } = useContext(StorageContext);
@@ -38,7 +38,6 @@ const SearchPageWithProvider = () => {
       }
     }
 
-    console.log('newSelectedTracks: ', newSelectedTracks);
     setSearchSelectedTracks(newSelectedTracks);
   };
 
@@ -63,10 +62,9 @@ const SearchPageWithProvider = () => {
   //   getToken();
   // }, []);
 
-  useEffect(() => {
-    console.log('q: ', q);
-    if (q) fetchSearch(q);
-  }, [q]);
+  useEffect(() => { if (q) fetchSearch(0); }, [q]);
+
+  useEffect(() => { setSearchSelectedTracks([]); }, [isLoadingSearch]);
 
   return (
     <div className={styles.screenWrapper}>
@@ -74,9 +72,14 @@ const SearchPageWithProvider = () => {
       <SearchCard />
       {searchedTracks.length > 0 &&
         <div className={styles.screenWrapper}>
-          <TrackView tracks={searchedTracks} handleTrackSelect={(isSelected, track) => handleTrackSelect(isSelected, track)} />
+          <TrackView
+            tracks={searchedTracks}
+            isLoading={isLoadingSearch}
+            handleTrackSelect={(isSelected, track) => handleTrackSelect(isSelected, track)}
+            handlePaginate={async (updatedPage) => await fetchSearch(updatedPage)}
+            pageNumber={page}
+          />
           <div className={styles.bottomButtons}>
-            <Button text={'More Results'} isLoading={isLoadingSearch} onClick={async () => await fetchSearch(searchQuery, 'next')} />
             <Button text={'Recommend'} isLoading={isLoadingReccs} onClick={async () => await fetchTrackReccsFromSearch(searchSelectedTracks)} disabled={searchSelectedTracks.length < 1} />
           </div>
         </div>}
