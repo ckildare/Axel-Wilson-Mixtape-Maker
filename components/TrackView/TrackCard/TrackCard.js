@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import styles from './TrackCard.module.scss';
 
 const TrackCard = ({ track, onSelect }) => {
   const [isSelected, setIsSelected] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSelectChange = () => {
     setIsSelected(!isSelected);
     onSelect(!isSelected);
   };
+
+  useEffect(() => { setIsLoading(true); }, [track]);
+
+  useEffect(() => { console.log('isLoading', isLoading); }, [isLoading]);
 
   return (
     <div
@@ -23,6 +28,7 @@ const TrackCard = ({ track, onSelect }) => {
       />
       <iframe
         src={`https://open.spotify.com/embed/track/${track.id}?utm_source=generator&theme=0`}
+        onLoad={() => setIsLoading(false)}
         width="100%"
         height="80"
         frameBorder="0"

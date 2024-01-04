@@ -1,14 +1,51 @@
 @use "palette" as *;
 
-.searchTracks {
+.trackView {
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   gap: $xs;
   padding: $s;
   background-color: $v80;
   border-radius: $m;
   border: 1px solid $v100;
   box-shadow: 2px 2px 4px 0 $v100;
+  scrollbar-gutter: stable;
+
+  ::-webkit-scrollbar {
+    z-index: 1;
+    position: fixed;
+    width: 5px;
+    border-radius: $s;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: $v40;
+    border-radius: $s;
+  }
+
+  ::-webkit-scrollbar-track:hover {
+    background: $v30;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $v10;
+    border: rgba($white, 0.25);
+    border-radius: $s;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: $v00;
+  }
+}
+
+.searchTracks {
+  display: flex;
+  flex-direction: column;
+  gap: $xs;
+
+  height: 27rem;
+  overflow-y: auto;
 }
 
 .topRow {

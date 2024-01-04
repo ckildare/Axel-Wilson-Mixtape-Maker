@@ -5,7 +5,7 @@ import styles from './TrackView.module.scss';
 const TrackView = ({ tracks, handleTrackSelect, handlePaginate, pageNumber }) => {
 
   return (
-    <div className={styles.searchTracks}>
+    <div className={styles.trackView}>
       {pageNumber !== null &&
         <div className={styles.topRow}>
           <div
@@ -20,11 +20,13 @@ const TrackView = ({ tracks, handleTrackSelect, handlePaginate, pageNumber }) =>
           </div>
           }
         </div>}
-      {(tracks || []).map((track, key) => {
-        return (
-          <TrackCard key={key} track={track} onSelect={(e) => handleTrackSelect(e, track)} />
-        );
-      })}
+      <div className={styles.searchTracks}>
+        {(tracks || []).map((track, key) => {
+          return (
+            <TrackCard key={key} track={track} onSelect={(e) => handleTrackSelect(e, track)} />
+          );
+        })}
+      </div>
     </div>
   );
 };
