@@ -9,15 +9,55 @@ $focus2border: 1px solid $white75;
 $focus3border: 1px solid $white90;
 
 .trackCard {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   border-radius: calc($l - 3px);
   color: $white75;
   height: calc(5rem + 2px);
-  background-color: #28282875;
-  border: 1px solid #28282875;
+  background-color: rgba($white, 0.1);
+  border: 1px solid rgba($white, 0.1);
   position: relative;
+
+  .trackContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+  }
+
+  .loader {
+    position: relative;
+    background: rgba($white, 0.1);
+    border-radius: inherit;
+    border: 1px solid $white50;
+    overflow: hidden;
+    height: 5.125rem;
+    z-index: 2;
+  }
+  
+  .loader:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      110deg,
+      rgba($p10, 0.25) 8%,
+      rgba($p10, 0.2) 18%,
+      rgba($p10, 0.25) 33%
+    );
+    background-size: 200% 100%;
+    animation: shine 1s linear infinite;
+  }
+  
+  @keyframes shine {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
 }
 
 .iframe {
@@ -48,22 +88,6 @@ $focus3border: 1px solid $white90;
 .selected:hover {
   background-color: $v00;
   border: $focus3border;
-}
-
-.isLoading {
-  background-color: #eee;
-  background: linear-gradient(
-    110deg,
-    rgba($white, 0.25) 8%,
-    rgba($white, 0.2) 18%,
-    rgba($white, 0.25) 33%
-  );
-  border-radius: $l;
-  border: 1px solid $white50;
-  background-size: 200% 100%;
-  animation: shine 1.5s linear infinite;
-  height: 3.875rem;
-  z-index: 2;
 }
 
 .checkbox {

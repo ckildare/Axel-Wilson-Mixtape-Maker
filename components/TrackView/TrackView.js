@@ -2,7 +2,7 @@ import React from 'react';
 import TrackCard from './TrackCard/TrackCard';
 import styles from './TrackView.module.scss';
 
-const TrackView = ({ tracks, handleTrackSelect, handlePaginate, pageNumber }) => {
+const TrackView = ({ tracks, handleTrackSelect, handlePaginate, pageNumber, isLoading }) => {
 
   return (
     <div className={styles.trackView}>
@@ -23,7 +23,7 @@ const TrackView = ({ tracks, handleTrackSelect, handlePaginate, pageNumber }) =>
       <div className={styles.searchTracks}>
         {(tracks || []).map((track, key) => {
           return (
-            <TrackCard key={key} track={track} onSelect={(e) => handleTrackSelect(e, track)} />
+            <TrackCard key={key} track={track} parentIsLoading={isLoading} onSelect={(e) => handleTrackSelect(e, track)} />
           );
         })}
       </div>
