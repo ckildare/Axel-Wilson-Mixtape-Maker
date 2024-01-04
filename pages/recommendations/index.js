@@ -1,11 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import styles from './index.module.scss';
-import TrackCard from 'components/TrackView/TrackCard/TrackCard';
 import Button from 'components/UserInput/Button/Button';
 import { useRouter } from 'next/router';
-import Loader from 'components/Loader/Loader';
 import { ReccsContext } from 'contexts/ReccsContext';
 import { StorageContext } from 'contexts/StorageContext';
+import TrackView from 'components/TrackView/TrackView';
 
 const RecommendationsPage = () => {
   const { selectedTracks } = useContext(StorageContext);
@@ -22,19 +21,13 @@ const RecommendationsPage = () => {
 
   return (
     <div className={styles.screenWrapper}>
-      <div className={styles.tracks}>
-        {(reccTracks || []).map((track, key) => {
-          return (
-            <div key={key}>
-              <Loader isLoading={isLoadingReccs}>
-                <TrackCard track={track} onSelect={(e) => selectSeed(e, track)} />
-              </Loader>
-            </div>
-          );
-        })}
-      </div>
+      <TrackView
+        tracks={reccTracks}
+        isLoading={isLoadingReccs}
+        handleTrackSelect={(isSelected, track) => selectSeed(isSelected, track)}
+      />
       <div className={styles.bottomButtons}>
-        <Button text={'Recommend'} type={'primary'} isLoading={isLoadingReccs} onClick={async () => await fetchTrackReccs(selectedSeeds)} disabled={selectedSeeds.length < 1 || selectedTracks.length > 15} />
+        <Button text={'Recommend'} type={'primary'} isLoading={isLoadingReccs} onClick={async () => await fetchTrackReccs()} disabled={selectedSeeds.length < 1 || selectedTracks.length > 15} />
         <Button text={'Finish'} onClick={() => handleFinish()} />
       </div>
     </div >

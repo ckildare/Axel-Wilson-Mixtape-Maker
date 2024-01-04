@@ -12,6 +12,7 @@ const TrackCard = ({ track, onSelect, parentIsLoading }) => {
   };
 
   useEffect(() => { setIsLoading(true); }, [track]);
+  useEffect(() => { setIsSelected(false); }, [parentIsLoading, isLoading]);
 
   return (
     <div

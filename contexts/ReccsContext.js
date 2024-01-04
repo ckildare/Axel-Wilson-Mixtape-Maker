@@ -18,7 +18,7 @@ const ReccsProvider = ({ children }) => {
   const [selectedSeeds, setSelectedSeeds] = useState([]);
   const [isLoadingReccs, setIsLoadingReccs] = useState(initialContext.isLoadingReccs);
   const [reccRoundCount, setReccRoundCount] = useState(initialContext.reccRoundCount);
-  const { touchBearerToken, setSelectedTracks, trackTree, setTrackTree,isRestart  } = useContext(StorageContext);
+  const { touchBearerToken, setSelectedTracks, trackTree, setTrackTree, isRestart } = useContext(StorageContext);
 
   useEffect(() => {
     setReccTracks([]);
@@ -26,6 +26,8 @@ const ReccsProvider = ({ children }) => {
     setIsLoadingReccs(false);
     setReccRoundCount(0);
   }, [isRestart]);
+
+  useEffect(() => { setSelectedSeeds([]); }, [isLoadingReccs]);
 
   useEffect(() => {
     if (!reccTracks || reccTracks.length == 0) return;
@@ -37,22 +39,13 @@ const ReccsProvider = ({ children }) => {
     }
 
     setTrackTree(addTracksToTree(newTree, reccTracks, selectedSeeds));
-    setSelectedSeeds([]);
     console.log('trackTree: ', trackTree);
   }, [reccTracks]);
 
-  const fetchTrackReccsFromSearch = async (tracks) => {
-    setIsLoadingReccs(true);
-    setSelectedTracks([...tracks]);
-    setSelectedSeeds(tracks);
-    return await fetchTrackReccs(tracks);
-  };
-
-  const fetchTrackReccs = async (tracks) => {
+  const fetchTrackReccs = async () => {
     setIsLoadingReccs(true);
     const token = await touchBearerToken();
-    const seeds = tracks || selectedSeeds;
-    const trackIDs = (seeds || []).slice(0, 5).map(track => track.id);
+    const trackIDs = (selectedSeeds || []).slice(0, 5).map(track => track.id);
     const settings = buildSettings(trackIDs, 5);
 
     const trackRecommendationsResponse = await fetchTrackRecommendations(settings, token);
@@ -61,6 +54,7 @@ const ReccsProvider = ({ children }) => {
       return null;
     }
 
+    setSelectedTracks([...selectedSeeds]);
     setReccRoundCount(reccRoundCount + 1);
     setReccTracks([...trackRecommendationsResponse.tracks.map(track => mapTrack(track))]);
     setIsLoadingReccs(false);
@@ -83,20 +77,30 @@ const ReccsProvider = ({ children }) => {
   };
 
   const memoFetchTrackReccs = useMemo(() => fetchTrackReccs, [fetchTrackReccs]);
-  const memoFetchTrackReccsFromSearch = useMemo(() => fetchTrackReccsFromSearch, [fetchTrackReccsFromSearch]);
   const memoizedSelectSeed = useMemo(() => selectSeed, [selectSeed]);
+  const memoizedSetSelectedSeeds = useMemo(() => setSelectedSeeds, [setSelectedSeeds]);
+  const memoizedreccTracks = useMemo(() => reccTracks, [reccTracks]);
+  const memoizedSelectedSeeds = useMemo(() => selectedSeeds, [selectedSeeds]);
 
   const memoizedContextValue = useMemo(() => {
     return {
       fetchTrackReccs: memoFetchTrackReccs,
-      fetchTrackReccsFromSearch: memoFetchTrackReccsFromSearch,
       selectSeed: memoizedSelectSeed,
+      setSelectedSeeds: memoizedSetSelectedSeeds,
+      selectedSeeds: memoizedSelectedSeeds,
+      reccTracks: memoizedreccTracks,
       isLoadingReccs,
-      reccTracks,
       reccRoundCount,
-      selectedSeeds,
     };
-  }, [memoFetchTrackReccs, memoFetchTrackReccsFromSearch, memoizedSelectSeed, isLoadingReccs, reccTracks, reccRoundCount, selectedSeeds]);
+  }, [
+    memoFetchTrackReccs,
+    memoizedSelectSeed,
+    memoizedSetSelectedSeeds,
+    memoizedSelectedSeeds,
+    memoizedreccTracks,
+    isLoadingReccs,
+    reccRoundCount
+  ]);
 
   return (
     <ReccsContext.Provider value={memoizedContextValue}>

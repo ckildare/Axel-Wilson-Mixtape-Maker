@@ -2,11 +2,12 @@ import React from 'react';
 import TrackCard from './TrackCard/TrackCard';
 import styles from './TrackView.module.scss';
 
-const TrackView = ({ tracks, handleTrackSelect, handlePaginate, pageNumber, isLoading }) => {
+const TrackView = ({ tracks, handleTrackSelect, pageNumber, isLoading, handlePaginate = () => {} }) => {
+  console.log('tracks', tracks);
 
   return (
     <div className={styles.trackView}>
-      {pageNumber !== null &&
+      {pageNumber != null &&
         <div className={styles.topRow}>
           <div
             className={styles.pagination}

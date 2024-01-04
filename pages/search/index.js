@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import Button from 'components/UserInput/Button/Button';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styles from './index.module.scss';
 import { SearchContext, SearchProvider } from 'contexts/SearchContext';
 import { ReccsContext } from 'contexts/ReccsContext';
@@ -17,29 +17,26 @@ const SearchPage = () => {
 };
 
 const SearchPageWithProvider = () => {
-  const { isLoadingSearch, fetchSearch, searchedTracks, page } = useContext(SearchContext);
-  const { isLoadingReccs, reccTracks, fetchTrackReccsFromSearch } = useContext(ReccsContext);
-  const [searchSelectedTracks, setSearchSelectedTracks] = useState([]);
+  const { 
+    isLoadingSearch, 
+    fetchSearch, 
+    searchedTracks, 
+    page 
+  } = useContext(SearchContext);
+
+  const { 
+    isLoadingReccs, 
+    reccTracks, 
+    fetchTrackReccs, 
+    selectSeed, 
+    selectedSeeds, 
+    setSelectedSeeds 
+  } = useContext(ReccsContext);
+
   const { selectedTracks } = useContext(StorageContext);
   // const [token, setToken] = useState('');
   const router = useRouter();
   const { q } = router.query;
-
-  const handleTrackSelect = (isSelected, track) => {
-    track.isSelected = isSelected;
-    let newSelectedTracks = [...searchSelectedTracks];
-
-    if (isSelected) {
-      newSelectedTracks.push(track);
-    } else {
-      const indexToRemove = newSelectedTracks.findIndex(t => t.id === track.id);
-      if (indexToRemove !== -1) {
-        newSelectedTracks.splice(indexToRemove, 1);
-      }
-    }
-
-    setSearchSelectedTracks(newSelectedTracks);
-  };
 
   useEffect(() => {
     if (reccTracks?.length < 1 || selectedTracks?.length < 1) {
@@ -64,7 +61,7 @@ const SearchPageWithProvider = () => {
 
   useEffect(() => { if (q) fetchSearch(0); }, [q]);
 
-  useEffect(() => { setSearchSelectedTracks([]); }, [isLoadingSearch]);
+  useEffect(() => { setSelectedSeeds([]); }, [isLoadingSearch]);
 
   return (
     <div className={styles.screenWrapper}>
@@ -75,12 +72,12 @@ const SearchPageWithProvider = () => {
           <TrackView
             tracks={searchedTracks}
             isLoading={isLoadingSearch}
-            handleTrackSelect={(isSelected, track) => handleTrackSelect(isSelected, track)}
+            handleTrackSelect={(isSelected, track) => selectSeed(isSelected, track)}
             handlePaginate={async (updatedPage) => await fetchSearch(updatedPage)}
             pageNumber={page}
           />
           <div className={styles.bottomButtons}>
-            <Button text={'Recommend'} isLoading={isLoadingReccs} onClick={async () => await fetchTrackReccsFromSearch(searchSelectedTracks)} disabled={searchSelectedTracks.length < 1} />
+            <Button text={'Recommend'} isLoading={isLoadingReccs} onClick={async () => await fetchTrackReccs()} disabled={selectedSeeds.length < 1} />
           </div>
         </div>}
       <Button type={'primary'} text={'About'} onClick={() => router.push('/about')} />

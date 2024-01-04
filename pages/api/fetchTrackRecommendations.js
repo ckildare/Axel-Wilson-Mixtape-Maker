@@ -14,8 +14,7 @@ const fetchTrackRecommendations = async (settings, token) => {
   try {
     const url = `https://api.spotify.com/v1/recommendations?${settings}`;
 
-    let response = null;
-    response = await fetchReccs(url, token);
+    let response = await fetchReccs(url, token);
 
     if (response.status === 401) {
       // Occurs when our token is donked up

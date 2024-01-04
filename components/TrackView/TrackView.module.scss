@@ -3,7 +3,6 @@
 .trackView {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   gap: $xs;
   padding: $s;
   background-color: $v80;
@@ -42,6 +41,8 @@
 .searchTracks {
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
+  align-items: stretch;
   gap: $xs;
 
   height: 27rem;
