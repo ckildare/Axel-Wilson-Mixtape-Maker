@@ -1,13 +1,14 @@
-import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from './credentials';
-
 const fetchBearerToken = async () => {
+  const clientID = process.env.SPOTIFY_CLIENT_ID;
+  const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+
   try {
     const scopes = 'user-read-playback-state user-modify-playback-state user-top-read user-follow-read';
 
     const authOptions = {
       method: 'POST',
       headers: {
-        'Authorization': 'Basic ' + btoa(SPOTIFY_CLIENT_ID + ':' + SPOTIFY_CLIENT_SECRET),
+        'Authorization': 'Basic ' + btoa(clientID + ':' + clientSecret),
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: `grant_type=client_credentials&scope=${encodeURIComponent(scopes)}`,
