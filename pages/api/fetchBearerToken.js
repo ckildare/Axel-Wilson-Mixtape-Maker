@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const fetchBearerToken = async () => {
   const clientID = process.env.SPOTIFY_CLIENT_ID;
   const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
