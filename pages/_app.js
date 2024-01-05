@@ -1,5 +1,6 @@
 import Header from 'components/layout/Header/Header';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import React from 'react';
 
 import '../styles/globals.css';
@@ -16,6 +17,7 @@ export default function App({ Component, pageProps }) {
         </ReccsProvider>
       </StorageProvider>
       <Analytics />
+      <SpeedInsights />
     </div>
   </>;
 }
