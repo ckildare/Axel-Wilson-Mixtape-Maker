@@ -1,5 +1,5 @@
 import fetchBearerToken from 'pages/api/fetchBearerToken';
-import React, { createContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, memo, useEffect, useMemo, useState } from 'react';
 
 const initialContext = {
   selectedTracks: [],
@@ -60,6 +60,10 @@ const StorageProvider = ({ children }) => {
     return setToken;
   };
 
+  const getAccessToken = async () => {
+    return getCookie('access_token');
+  };
+
   const getSearchQueryParams = () => {
     return getCookie('search_params');
   };
@@ -87,6 +91,7 @@ const StorageProvider = ({ children }) => {
   };
 
   const memoTouchBearerToken = useMemo(() => touchBearerToken, [touchBearerToken]);
+  const memoGetAccessToken = useMemo(() => getAccessToken, [getAccessToken]);
   const memoGetSearchQueryParams = useMemo(() => getSearchQueryParams, [getSearchQueryParams]);
   const memoSetSearchQueryParams = useMemo(() => setSearchQueryParams, [setSearchQueryParams]);
   const memoTouchReccsQueryParams = useMemo(() => touchReccsQueryParams, [touchReccsQueryParams]);
@@ -97,6 +102,7 @@ const StorageProvider = ({ children }) => {
   const memoizedContextValue = useMemo(() => {
     return {
       touchBearerToken: memoTouchBearerToken,
+      getAccessToken: memoGetAccessToken,
       getSearchQueryParams: memoGetSearchQueryParams,
       setSearchQueryParams: memoSetSearchQueryParams,
       touchReccsQueryParams: memoTouchReccsQueryParams,
@@ -107,7 +113,19 @@ const StorageProvider = ({ children }) => {
       trackTree,
       isRestart
     };
-  }, [memoTouchBearerToken, memoGetSearchQueryParams, memoSetSearchQueryParams, memoTouchReccsQueryParams, memoSetSelectedTracks, memoSetTrackTree, memoTriggerRestart, selectedTracks, trackTree, isRestart]);
+  }, [
+    memoTouchBearerToken,
+    memoGetAccessToken,
+    memoGetSearchQueryParams,
+    memoSetSearchQueryParams,
+    memoTouchReccsQueryParams,
+    memoSetSelectedTracks,
+    memoSetTrackTree,
+    memoTriggerRestart,
+    selectedTracks,
+    trackTree,
+    isRestart
+  ]);
 
 
   return (

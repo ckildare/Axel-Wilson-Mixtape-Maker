@@ -34,7 +34,6 @@ const SearchPageWithProvider = () => {
   } = useContext(ReccsContext);
 
   const { selectedTracks } = useContext(StorageContext);
-  // const [token, setToken] = useState('');
   const router = useRouter();
   const { q } = router.query;
 
@@ -47,25 +46,11 @@ const SearchPageWithProvider = () => {
     router.push('/recommendations');
   }, [reccTracks]);
 
-  // useEffect(() => {
-  //   async function getToken() {
-  //     let token = getAccessTokenCookie();
-  //     if (!token) {
-  //       await fetch('/auth/token');
-  //       token = getAccessTokenCookie();
-  //     }
-  //     if (token) setToken(token);
-  //   }
-  //   getToken();
-  // }, []);
-
   useEffect(() => { if (q) fetchSearch(0); }, [q]);
-
   useEffect(() => { setSelectedSeeds([]); }, [isLoadingSearch]);
 
   return (
     <div className={styles.screenWrapper}>
-      {/* {token === '' && <Login />} */}
       <SearchCard />
       {searchedTracks.length > 0 &&
         <div className={styles.screenWrapper}>
@@ -84,17 +69,5 @@ const SearchPageWithProvider = () => {
     </div>
   );
 };
-
-// const Login = () => {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <Link href={'http://localhost:5000/auth/login'}>
-//           Login with Spotify
-//         </Link>
-//       </header>
-//     </div>
-//   );
-// };
 
 export default SearchPage;
