@@ -1,4 +1,4 @@
-import fetchBearerToken from 'pages/api/fetchBearerToken';
+import fetchBearerToken from 'pages/api/auth/bearerToken';
 import { getCookie } from 'cookies-next';
 
 const refreshAccessToken = async () => {

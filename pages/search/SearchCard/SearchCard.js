@@ -16,17 +16,21 @@ const SearchCard = () => {
     searchQuery,
     setSearchQuery
   } = useContext(SearchContext);
-  const router = useRouter();
-  const [token, setToken] = useState('');
   const { getAccessToken } = useContext(StorageContext);
+  const [token, setToken] = useState(null);
+  const router = useRouter();
 
-  const getToken = async () => {
-    await fetch('/auth/token');
-    const token = getAccessToken();
-    if (token) setToken(token);
+  const handleLogin = async () => {
+    window.location.href = 'api/auth/login';
   };
 
-  useEffect(() => { getToken(); }, []);
+  useEffect(() => { 
+    const getToken = async () => {
+      const token = await getAccessToken();
+      setToken(token);
+    };
+    getToken();
+  }, []);
 
   useEffect(() => {
     console.log('token', token);
@@ -63,7 +67,7 @@ const SearchCard = () => {
           isLoading={isLoadingSearch}
           type={'tertiary'}
           text={'Login with Spotify'}
-          onClick={async () => await getToken()}
+          onClick={async () => await handleLogin()}
         />
       </div>
     </div>

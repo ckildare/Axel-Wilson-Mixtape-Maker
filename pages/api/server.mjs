@@ -1,6 +1,5 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import path from 'path';
 import { URLSearchParams } from 'url';
 import fetch from 'node-fetch';
 

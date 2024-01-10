@@ -1,5 +1,5 @@
-import fetchBearerToken from 'pages/api/fetchBearerToken';
-import React, { createContext, memo, useEffect, useMemo, useState } from 'react';
+import fetchBearerToken from 'pages/api/auth/bearerToken';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
 
 const initialContext = {
   selectedTracks: [],
@@ -14,16 +14,20 @@ const StorageProvider = ({ children }) => {
   const [trackTree, setTrackTree] = useState(initialContext.trackTree);
   const [isRestart, setIsRestart] = useState(initialContext.isRestart);
 
-  useEffect(() => { refreshTokenAndSetTimeout(); }, []);
+  useEffect(() => { memoRefreshTokenAndSetTimeout(); }, []);
 
-  const setCookie = (name, value, minutes) => {
-    const expires = new Date();
-    expires.setTime(expires.getTime() + minutes * 60 * 1000);
-    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;`;
-  };
+  const memoSetCookie = useMemo(
+    () => (name, value, minutes) => {
+      const expires = new Date();
+      expires.setTime(expires.getTime() + minutes * 60 * 1000);
+      document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;`;
+    },
+    []
+  );
 
   const getCookie = (name) => {
     const cookies = document.cookie.split('; ');
+    console.log('cookies', cookies);
     for (const cookie of cookies) {
       const [cookieName, cookieValue] = cookie.split('=');
       if (cookieName === name) {
@@ -33,71 +37,82 @@ const StorageProvider = ({ children }) => {
     return null;
   };
 
-  const refreshAccessToken = async () => {
-    const newToken = await fetchBearerToken();
-    if (newToken) {
-      setCookie('bearer_token', newToken, 55);
-    }
-  };
+  const memoRefreshAccessToken = useMemo(
+    () => async () => {
+      try {
+        const response = await fetch('/api/auth/bearerToken');
+        if (!response.ok) {
+          throw new Error(`Error Status: ${response.status}`);
+        }
+  
+        const data = await response.json();
+        const newToken = data.token;
+  
+        if (newToken) {
+          memoSetCookie('bearer_token', newToken, 55);
+        }
+      } catch (error) {
+        console.error('Error refreshing access token:', error.message);
+      }
+    },
+    [memoSetCookie]
+  );
 
-  const refreshTokenAndSetTimeout = async () => {
-    await refreshAccessToken();
+  const memoRefreshTokenAndSetTimeout = useMemo(
+    () => async () => {
+      await memoRefreshAccessToken();
+  
+      // Refresh Token Every 59 Minutes-- Token Expires Every Hour, Refreshing Every 59 Minutes Ensures Token Never Expires
+      const intervalID = setInterval(() => {
+        memoRefreshAccessToken();
+      }, 3540000);
+  
+      return () => clearInterval(intervalID);
+    },
+    [memoRefreshAccessToken]
+  );
 
-    // Refresh Token Every 59 Minutes-- Token Expires Every Hour, Refreshing Every 59 Minutes Ensures Token Never Expires
-    const intervalID = setInterval(() => {
-      refreshAccessToken();
-    }, 3540000);
+  const memoSetSelectedTracks = useMemo(() => setSelectedTracks, [setSelectedTracks]);
+  const memoSetTrackTree = useMemo(() => setTrackTree, [setTrackTree]);
 
-    return () => clearInterval(intervalID);
-  };
-
-  const touchBearerToken = async () => {
+  const memoTouchBearerToken = useMemo(() => async () => {
     const storedToken = getCookie('bearer_token');
     if (storedToken) return storedToken;
-
-    await refreshTokenAndSetTimeout();
+  
+    await memoRefreshTokenAndSetTimeout();
     const setToken = getCookie('bearer_token');
     return setToken;
-  };
-
-  const getAccessToken = async () => {
+  }, [memoRefreshTokenAndSetTimeout]);
+  
+  const memoGetAccessToken = useMemo(() => async () => {
     return getCookie('access_token');
-  };
-
-  const getSearchQueryParams = () => {
+  }, []);
+  
+  const memoGetSearchQueryParams = useMemo(() => () => {
     return getCookie('search_params');
-  };
-
-  const setSearchQueryParams = (searchParams) => {
+  }, []);
+  
+  const memoSetSearchQueryParams = useMemo(() => (searchParams) => {
     if (searchParams) {
-      setCookie('search_params', searchParams, 120);
+      memoSetCookie('search_params', searchParams, 120);
       return searchParams;
     }
-  };
-
-  const touchReccsQueryParams = (searchParams) => {
+  }, [memoSetCookie]);
+  
+  const memoTouchReccsQueryParams = useMemo(() => (searchParams) => {
     if (searchParams) {
-      setCookie('reccs_params', searchParams, 120);
+      memoSetCookie('reccs_params', searchParams, 120);
       return searchParams;
     }
     return getCookie('reccs_params');
-  };
-
-  const triggerRestart = () => {
+  }, [memoSetCookie]);
+  
+  const memoTriggerRestart = useMemo(() => () => {
     setIsRestart(true);
     setSelectedTracks([]);
     setTrackTree(null);
     setIsRestart(false);
-  };
-
-  const memoTouchBearerToken = useMemo(() => touchBearerToken, [touchBearerToken]);
-  const memoGetAccessToken = useMemo(() => getAccessToken, [getAccessToken]);
-  const memoGetSearchQueryParams = useMemo(() => getSearchQueryParams, [getSearchQueryParams]);
-  const memoSetSearchQueryParams = useMemo(() => setSearchQueryParams, [setSearchQueryParams]);
-  const memoTouchReccsQueryParams = useMemo(() => touchReccsQueryParams, [touchReccsQueryParams]);
-  const memoSetSelectedTracks = useMemo(() => setSelectedTracks, [setSelectedTracks]);
-  const memoSetTrackTree = useMemo(() => setTrackTree, [setTrackTree]);
-  const memoTriggerRestart = useMemo(() => triggerRestart, [triggerRestart]);
+  }, [setIsRestart, setSelectedTracks, setTrackTree]);
 
   const memoizedContextValue = useMemo(() => {
     return {
