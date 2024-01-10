@@ -1,10 +1,10 @@
-import fetchBearerToken from 'pages/api/auth/bearerToken';
 import React, { createContext, useEffect, useMemo, useState } from 'react';
 
 const initialContext = {
   selectedTracks: [],
   trackTree: null,
   isRestart: false,
+  accessToken: null
 };
 
 const StorageContext = createContext(initialContext);
@@ -13,6 +13,7 @@ const StorageProvider = ({ children }) => {
   const [selectedTracks, setSelectedTracks] = useState(initialContext.selectedTracks);
   const [trackTree, setTrackTree] = useState(initialContext.trackTree);
   const [isRestart, setIsRestart] = useState(initialContext.isRestart);
+  const [accessToken, setAccessToken] = useState(initialContext.accessToken);
 
   useEffect(() => { memoRefreshTokenAndSetTimeout(); }, []);
 
@@ -27,7 +28,6 @@ const StorageProvider = ({ children }) => {
 
   const getCookie = (name) => {
     const cookies = document.cookie.split('; ');
-    console.log('cookies', cookies);
     for (const cookie of cookies) {
       const [cookieName, cookieValue] = cookie.split('=');
       if (cookieName === name) {
@@ -126,7 +126,8 @@ const StorageProvider = ({ children }) => {
       triggerRestart: memoTriggerRestart,
       selectedTracks,
       trackTree,
-      isRestart
+      isRestart,
+      accessToken
     };
   }, [
     memoTouchBearerToken,
@@ -139,7 +140,8 @@ const StorageProvider = ({ children }) => {
     memoTriggerRestart,
     selectedTracks,
     trackTree,
-    isRestart
+    isRestart,
+    accessToken
   ]);
 
 
