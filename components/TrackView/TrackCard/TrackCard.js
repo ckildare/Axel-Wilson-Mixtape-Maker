@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import styles from './TrackCard.module.scss';
 
 const TrackCard = ({
-  track,
+  trackID,
   onSelect,
   parentIsLoading
 }) => {
@@ -15,7 +15,7 @@ const TrackCard = ({
     onSelect(!isSelected);
   };
 
-  useEffect(() => { setIsLoading(true); }, [track]);
+  useEffect(() => { setIsLoading(true); }, [trackID]);
   useEffect(() => { setIsSelected(false); }, [parentIsLoading, isLoading]);
 
   return (
@@ -31,7 +31,7 @@ const TrackCard = ({
           readOnly
         />
         <iframe
-          src={`https://open.spotify.com/embed/track/${track.id}?utm_source=generator&theme=0`}
+          src={`https://open.spotify.com/embed/track/${trackID}?utm_source=generator&theme=0`}
           onLoad={() => setIsLoading(false)}
           width="100%"
           height="80"

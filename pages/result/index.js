@@ -58,7 +58,7 @@ const TrackView = () => {
     <div className={styles.tracks}>
       {selectedTracks.map((track, key) => (
         <div key={key}>
-          <TrackCard track={track} onSelect={(e) => handleTrackSelect(e, track)}/>
+          <TrackCard trackID={track.id} onSelect={(e) => handleTrackSelect(e, track)}/>
         </div>
       ))}
     </div>
