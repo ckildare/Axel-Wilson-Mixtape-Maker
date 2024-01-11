@@ -3,8 +3,7 @@ import React, { createContext, useEffect, useMemo, useState } from 'react';
 const initialContext = {
   selectedTracks: [],
   trackTree: null,
-  isRestart: false,
-  accessToken: null
+  isRestart: false
 };
 
 const StorageContext = createContext(initialContext);
@@ -13,7 +12,6 @@ const StorageProvider = ({ children }) => {
   const [selectedTracks, setSelectedTracks] = useState(initialContext.selectedTracks);
   const [trackTree, setTrackTree] = useState(initialContext.trackTree);
   const [isRestart, setIsRestart] = useState(initialContext.isRestart);
-  const [accessToken, setAccessToken] = useState(initialContext.accessToken);
 
   useEffect(() => { memoRefreshTokenAndSetTimeout(); }, []);
 
@@ -35,6 +33,10 @@ const StorageProvider = ({ children }) => {
       }
     }
     return null;
+  };
+
+  const removeCookie = (name) => {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
   };
 
   const memoRefreshAccessToken = useMemo(
@@ -87,6 +89,10 @@ const StorageProvider = ({ children }) => {
   const memoGetAccessToken = useMemo(() => async () => {
     return getCookie('access_token');
   }, []);
+
+  const memoRemoveAccessToken = useMemo(() => () => {
+    return removeCookie('access_token');
+  }, []);
   
   const memoGetSearchQueryParams = useMemo(() => () => {
     return getCookie('search_params');
@@ -118,6 +124,7 @@ const StorageProvider = ({ children }) => {
     return {
       touchBearerToken: memoTouchBearerToken,
       getAccessToken: memoGetAccessToken,
+      removeAccessToken: memoRemoveAccessToken,
       getSearchQueryParams: memoGetSearchQueryParams,
       setSearchQueryParams: memoSetSearchQueryParams,
       touchReccsQueryParams: memoTouchReccsQueryParams,
@@ -126,12 +133,12 @@ const StorageProvider = ({ children }) => {
       triggerRestart: memoTriggerRestart,
       selectedTracks,
       trackTree,
-      isRestart,
-      accessToken
+      isRestart
     };
   }, [
     memoTouchBearerToken,
     memoGetAccessToken,
+    memoRemoveAccessToken,
     memoGetSearchQueryParams,
     memoSetSearchQueryParams,
     memoTouchReccsQueryParams,
@@ -140,8 +147,7 @@ const StorageProvider = ({ children }) => {
     memoTriggerRestart,
     selectedTracks,
     trackTree,
-    isRestart,
-    accessToken
+    isRestart
   ]);
 
 

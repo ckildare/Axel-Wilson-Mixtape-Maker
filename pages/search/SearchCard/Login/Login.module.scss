@@ -1,0 +1,21 @@
+@use "palette" as *;
+
+.loggedIn {
+  display: flex;
+  flex-direction: column;
+  gap: $s;
+}
+
+.placeholder {
+  border-radius: calc($l - 3px);
+  color: $white75;
+  height: calc(5rem + 2px);
+  background-color: rgba($white, 0.1);
+  border: 1px solid rgba($white, 0.1);
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
