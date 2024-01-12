@@ -28,7 +28,7 @@ const TrackView = ({
       <div className={styles.searchTracks}>
         {(tracks || []).map((track, key) => {
           return (
-            <TrackCard key={key} track={track} parentIsLoading={isLoading} onSelect={(e) => handleTrackSelect(e, track)} />
+            <TrackCard key={key} trackID={track.id} parentIsLoading={isLoading} onSelect={(e) => handleTrackSelect(e, track)} />
           );
         })}
       </div>

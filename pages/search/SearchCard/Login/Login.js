@@ -98,7 +98,7 @@ const WebPlayback = ({ token }) => {
   }, [token, currentPlayingTrack]);
 
   return (
-    <> {
+    <div className={styles.card}> {
       currentPlayingTrack ?
         <TrackCard
           trackID={currentPlayingTrack.id}
@@ -106,8 +106,8 @@ const WebPlayback = ({ token }) => {
           onSelect={isSelected => selectSeed(isSelected, currentPlayingTrack)}
         />
         :
-        <div className={styles.placeholder}>Need to Change Device to Axel Wilson</div>
-    } </>
+        <div className={styles.placeholder}>Need to Change Device to Axel Wilson&apos;s Mixtape Maker</div>
+    } </div>
   );
 };
 
