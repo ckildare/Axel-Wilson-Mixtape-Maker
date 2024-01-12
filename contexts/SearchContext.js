@@ -31,21 +31,36 @@ const SearchProvider = ({ children }) => {
     setPage(0);
   }, [isRestart]);
 
-  const mapSearchParams = (query) => {
+  const memoMapSearchParams = useMemo(() => (query) => {
     return `?q=${isTitleSearch ? 'track' : 'artist'}:${query}`;
-  };
+  }, [isTitleSearch]);
 
-  const fetchSearch = async (pageChange) => {
+  const memoSetSearchQuery = useMemo(() => (query) => { setSearchQuery(query); }, [setSearchQuery]);
+
+  const memoSetIsTitleSearch = useMemo(() => (isTitleSearch) => { setIsTitleSearch(isTitleSearch); }, [setIsTitleSearch]);
+
+  const memoPrepareSearchQuery = useMemo(() => async (pageChange) => {
     setIsLoadingSearch(true);
     const token = await touchBearerToken();
     setPage(pageChange);
 
     const builtQuery = searchQuery?.length > 0 ? searchQuery : getSearchQueryParams();
-    console.log('builtQuery: ', builtQuery);
     if (!builtQuery) {
       setIsLoadingSearch(false);
       return;
     }
+
+    return [token, builtQuery];
+  }, [touchBearerToken, getSearchQueryParams, searchQuery, setIsLoadingSearch, setPage]);
+
+  const memoCleanUpSearch = useMemo(() => (builtQuery, trackSearchResponse) => {
+    setSearchQueryParams(builtQuery);
+    setSearchedTracks([...trackSearchResponse.tracks.items.map(track => mapTrack(track))]);
+    setIsLoadingSearch(false);
+  }, [setSearchQueryParams, setSearchedTracks, setIsLoadingSearch]);
+
+  const memoFetchSearch = useMemo(() => async (pageChange) => {
+    const [token, builtQuery] = await memoPrepareSearchQuery(pageChange);
 
     const trackSearchResponse = await fetchTrackSearch(`?q=${builtQuery}`, token, page * 6);
     if (!trackSearchResponse || trackSearchResponse?.tracks?.items.length == 0) {
@@ -54,16 +69,9 @@ const SearchProvider = ({ children }) => {
       return;
     }
 
-    setSearchQueryParams(builtQuery);
-    setSearchedTracks([...trackSearchResponse.tracks.items.map(track => mapTrack(track))]);
-    setIsLoadingSearch(false);
+    memoCleanUpSearch(builtQuery, trackSearchResponse);
     return;
-  };
-
-  const memoFetchSearch = useMemo(() => fetchSearch, [fetchSearch]);
-  const memoMapSearchParams = useMemo(() => mapSearchParams, [mapSearchParams]);
-  const memoSetIsTitleSearch = useMemo(() => setIsTitleSearch, [setIsTitleSearch]);
-  const memoSetSearchQuery = useMemo(() => setSearchQuery, [setSearchQuery]);
+  }, [page, setIsLoadingSearch, memoPrepareSearchQuery, memoCleanUpSearch]);
 
   const memoizedContextValue = useMemo(() => {
     return {

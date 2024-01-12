@@ -14,6 +14,7 @@ const StorageProvider = ({ children }) => {
   const [isRestart, setIsRestart] = useState(initialContext.isRestart);
 
   useEffect(() => { memoRefreshTokenAndSetTimeout(); }, []);
+  useEffect(() => { console.log('trackTree', trackTree); }, [trackTree]);
 
   const memoSetCookie = useMemo(
     () => (name, value, minutes) => {
