@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, memo, useEffect, useMemo, useState } from 'react';
 
 const initialContext = {
   selectedTracks: [],
@@ -77,6 +77,8 @@ const StorageProvider = ({ children }) => {
 
   const memoSetSelectedTracks = useMemo(() => setSelectedTracks, [setSelectedTracks]);
   const memoSetTrackTree = useMemo(() => setTrackTree, [setTrackTree]);
+  const memoTrackTree = useMemo(() => trackTree, [trackTree]);
+  const memoSelectedTracks = useMemo(() => selectedTracks, [selectedTracks]);
 
   const memoTouchBearerToken = useMemo(() => async () => {
     const storedToken = getCookie('bearer_token');
@@ -132,8 +134,8 @@ const StorageProvider = ({ children }) => {
       setSelectedTracks: memoSetSelectedTracks,
       setTrackTree: memoSetTrackTree,
       triggerRestart: memoTriggerRestart,
-      selectedTracks,
-      trackTree,
+      selectedTracks: memoSelectedTracks,
+      trackTree: memoTrackTree,
       isRestart
     };
   }, [

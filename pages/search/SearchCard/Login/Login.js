@@ -9,8 +9,6 @@ const Login = () => {
   const { getAccessToken, removeAccessToken } = useContext(StorageContext);
   const [token, setToken] = useState(null);
 
-  useEffect(() => console.log('token', token), [token]);
-
   useEffect(() => {
     const getToken = async () => {
       const token = await getAccessToken();

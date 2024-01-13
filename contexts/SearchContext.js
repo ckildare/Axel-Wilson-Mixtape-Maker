@@ -2,7 +2,6 @@ import React, { useState, createContext, useContext, useEffect, useMemo } from '
 import { mapTrack } from 'utils/trackUtils';
 import { StorageContext } from './StorageContext';
 import fetchTrackSearch from 'pages/api/fetchTrackSearch';
-import { set } from 'immutable';
 
 const initialContext = {
   isLoadingSearch: false,
@@ -41,7 +40,6 @@ const SearchProvider = ({ children }) => {
 
   const memoPrepareSearchQuery = useMemo(() => async (pageChange) => {
     setIsLoadingSearch(true);
-    const token = await touchBearerToken();
     setPage(pageChange);
 
     const builtQuery = searchQuery?.length > 0 ? searchQuery : getSearchQueryParams();
@@ -50,8 +48,8 @@ const SearchProvider = ({ children }) => {
       return;
     }
 
-    return [token, builtQuery];
-  }, [touchBearerToken, getSearchQueryParams, searchQuery, setIsLoadingSearch, setPage]);
+    return builtQuery;
+  }, [getSearchQueryParams, searchQuery, setIsLoadingSearch, setPage]);
 
   const memoCleanUpSearch = useMemo(() => (builtQuery, trackSearchResponse) => {
     setSearchQueryParams(builtQuery);
@@ -60,7 +58,8 @@ const SearchProvider = ({ children }) => {
   }, [setSearchQueryParams, setSearchedTracks, setIsLoadingSearch]);
 
   const memoFetchSearch = useMemo(() => async (pageChange) => {
-    const [token, builtQuery] = await memoPrepareSearchQuery(pageChange);
+    const token = await touchBearerToken();
+    const builtQuery = await memoPrepareSearchQuery(pageChange);
 
     const trackSearchResponse = await fetchTrackSearch(`?q=${builtQuery}`, token, page * 6);
     if (!trackSearchResponse || trackSearchResponse?.tracks?.items.length == 0) {
@@ -71,7 +70,7 @@ const SearchProvider = ({ children }) => {
 
     memoCleanUpSearch(builtQuery, trackSearchResponse);
     return;
-  }, [page, setIsLoadingSearch, memoPrepareSearchQuery, memoCleanUpSearch]);
+  }, [page, touchBearerToken, setIsLoadingSearch, memoPrepareSearchQuery, memoCleanUpSearch]);
 
   const memoizedContextValue = useMemo(() => {
     return {

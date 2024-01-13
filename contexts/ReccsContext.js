@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext, useEffect, useMemo } from 'react';
+import React, { useState, createContext, useContext, useEffect, useMemo, memo } from 'react';
 import { addTracksToTree, mapTrack } from 'utils/trackUtils';
 import { StorageContext } from './StorageContext';
 import fetchTrackRecommendations from 'pages/api/fetchTrackRecommendations';
@@ -33,41 +33,47 @@ const ReccsProvider = ({ children }) => {
     setReccRoundCount(0);
   }, [isRestart]);
 
-  useEffect(() => { setSelectedSeeds([]); }, [isLoadingReccs]);
+  const memoSelectedSeeds = useMemo(() => [...selectedSeeds], [selectedSeeds]);
+  const memoSetSelectedSeeds = useMemo(() => (newSelectedSeeds) => { setSelectedSeeds(newSelectedSeeds); }, [setSelectedSeeds]);
+  const memoReccTracks = useMemo(() => [...reccTracks], [reccTracks]);
 
   useEffect(() => {
-    if (!reccTracks || reccTracks.length == 0) return;
-    if (selectedSeeds.length == 0) return;
-    let newTree = trackTree;
-    if (!trackTree) {
-      newTree = addTracksToTree(null, null, selectedSeeds);
-      console.log('newTree: ', newTree);
-    }
+    if (!memoReccTracks || memoReccTracks.length == 0 || selectedSeeds.length == 0) return;
+    const newTree = trackTree ? trackTree : addTracksToTree(null, null, selectedSeeds);
 
-    setTrackTree(addTracksToTree(newTree, reccTracks, selectedSeeds));
-    console.log('trackTree: ', trackTree);
-  }, [reccTracks]);
+    setTrackTree(addTracksToTree(newTree, memoReccTracks, selectedSeeds));
+    setSelectedSeeds([]);
+  }, [memoReccTracks]);
 
-  const fetchTrackReccs = async () => {
+  const memoPrepareFetchTrackReccs = useMemo(() => async () => {
     setIsLoadingReccs(true);
-    const token = await touchBearerToken();
     const trackIDs = (selectedSeeds || []).slice(0, 5).map(track => track.id);
     const settings = buildSettings(trackIDs, 5);
+    return settings;
+  }, [selectedSeeds, setIsLoadingReccs]);
 
-    const trackRecommendationsResponse = await fetchTrackRecommendations(settings, token);
-    if (!trackRecommendationsResponse || trackRecommendationsResponse?.tracks?.length == 0) {
-      console.error('No recommendations found for track ID: ', trackIDs.join(', '));
-      return null;
-    }
-
+  const memoCleanUpReccs = useMemo(() => (trackRecommendationsResponse) => {
     setSelectedTracks([...selectedSeeds]);
     setReccRoundCount(reccRoundCount + 1);
     setReccTracks([...trackRecommendationsResponse.tracks.map(track => mapTrack(track))]);
     setIsLoadingReccs(false);
-    return trackRecommendationsResponse.tracks;
-  };
+  }, [reccRoundCount, selectedSeeds, setSelectedTracks, setReccRoundCount, setReccTracks, setIsLoadingReccs]);
 
-  const selectSeed = (isSelected, track) => {
+  const memoFetchTrackReccs = useMemo(() => async () => {
+    const token = await touchBearerToken();
+    const settings = await memoPrepareFetchTrackReccs();
+
+    const trackRecommendationsResponse = await fetchTrackRecommendations(settings, token);
+    if (!trackRecommendationsResponse || trackRecommendationsResponse?.tracks?.length == 0) {
+      console.error('No recommendations found for settings: ', settings);
+      return null;
+    }
+
+    memoCleanUpReccs(trackRecommendationsResponse);
+    return trackRecommendationsResponse.tracks;
+  }, [touchBearerToken, memoPrepareFetchTrackReccs, memoCleanUpReccs]);
+
+  const memoSelectSeed = useMemo(() => (isSelected, track) => {
     track.isSelected = isSelected;
     let newSelectedTracks = [...selectedSeeds];
 
@@ -80,36 +86,30 @@ const ReccsProvider = ({ children }) => {
       }
     }
     setSelectedSeeds(newSelectedTracks);
-  };
+  }, [selectedSeeds, setSelectedSeeds]);
 
-  const memoFetchTrackReccs = useMemo(() => fetchTrackReccs, [fetchTrackReccs]);
-  const memoizedSelectSeed = useMemo(() => selectSeed, [selectSeed]);
-  const memoizedSetSelectedSeeds = useMemo(() => setSelectedSeeds, [setSelectedSeeds]);
-  const memoizedreccTracks = useMemo(() => reccTracks, [reccTracks]);
-  const memoizedSelectedSeeds = useMemo(() => selectedSeeds, [selectedSeeds]);
-
-  const memoizedContextValue = useMemo(() => {
+  const memoContextValue = useMemo(() => {
     return {
       fetchTrackReccs: memoFetchTrackReccs,
-      selectSeed: memoizedSelectSeed,
-      setSelectedSeeds: memoizedSetSelectedSeeds,
-      selectedSeeds: memoizedSelectedSeeds,
-      reccTracks: memoizedreccTracks,
+      selectSeed: memoSelectSeed,
+      setSelectedSeeds: memoSetSelectedSeeds,
+      selectedSeeds: memoSelectedSeeds,
+      reccTracks: memoReccTracks,
       isLoadingReccs,
       reccRoundCount,
     };
   }, [
     memoFetchTrackReccs,
-    memoizedSelectSeed,
-    memoizedSetSelectedSeeds,
-    memoizedSelectedSeeds,
-    memoizedreccTracks,
+    memoSelectSeed,
+    memoSetSelectedSeeds,
+    memoSelectedSeeds,
+    memoReccTracks,
     isLoadingReccs,
     reccRoundCount
   ]);
 
   return (
-    <ReccsContext.Provider value={memoizedContextValue}>
+    <ReccsContext.Provider value={memoContextValue}>
       {children}
     </ReccsContext.Provider>
   );
