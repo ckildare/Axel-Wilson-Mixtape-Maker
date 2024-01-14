@@ -18,8 +18,8 @@ const Row = ({ rowNumber, row, trackTree }) => {
   const inputs = () => {
     if (rowNumber == 0) return null;
     if (rowNumber == 1) {
-      const inputCount = Array.from(trackTree[rowNumber - 1] || []).filter(track => track.isSelected).length;
-      console.log(`inputCount for row ${rowNumber}... ${inputCount} `);
+      const inputCount = Array.from(trackTree[rowNumber - 1] || [])
+        .filter(track => track.isSelected).length;
       return {
         1: [2],
         2: [1, 3],
